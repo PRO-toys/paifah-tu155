@@ -181,6 +181,10 @@ function renderSheetQuestion(root, question, groupId) {
 
 function renderSheetRoute(hash) {
   const root = get('sheet-body');
+  if (hash === 'sheets-sprint') {
+    renderSheetSprint(root);
+    return;
+  }
   if (hash === 'sheets-review') {
     renderSheetReview(root);
     return;

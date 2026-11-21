@@ -280,6 +280,7 @@ function route(focus = false) {
   const page = lessonMatch ? 'lecture' : intuitionMatch ? 'intuition' : formulaRoute ? 'formula-room' : sheetRoute ? 'sheet-room' : ['exam','mock','forecast','sources'].includes(hash) ? hash : 'home';
   const tab = ['lecture','intuition'].includes(page) ? 'home' : formulaRoute ? 'formulas' : sheetRoute ? 'sheets' : page === 'mock' ? 'forecast' : page;
   if (page !== 'forecast') stopForecastTimer();
+  if (hash !== 'sheets-sprint') stopSheetSprintTimer();
   document.querySelectorAll('[data-page]').forEach(section => {section.hidden = section.id !== page;});
   document.querySelectorAll('.top nav a').forEach(link => {
     if (link.hash === '#' + tab) link.setAttribute('aria-current','page');

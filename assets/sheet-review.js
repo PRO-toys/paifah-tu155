@@ -1,3 +1,7 @@
+function sheetTopicIndex(question) {
+  return formulaById[question.formula]?.group ?? 1;
+}
+
 function getSheetReview() {
   const {attempts, results, weakest} = getSheetPerformance(sheetWalkthroughs);
   const totals = Object.fromEntries(results.map(result => [result.key, result.missed.length]));
@@ -7,7 +11,7 @@ function getSheetReview() {
   for (const {question, scores} of attempts) {
     const skills = sheetSkills.filter((_, index) => !scores[index])
       .sort((a, b) => totals[b.key] - totals[a.key]);
-    const topic = topics[formulaById[question.formula]?.group ?? 1];
+    const topic = topics[sheetTopicIndex(question)];
     topic.attempted++;
     if (skills.length) {
       topic.missed++;
@@ -64,6 +68,11 @@ function renderSheetReview(root) {
           <progress aria-label="Practice questions submitted" value="${attempts.length}" max="${sheetWalkthroughs.length}"></progress>
         </div>
       </header>
+      <section class="panel sheet-review-section sheet-sprint-promo" aria-labelledby="sheet-sprint-promo-title">
+        <div><h2 id="sheet-sprint-promo-title">10-minute exam review</h2>
+        <p>Answer six fresh questions, then see what improved and what to revisit.</p></div>
+        <a class="button primary" href="#sheets-sprint">Open 10-minute review →</a>
+      </section>
       ${attempts.length ? `<div class="sheet-review-overview">
         <section class="panel" aria-labelledby="sheet-review-skills-title">
           <h2 id="sheet-review-skills-title">Most missed skills</h2>

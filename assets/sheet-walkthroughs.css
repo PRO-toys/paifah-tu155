@@ -242,3 +242,59 @@
   .sheet-review-item {display:block}
   .sheet-review-item .button {margin-top:7px}
 }
+
+.sheet-sprint-promo {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px 20px;
+  background:#eef3cb;
+  border-color:#d8dfb1;
+}
+.sheet-sprint-promo h2 {margin-bottom:4px}
+.sheet-sprint {max-width:860px; margin-inline:auto}
+.sheet-sprint-back {margin-bottom:12px; font-size:.9rem}
+.sheet-sprint h1 {font-size:clamp(1.85rem,5vw,3rem); letter-spacing:-.035em}
+.sheet-sprint-head {display:flex; justify-content:space-between; align-items:start; flex-wrap:wrap; gap:8px 16px}
+.sheet-sprint-head h1 {margin-bottom:4px}
+.sheet-sprint-head p {color:var(--muted)}
+.sheet-sprint-time {
+  display:grid;
+  justify-items:center;
+  padding:6px 13px;
+  background:#eee6fa;
+  border:1px solid #ddd0ef;
+  border-radius:10px;
+}
+.sheet-sprint-time span {font-size:.8rem}
+.sheet-sprint-time strong {font-size:1.32rem; line-height:1.2; font-variant-numeric:tabular-nums}
+.sheet-sprint-time.sheet-sprint-low {background:#fff0d9; border-color:#ecba80}
+.sheet-sprint > progress {display:block; width:100%; height:9px; margin:15px 0; accent-color:var(--wine)}
+.sheet-sprint-form > p {margin-bottom:14px}
+.sheet-sprint-form .sheet-practice-field {background:#f8f4fc; padding:10px}
+.sheet-sprint-form legend {max-width:100%; overflow-wrap:anywhere}
+#sheet-sprint-answer {
+  display:block;
+  width:min(100%,220px);
+  margin-top:5px;
+  padding:5px 9px;
+  border:1px solid #9b8bab;
+  border-radius:8px;
+  background:var(--white);
+}
+.sheet-sprint-mark {display:flex; flex-wrap:wrap; gap:6px 15px; margin-bottom:14px}
+.sheet-sprint-results {border-top:1px solid var(--line); padding-top:13px; margin-top:16px}
+.sheet-sprint-results h3 {margin-top:10px}
+.sheet-sprint-comparisons {list-style:none; padding:0; display:grid; gap:7px; margin:12px 0 0}
+.sheet-sprint-comparisons li {
+  display:grid;
+  gap:2px;
+  padding:9px 12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+}
+.sheet-sprint-comparisons li span {font-size:.92rem}
+.sheet-sprint-up {font-weight:800; color:var(--green)}
+.sheet-sprint-down {font-weight:800; color:#794412}
