@@ -10,6 +10,8 @@
 <script defer src="assets/content.js"></script>
 <script defer src="assets/mock-drills.js"></script>
 <script defer src="assets/mock.js"></script>
+<script defer src="assets/forecast-data.js"></script>
+<script defer src="assets/forecast.js"></script>
 <script defer src="assets/formulas.js"></script>
 <script defer src="assets/p-values.js"></script>
 <script defer src="assets/formula-room.js"></script>
@@ -32,7 +34,7 @@
       </div>
       <img src="assets/campus-statistics.jpg" alt="ภาพตัดกระดาษนักศึกษาในร้านกาแฟ รถไฟฟ้า คอนโด และกราฟข้อมูล" width="1300" height="867">
     </div>
-    <div class="route mock-route"><div><strong>พร้อมลองทำเอง?</strong><p>ข้อสอบจำลองชุดใหม่ 6 ข้อ เปิดเฉลยเมื่อส่งครบทั้งชุด</p></div><a class="button primary" href="#mock">เริ่มข้อสอบจำลอง</a></div>
+    <div class="route mock-route"><div><strong>พร้อมลองทำเอง?</strong><p>ชุดเก็ง 6 แนว ให้เวลาเลือกวิธี 15 วินาทีต่อข้อ แล้วคำนวณตามจังหวะของตัวเอง</p></div><div class="exam-start"><a class="button primary" href="#forecast">เริ่มชุดเก็ง 15 วินาที</a><a class="button quiet" href="#mock">ข้อสอบชุดแรก</a></div></div>
     <div class="route"><strong>มีเวลา 5 นาที?</strong><span>ลองเกมเลือกสูตรก่อน แล้วเปิดเฉพาะสูตรที่ตอบพลาด</span><a href="#quick-quiz">เล่นเกมเลือกสูตร</a></div>
     <section class="section" aria-labelledby="map-title">
       <div class="section-head"><div><p class="kicker">แผนเลือกวิธี</p><h2 id="map-title">โจทย์กำลังถามอะไร?</h2></div><span id="home-progress" class="muted"></span></div>
@@ -48,6 +50,9 @@
   </section>
   <section id="mock" data-page hidden>
     <article class="panel exam-panel" id="mock-body"></article>
+  </section>
+  <section id="forecast" data-page hidden>
+    <article class="panel exam-panel" id="forecast-body"></article>
   </section>
   <section id="sources" data-page hidden>
     <article class="panel exam-panel">

@@ -290,7 +290,7 @@ function renderMockResults(box) {
     <h2>เฉลยข้อสอบทีละขั้น</h2>
     <ol class="mock-results">${mockQuestions.map((question, i) => `<li><button type="button" class="button quiet" data-mock-review="${i}">
       <span>${i+1}. ${question.title}</span><strong>${mockScore(question, i)}/${question.fields.length}</strong></button></li>`).join('')}</ol>
-    <div class="actions"><button class="button quiet" type="button" id="mock-reset">เริ่มทำชุดนี้ใหม่</button><a class="button quiet" href="#exam">กลับไปชุดซ้อมจากชีต</a></div>`;
+    <div class="actions"><a class="button primary" href="#forecast">ลองชุดเก็ง 15 วินาที</a><button class="button quiet" type="button" id="mock-reset">เริ่มทำชุดนี้ใหม่</button><a class="button quiet" href="#exam">กลับไปชุดซ้อมจากชีต</a></div>`;
   box.querySelectorAll('[data-mock-review]').forEach(button => button.addEventListener('click', () => {
     mockReview = Number(button.dataset.mockReview);
     renderMock(true);
@@ -395,28 +395,34 @@ function renderMockReview(box, index) {
   }));
   get('mock-back-score').addEventListener('click', () => {mockReview = null; renderMock(true);});
 
+  bindExamStepReveal(get('mock-solution'), get('mock-reveal'), question.steps, () => {
+    [...get('mock-own-answers').children].forEach((item, i) => {
+      const correct = mockCorrect(question.fields[i], entry.values[i]);
+      const badge = document.createElement('span');
+      badge.className = 'tag mock-result-tag' + (correct ? ' done' : '');
+      badge.textContent = correct ? 'ถูก' : 'ทบทวน';
+      item.append(' ', badge);
+    });
+  });
+}
+
+function bindExamStepReveal(list, button, steps, onComplete = () => {}) {
   let step = 0;
-  const reveal = get('mock-reveal');
-  reveal.textContent = `เปิดขั้นที่ 1 จาก ${question.steps.length}`;
-  reveal.addEventListener('click', () => {
-    const [heading, explanation] = question.steps[step];
+  button.textContent = `เปิดขั้นที่ 1 จาก ${steps.length}`;
+  button.addEventListener('click', () => {
+    const [heading, explanation] = steps[step++];
     const element = document.createElement('li');
-    element.innerHTML = `<strong>${heading}</strong><p>${explanation}</p>`;
+    const title = document.createElement('strong');
+    const text = document.createElement('p');
+    title.textContent = heading;
+    text.textContent = explanation;
+    element.append(title, text);
     element.tabIndex = -1;
-    get('mock-solution').append(element);
+    list.append(element);
     element.focus();
-    step += 1;
-    reveal.disabled = step >= question.steps.length;
-    reveal.textContent = reveal.disabled ? 'เปิดเฉลยครบแล้ว' : `เปิดขั้นที่ ${step+1} จาก ${question.steps.length}`;
-    if (reveal.disabled) {
-      [...get('mock-own-answers').children].forEach((item, i) => {
-        const correct = mockCorrect(question.fields[i], entry.values[i]);
-        const badge = document.createElement('span');
-        badge.className = 'tag mock-result-tag' + (correct ? ' done' : '');
-        badge.textContent = correct ? 'ถูก' : 'ทบทวน';
-        item.append(' ', badge);
-      });
-    }
+    button.disabled = step === steps.length;
+    button.textContent = button.disabled ? 'เปิดเฉลยครบแล้ว' : `เปิดขั้นที่ ${step+1} จาก ${steps.length}`;
+    if (button.disabled) onComplete();
   });
 }
 
