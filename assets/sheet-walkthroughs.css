@@ -1,0 +1,106 @@
+.sheet-intro {
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) minmax(170px, .32fr);
+  gap:24px;
+  align-items:end;
+  padding:clamp(20px, 4.5vw, 50px);
+  border-radius:24px;
+  background:var(--deep);
+  color:var(--white);
+}
+.sheet-intro h1 {letter-spacing:-.045em; margin-bottom:10px}
+.sheet-intro p {max-width:50ch; color:#f1e8ff}
+.sheet-progress {display:grid; gap:6px; font-size:.92rem; color:var(--lime)}
+.sheet-progress progress {width:100%; height:10px; accent-color:var(--lime)}
+.sheet-filters {display:flex; flex-wrap:wrap; gap:7px; margin:16px 0}
+.sheet-filters .button {font-size:.87rem}
+.sheet-filters [aria-current] {background:var(--deep); color:var(--white); border-color:var(--deep)}
+.sheet-filters [aria-current]:hover {background:var(--wine)}
+.sheet-search {display:grid; gap:5px; width:min(100%, 470px); font-weight:760}
+.sheet-search input {
+  min-width:0;
+  width:100%;
+  padding:8px 12px;
+  border:1px solid #a092b7;
+  border-radius:10px;
+  background:var(--white);
+  color:var(--ink);
+  font:inherit;
+  font-weight:400;
+}
+#sheet-result-count {margin:8px 0 14px}
+.sheet-group {margin:18px 0 24px}
+.sheet-group h2 {display:flex; flex-wrap:wrap; align-items:baseline; gap:3px 10px; margin-bottom:9px}
+.sheet-group h2 span {font-size:.9rem; color:var(--muted); font-weight:600}
+.sheet-cards {
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 248px), 1fr));
+  gap:8px;
+  margin:0;
+  padding:0;
+}
+.sheet-card {
+  display:grid;
+  align-content:start;
+  justify-items:start;
+  gap:5px;
+  height:100%;
+  min-height:86px;
+  padding:12px 13px;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:var(--ink);
+  text-decoration:none;
+  line-height:1.35;
+}
+.sheet-card:hover {border-color:var(--wine); background:#f5edff}
+.sheet-card-label {font-size:.78rem; font-weight:700; color:var(--wine)}
+.sheet-question {max-width:900px; margin-inline:auto}
+.sheet-question > h1 {font-size:clamp(1.9rem, 5vw, 3rem); letter-spacing:-.035em; overflow-wrap:anywhere}
+.sheet-back,.sheet-neighbors {display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:7px 12px}
+.sheet-back {margin-bottom:14px; color:var(--muted); font-size:.88rem}
+.sheet-source {color:var(--muted); font-size:.88rem; margin:3px 0 18px}
+.sheet-prompt {
+  min-width:0;
+  padding:clamp(13px, 3vw, 20px);
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--paper);
+}
+.sheet-question h2 {font-size:1.23rem}
+.sheet-prompt .table-wrap {margin-top:13px}
+.sheet-prompt th, .sheet-prompt td {white-space:normal}
+.sheet-prompt th[scope="row"] {background:transparent}
+.sheet-thinking {display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); align-items:start; gap:9px; margin:12px 0}
+.sheet-reveal {border-radius:13px; padding:10px 13px}
+.sheet-reveal summary {cursor:pointer; font-weight:800; padding:2px 0}
+.sheet-reveal p {margin:8px 0 4px}
+.sheet-clue {background:#eef3cb; border:1px solid #d8dfb1}
+.sheet-trap {background:#fff0d9; border:1px solid #efd1a7}
+.sheet-solution {margin:20px 0}
+#sheet-steps:empty {display:none}
+#sheet-steps {list-style-position:outside; padding-left:1.5rem}
+#sheet-steps li {
+  padding:9px 12px;
+  background:#f2ebfc;
+  border-radius:9px;
+  animation:sheet-step-in .22s ease-out both;
+}
+#sheet-steps li::marker {color:var(--wine); font-weight:800}
+#sheet-steps p {margin-top:3px; overflow-wrap:anywhere}
+.sheet-reviewed {margin-top:10px; font-size:.9rem; font-weight:800; color:var(--green)}
+.sheet-related ul {margin:0 0 15px; padding-left:1.25rem}
+.sheet-neighbors {justify-content:flex-start; padding-top:14px; border-top:1px solid var(--line)}
+.sheet-neighbors .button {font-size:.88rem}
+@keyframes sheet-step-in {from {opacity:0; transform:translateY(6px)} to {opacity:1; transform:translateY(0)}}
+@media(max-width:600px) {
+  .sheet-intro,.sheet-thinking {grid-template-columns:1fr}
+  .sheet-intro {gap:16px}
+  .sheet-progress {max-width:230px}
+  .sheet-filters .button {padding:5px 10px}
+}
+@media(prefers-reduced-motion:reduce) {
+  #sheet-steps li {animation:none}
+}

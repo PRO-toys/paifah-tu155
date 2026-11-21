@@ -276,7 +276,8 @@ function route(focus = false) {
   const lessonMatch = /^lesson-([0-5])$/.exec(hash);
   const intuitionMatch = /^play(?:-([1-8]))?$/.exec(hash);
   const formulaRoute = /^(basics|quick-quiz|p-value|formulas(?:-[0-5])?|formula-[a-z0-9-]+)$/.test(hash);
-  const page = lessonMatch ? 'lecture' : intuitionMatch ? 'intuition' : formulaRoute ? 'formula-room' : ['exam','mock','forecast','sources'].includes(hash) ? hash : 'home';
+  const sheetRoute = /^(sheets(?:-[a-z0-9-]+)?|sheet-[a-z0-9-]+)$/.test(hash);
+  const page = lessonMatch ? 'lecture' : intuitionMatch ? 'intuition' : formulaRoute ? 'formula-room' : sheetRoute ? 'sheets' : ['exam','mock','forecast','sources'].includes(hash) ? hash : 'home';
   if (page !== 'forecast') stopForecastTimer();
   document.querySelectorAll('[data-page]').forEach(section => {section.hidden = section.id !== page;});
   document.querySelectorAll('.top nav a').forEach(link => {
@@ -290,6 +291,7 @@ function route(focus = false) {
   if (page === 'forecast') renderForecast();
   if (intuitionMatch) renderIntuition(Number(intuitionMatch[1] ?? 1) - 1);
   if (formulaRoute) renderFormulaRoute(hash);
+  if (sheetRoute) renderSheetRoute(hash);
   if (focus) {
     const heading = get(page).querySelector('h1');
     heading.tabIndex = -1;

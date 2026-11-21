@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/lecture.css">
 <link rel="stylesheet" href="assets/experience.css?v=en1">
 <link rel="stylesheet" href="assets/intuition.css">
+<link rel="stylesheet" href="assets/sheet-walkthroughs.css">
 <script defer src="assets/content.js?v=en1"></script>
 <script defer src="assets/mock-drills.js?v=en1"></script>
 <script defer src="assets/mock.js?v=en1"></script>
@@ -20,13 +21,15 @@
 <script defer src="assets/warm-up.js?v=en1"></script>
 <script defer src="assets/intuition-data.js?v=en1"></script>
 <script defer src="assets/intuition.js?v=en2"></script>
-<script defer src="assets/lecture.js?v=en1"></script>
+<script defer src="assets/sheet-walkthroughs.js"></script>
+<script defer src="assets/sheets.js"></script>
+<script defer src="assets/lecture.js?v=sheets1"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="shell top">
   <a class="brand" href="#home"><span aria-hidden="true">Σ</span><b>BDTM / TU</b></a>
-  <nav aria-label="Main navigation"><a href="#home">Learn</a><a href="#formulas">Formulas</a><a href="#exam">Course practice</a><a href="#forecast">Mock exam</a><a href="#sources">Sources</a></nav>
+  <nav aria-label="Main navigation"><a href="#home">Learn</a><a href="#formulas">Formulas</a><a href="#sheets">Sheets</a><a href="#exam">Course practice</a><a href="#forecast">Mock exam</a><a href="#sources">Sources</a></nav>
 </header>
 <main class="shell" id="main">
   <section id="home" data-page>
@@ -47,7 +50,7 @@
         <a class="mode-card mode-formula" href="#formulas"><span class="mode-icon" aria-hidden="true">ƒ(x)</span><strong>Work through a formula</strong><span>Explore 14 formulas one step at a time, then change the numbers.</span></a>
         <a class="mode-card mode-forecast" href="#forecast"><span class="mode-icon" aria-hidden="true">:15</span><strong>Take the 15-second challenge</strong><span>Pick a method under time pressure, then calculate at your own pace.</span></a>
       </div>
-      <div class="more-practice"><a href="#play">8 visual lessons</a><a href="#quick-quiz">6-question formula game</a><a href="#mock">First mock exam</a></div>
+      <div class="more-practice"><a href="#sheets">Walk through the sheets</a><a href="#play">8 visual lessons</a><a href="#quick-quiz">6-question formula game</a><a href="#mock">First mock exam</a></div>
     </section>
     <section class="section" aria-labelledby="map-title">
       <div class="section-head"><h2 id="map-title">Six topics to explore</h2><span id="home-progress" class="muted"></span></div>
@@ -59,6 +62,7 @@
   </section>
   <section id="formula-room" data-page hidden><div id="formula-body"></div></section>
   <section id="intuition" data-page hidden><div id="intuition-body"></div></section>
+  <section id="sheets" data-page hidden><div id="sheet-body"></div></section>
   <section id="exam" data-page hidden>
     <article class="panel exam-panel" id="exam-body"></article>
   </section>
