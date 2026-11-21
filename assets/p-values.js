@@ -71,26 +71,47 @@ function tailProbability(kind, stat, leftDF, rightDF, tail) {
 
 function renderPValue(box) {
   box.innerHTML = `<article class="panel formula-panel">
-    <p class="kicker">อ่านผลหลังคำนวณสถิติ</p><h1>p-value ไปทางไหน?</h1>
-    <p class="scene">ค่า p คือโอกาสเห็นสถิติสุดโต่งเท่านี้หรือกว่านั้น ถ้า H₀ จริงและกำหนด “สุดโต่ง” ให้ตรงกับคำถาม</p>
-    <div class="formula-patterns"><div><strong>ต่างกันไหม?</strong><p>ใช้สองหาง</p><small>Hₐ ใช้ ≠</small></div><div><strong>มากขึ้นไหม?</strong><p>ใช้หางขวา</p><small>Hₐ ใช้ &gt;</small></div><div><strong>ลดลงไหม?</strong><p>ใช้หางซ้าย</p><small>Hₐ ใช้ &lt;</small></div></div>
-    <div class="formula-memory"><span>คำจำ</span><strong>กำหนดหางก่อนดูค่าที่ได้ แล้วเทียบ p กับ α</strong></div>
+    <p class="kicker">After calculating the test statistic</p>
+    <h1>Which tail gives the p-value?</h1>
+    <p class="scene">The p-value is the probability of a result at least as extreme as yours, assuming the null hypothesis is true. The alternative hypothesis tells you which results count as extreme.</p>
+    <div class="formula-patterns">
+    <div><strong>Is it different?</strong>
+    <p>Both tails</p><small>Hₐ uses ≠</small>
+    </div>
+    <div><strong>Is it higher?</strong>
+    <p>Right tail</p><small>Hₐ uses &gt;</small>
+    </div>
+    <div><strong>Is it lower?</strong>
+    <p>Left tail</p><small>Hₐ uses &lt;</small>
+    </div>
+    </div>
+    <div class="formula-memory"><span>Memory cue</span><strong>Choose the tail before seeing the result, then compare p with α.</strong>
+    </div>
     <form id="p-form">
-      <div class="formula-filters formula-inputs">
-        <label>สถิติอ้างอิง<select id="p-kind"><option value="t">t · ค่าเฉลี่ยและสัมประสิทธิ์</option><option value="z">z · สัดส่วนหรือรู้ σ</option><option value="f">F · ANOVA / Regression</option><option value="chi">χ² · จำนวนในหมวดหมู่</option></select></label>
-        <label>ค่าสถิติที่คำนวณได้<input id="p-stat" type="text" inputmode="text" maxlength="24" value="1.79"></label>
-        <label id="p-df-a">df (ตัวแรกสำหรับ F)<input id="p-df1" type="text" inputmode="decimal" maxlength="12" value="54"></label>
-        <label id="p-df-b" hidden>df ตัวส่วนของ F<input id="p-df2" type="text" inputmode="numeric" maxlength="12" value="46"></label>
-        <label id="p-tail-label">หางตาม Hₐ<select id="p-tail"><option value="two">สองหาง · ต่างกัน</option><option value="right">ขวา · มากกว่า</option><option value="left">ซ้าย · น้อยกว่า</option></select></label>
-        <label>เกณฑ์ α<input id="p-alpha" type="text" inputmode="decimal" maxlength="12" value="0.05"></label>
-      </div>
-      <p class="muted" id="p-tail-note" hidden>F และ χ² ใช้หางขวา เพราะค่าสถิติที่ใหญ่มากให้หลักฐานต่อ H₀ มากขึ้น</p>
-      <div class="actions"><button type="submit" class="button primary">คำนวณและแปลผล</button></div>
-      <div id="p-result" role="status"></div>
+    <div class="formula-filters formula-inputs">
+    <label>Reference distribution<select id="p-kind"><option value="t">t · means and coefficients</option><option value="z">z · proportions or known σ</option><option value="f">F · ANOVA / regression</option><option value="chi">χ² · category counts</option></select>
+    </label>
+    <label>Calculated test statistic<input id="p-stat" type="text" inputmode="text" maxlength="24" value="1.79">
+    </label>
+    <label id="p-df-a">df (numerator df for F)<input id="p-df1" type="text" inputmode="decimal" maxlength="12" value="54">
+    </label>
+    <label id="p-df-b" hidden>Denominator df for F<input id="p-df2" type="text" inputmode="numeric" maxlength="12" value="46">
+    </label>
+    <label id="p-tail-label">Tail from Hₐ<select id="p-tail"><option value="two">Two-sided · different</option><option value="right">Right · greater</option><option value="left">Left · less</option></select>
+    </label>
+    <label>Significance level α<input id="p-alpha" type="text" inputmode="decimal" maxlength="12" value="0.05">
+    </label>
+    </div>
+    <p class="muted" id="p-tail-note" hidden>F and χ² use the right tail because larger values give stronger evidence against H₀.</p>
+    <div class="actions"><button type="submit" class="button primary">Calculate and interpret</button>
+    </div>
+    <div id="p-result" role="status">
+    </div>
     </form>
-    <p class="tip">เทียบ p ก่อนปัดเศษ ถ้า p ≤ α ใช้คำว่า “ปฏิเสธ H₀” แล้วสรุปเป็นภาษาโจทย์ ถ้า p &gt; α ใช้ “หลักฐานยังไม่พอ”</p>
-    <div class="actions"><a class="button quiet" href="#formulas">กลับห้องสูตร</a><a class="button quiet" href="#lesson-1">ดูบททดสอบสมมติฐาน</a></div>
-  </article>`;
+    <p class="tip">Compare before rounding. If p ≤ α, reject H₀. If p &gt; α, there is insufficient evidence to reject H₀. Then write a sentence that answers the original question.</p>
+    <div class="actions"><a class="button quiet" href="#formulas">Back to formulas</a><a class="button quiet" href="#lesson-1">Review hypothesis testing</a>
+    </div>
+    </article>`;
   const kind = get('p-kind');
   kind.addEventListener('change', () => {
     const type = kind.value;
@@ -114,14 +135,14 @@ function renderPValue(box) {
     if (!Number.isFinite(stat) || Math.abs(stat)>1e8 || (positiveOnly&&stat<0) ||
       !(alpha>0&&alpha<1) || (type!=='z'&&!validDF(df1)) || (type==='f'&&!validDF(df2))) {
       result.className='feedback retry';
-      result.textContent='ตรวจค่าสถิติ ค่า α ต้องอยู่ระหว่าง 0 กับ 1 และ df ที่ใช้ต้องอยู่ตั้งแต่ 1 ถึง 10,000 ส่วน F กับ χ² ต้องไม่ติดลบ';
+      result.textContent="Check the inputs: α must be between 0 and 1, df must be from 1 to 10,000, and F and χ² must be nonnegative.";
       return;
     }
     const p=tailProbability(type,stat,df1,df2,tail);
     const reject=p<=alpha;
     const display=p===0 ? '< 1e−300' : p<.0001 ? '≈ '+p.toExponential(3) :'≈ '+formulaFormat(p,6);
     result.className='feedback';
-    result.textContent=`p ${display} · ${reject ? 'p ≤ α ปฏิเสธ H₀ ตามคำถามที่ตั้งไว้' : 'p > α หลักฐานยังไม่พอที่จะปฏิเสธ H₀'}`;
+    result.textContent=`p ${display} · ${reject ? "p ≤ α: Reject H₀." : "p > α: There is insufficient evidence to reject H₀."}`;
   });
   get('p-form').requestSubmit();
 }

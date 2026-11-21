@@ -91,3 +91,5 @@ body{background:var(--paper)}
 @media(max-width:360px){.forecast-cover{gap:8px;padding:12px}.cover-timer{width:59px}.cover-timer b{font-size:1.7rem}.forecast-clock strong{white-space:normal}}
 @media(prefers-reduced-motion:reduce){.forecast-time-track span{transition:none}}
 @media(max-width:580px){.top nav{width:100%;justify-content:space-between;column-gap:0}.top nav a{padding-inline:4px}}
+.hero.study-hero h1{font-size:clamp(2.85rem,6.2vw,5.5rem);line-height:.98;letter-spacing:-.06em}.top nav a{white-space:nowrap}.forecast-cover h1{letter-spacing:-.045em}.mode-card,.mode-card strong{min-width:0;overflow-wrap:anywhere}
+@media(max-width:580px){.hero.study-hero h1{font-size:clamp(2.4rem,10vw,3.5rem);line-height:1.01}.study-hero .actions{gap:5px}.forecast-cover h1{font-size:clamp(1.7rem,7vw,2.3rem)}}

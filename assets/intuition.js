@@ -10,11 +10,11 @@ try {
 } catch {}
 
 const intuitionLink = i => i===0 ? '#play' : '#play-'+(i+1);
-const playNumber = (value,digits=2) => new Intl.NumberFormat('th-TH',{maximumFractionDigits:digits}).format(value);
+const playNumber = (value,digits=2) => new Intl.NumberFormat('en-GB',{maximumFractionDigits:digits}).format(value);
 
 function playButtons(labels, initial, update) {
   const box=get('play-controls');
-  box.innerHTML=`<div class="play-buttons" role="group" aria-label="เปลี่ยนข้อมูลในภาพ">${labels.map((label,i)=>
+  box.innerHTML=`<div class="play-buttons" role="group" aria-label="Change the data shown">${labels.map((label,i)=>
     `<button class="button quiet" type="button" data-play-switch="${i}" aria-pressed="false">${label}</button>`
   ).join('')}</div>`;
   const buttons=box.querySelectorAll('button');
@@ -54,13 +54,19 @@ function playBars(labels,max) {
 }
 
 function playInterval() {
-  get('play-visual').innerHTML=`<div class="play-interval" aria-hidden="true"><div class="play-mid"><b>60</b></div><div id="play-band"></div></div>
-    <div class="play-axis" aria-hidden="true"><span>45 บาท</span><span>60 บาท</span><span>75 บาท</span></div>`;
+  get('play-visual').innerHTML=`<div class="play-interval" aria-hidden="true">
+    <div class="play-mid"><b>60</b>
+    </div>
+    <div id="play-band">
+    </div>
+    </div>
+    <div class="play-axis" aria-hidden="true"><span>45 baht</span><span>60 baht</span><span>75 baht</span>
+    </div>`;
   const sizes=[4,16,64];
-  playButtons(sizes.map(n=>`ถาม ${n} คน`),0,index=>{
+  playButtons(sizes.map(n=>`Sample ${n}`),0,index=>{
     const n=sizes[index],se=12/Math.sqrt(n),margin=1.96*se;
     get('play-band').style.width=(100*2*margin/30)+'%';
-    get('play-live').textContent=`ถาม ${n} คน · ช่วงประมาณ ${playNumber(60-margin)}–${playNumber(60+margin)} บาท · ระยะเผื่อข้างละ ${playNumber(margin)} บาท`;
+    get('play-live').textContent=`Sample size ${n} · Interval: ${playNumber(60-margin)}–${playNumber(60+margin)} baht · Margin of error: ${playNumber(margin)} baht`;
   });
 }
 
@@ -68,72 +74,74 @@ function playCoin() {
   const counts=[1,10,45,120,210,252,210,120,45,10,1];
   get('play-visual').innerHTML=`<div class="play-coin-chart" aria-hidden="true">${counts.map((count,i)=>
     `<div class="coin-cell"><i style="height:${100*count/252}%"></i><span>${i}</span></div>`
-  ).join('')}</div><p class="play-chart-label"><span>จำนวนหัวจาก 10 รอบ</span><span><i aria-hidden="true"></i> ผลที่นับรวม</span></p>`;
+  ).join('')}</div><p class="play-chart-label"><span>Heads in 10 flips</span><span><i aria-hidden="true"></i> Outcomes counted</span></p>`;
   let tail='right';
   let observed=8;
   function update() {
     const isExtreme=i=>tail==='right' ? i>=observed : tail==='left' ? i<=observed : Math.abs(i-5)>=Math.abs(observed-5);
     get('play-visual').querySelectorAll('.coin-cell').forEach((cell,i)=>cell.classList.toggle('extreme',isExtreme(i)));
     const cases=counts.reduce((total,count,i)=>total+(isExtreme(i)?count:0),0);
-    get('play-live').textContent=`เห็น ${observed} หัว · นับ ${cases} จาก 1,024 แบบ · p ≈ ${playNumber(100*cases/1024,2)}%`;
+    get('play-live').textContent=`Observed ${observed} heads · Counted ${cases} of 1,024 sequences · p ≈ ${playNumber(100*cases/1024,2)}%`;
   }
-  playSlider('จำนวนหัวที่เห็น',0,10,1,8,value=>{observed=value;update();});
-  get('play-controls').insertAdjacentHTML('beforeend',`<label class="play-tail">โจทย์ถามว่า
-    <select id="play-tail"><option value="right">หัวมากเกินคาด</option><option value="left">หัวน้อยเกินคาด</option><option value="two">หัวต่างจากที่คาด</option></select></label>`);
+  playSlider("Number of heads observed",0,10,1,8,value=>{observed=value;update();});
+  get('play-controls').insertAdjacentHTML('beforeend',`<label class="play-tail">What is the question?<select id="play-tail"><option value="right">More heads than expected?</option><option value="left">Fewer heads than expected?</option><option value="two">Different from expected?</option></select>
+    </label>`);
   get('play-tail').addEventListener('change',event=>{tail=event.target.value;update();});
 }
 
 function playPairs() {
-  const people=[['เมย์',6,8],['ต้น',9,10],['ฟ้า',4,7],['บาส',7,9]];
-  const update=playBars(['ก่อนติว','หลังติว'],10);
+  const people=[["May",6,8],["Ton",9,10],["Fah",4,7],["Bas",7,9]];
+  const update=playBars(["Before tutoring","After tutoring"],10);
   playButtons(people.map(person=>person[0]),0,index=>{
     const [name,before,after]=people[index];
     update([before,after]);
-    get('play-live').textContent=`${name}: ${after} − ${before} = เพิ่ม ${after-before} คะแนน`;
+    get('play-live').textContent=`${name}: ${after} − ${before} = ${after-before} points gained`;
   });
 }
 
 function playSpread() {
   const averages=[4,6,8];
-  get('play-visual').innerHTML=`<div class="play-dots">${averages.map((mean,i)=>`<div>
-    <span>ห้อง ${i+1}</span><div class="play-dot-track" aria-hidden="true"><b style="left:${mean*9+5}%"></b><i></i><i></i><i></i></div><strong>เฉลี่ย ${mean}</strong></div>`
+  get('play-visual').innerHTML=`<div class="play-dots">${averages.map((mean,i)=>`<div><span>Class ${i+1}</span>
+    <div class="play-dot-track" aria-hidden="true"><b style="left:${mean*9+5}%"></b><i></i><i></i><i></i>
+    </div><strong>Mean ${mean}</strong>
+    </div>`
   ).join('')}</div><div class="play-axis" aria-hidden="true"><span>0</span><span>5</span><span>10</span></div>`;
   const tracks=get('play-visual').querySelectorAll('.play-dot-track');
-  playButtons(['คะแนนเกาะกลุ่ม','คะแนนกระจาย'],0,index=>{
+  playButtons(["Tight scores","Spread-out scores"],0,index=>{
     const spread=index===0?.5:2;
     tracks.forEach((track,i)=>track.querySelectorAll('i').forEach((dot,j)=>{
       dot.style.left=((averages[i]+(j-1)*spread)*9+5)+'%';
     }));
-    get('play-live').textContent=`ค่าเฉลี่ยห้องยังเป็น 4, 6, 8 · ความแกว่งในห้อง (MS) = ${spread**2} · F = ${12/spread**2}`;
+    get('play-live').textContent=`Class means: still 4, 6, 8 · Within-group MS = ${spread**2} · F = ${12/spread**2}`;
   });
 }
 
 function playProportions() {
-  get('play-visual').innerHTML=`<div class="play-bars">${['บูธ A','บูธ B'].map(label=>`<div class="play-bar">
+  get('play-visual').innerHTML=`<div class="play-bars">${["Booth A","Booth B"].map(label=>`<div class="play-bar">
     <span>${label}</span><div class="play-bar-track"><i aria-hidden="true"></i></div><strong></strong></div>`).join('')}</div>`;
   const rows=get('play-visual').querySelectorAll('.play-bar');
-  playButtons(['ดูจำนวนคน','คิดเป็นร้อยละ'],0,index=>{
+  playButtons(["Show counts","Show percentages"],0,index=>{
     const values=index===0?[12,15]:[60,50];
     rows.forEach((row,i)=>{
       row.querySelector('i').style.width=(100*values[i]/(index===0?30:100))+'%';
-      row.querySelector('strong').textContent=values[i]+(index===0?' คน':'%');
+      row.querySelector('strong').textContent=values[i]+(index===0?" people":'%');
     });
-    get('play-live').textContent=index===0?'บูธ A สมัคร 12 จาก 20 คน · บูธ B สมัคร 15 จาก 30 คน':'พอเทียบต่อ 100 คน บูธ A ได้ 60% · บูธ B ได้ 50%';
+    get('play-live').textContent=index===0?"Booth A: 12 of 20 signed up · Booth B: 15 of 30 signed up":"Per 100 visitors: Booth A gets 60 signups and Booth B gets 50.";
   });
 }
 
 function playCounts() {
   get('play-visual').innerHTML=`<div class="play-cell-grid">
-    ${['เช้า · QR','เช้า · เงินสด','บ่าย · QR','บ่าย · เงินสด'].map(label=>`<div class="play-count-cell"><span>${label}</span>
+    ${["Morning · QR","Morning · Cash","Afternoon · QR","Afternoon · Cash"].map(label=>`<div class="play-count-cell"><span>${label}</span>
     <strong></strong><div class="play-bar-track"><i aria-hidden="true"></i></div></div>`).join('')}</div>`;
   const cells=get('play-visual').querySelectorAll('.play-count-cell');
-  playButtons(['เห็นจริง (O)','คาดไว้ (E)'],0,index=>{
+  playButtons(["Observed (O)","Expected (E)"],0,index=>{
     const values=index===0?[18,6,6,18]:[12,12,12,12];
     cells.forEach((cell,i)=>{
-      cell.querySelector('strong').textContent=values[i]+' คน';
+      cell.querySelector('strong').textContent=values[i]+" people";
       cell.querySelector('i').style.width=(100*values[i]/24)+'%';
     });
-    get('play-live').textContent=index===0?'เห็นจริง: ตอนเช้า QR 18 คน ตอนบ่าย QR 6 คน':'คาดไว้: ทุกช่องมี 12 คน ถ้าช่วงเวลาและวิธีจ่ายเป็นอิสระ';
+    get('play-live').textContent=index===0?"Observed: 18 QR payments in the morning and 6 in the afternoon.":"Expected: 12 in each cell if time and payment method are independent.";
   });
 }
 
@@ -176,20 +184,21 @@ function drawPlayTrend(canvas,points,slope) {
 function playTrend() {
   const points=[[1,4],[2,7],[3,8],[4,11]];
   get('play-visual').innerHTML=`<canvas class="play-canvas" id="play-chart" width="620" height="265" aria-hidden="true"></canvas>
-    <p class="play-chart-label"><span>แกนนอนเป็นชั่วโมง · แกนตั้งเป็นยอดจอง</span><span><i aria-hidden="true"></i> ระยะที่ทายพลาด</span></p>`;
-  playSlider('ความชันของเส้น',0,4,.1,1,slope=>{
+    <p class="play-chart-label"><span>x: promotion hours · y: bookings</span><span><i aria-hidden="true"></i> Prediction error</span>
+    </p>`;
+  playSlider("Line slope",0,4,.1,1,slope=>{
     drawPlayTrend(get('play-chart'),points,slope);
     const square=points.reduce((total,[hours,bookings])=>total+(bookings-(7.5+slope*(hours-2.5)))**2,0);
-    get('play-live').textContent=`ความชัน ${playNumber(slope,1)} · ผลรวมกำลังสองของความคลาดเคลื่อน ${playNumber(square)} · ที่ 3 ชม. ทาย ${playNumber(7.5+slope*.5,2)} ยอด จากยอดจริง 8`;
+    get('play-live').textContent=`Slope ${playNumber(slope,1)} · Sum of squared errors ${playNumber(square)} · At 3 hours, predicted ${playNumber(7.5+slope*.5,2)} bookings, observed 8`;
   });
 }
 
 function playRent() {
-  const update=playBars(['ราคาที่ทาย'],6000);
-  playSlider('ระยะเดิน (เมตร)',0,500,50,200,distance=>{
+  const update=playBars(["Predicted rent"],6000);
+  playSlider("Walking distance (metres)",0,500,50,200,distance=>{
     const price=6000-5*distance;
-    update([price],' บาท');
-    get('play-live').textContent=`ห้อง 30 ตร.ม. ตลอด · เดิน ${distance} เมตร · ราคาที่ทาย ${playNumber(price)} บาท`;
+    update([price]," baht");
+    get('play-live').textContent=`Room size: fixed at 30 m² · Walk: ${distance} m · Predicted rent: ${playNumber(price)} baht`;
   });
 }
 
@@ -201,41 +210,49 @@ function renderIntuition(index, focusFeedback = false) {
   const correct=choice===scene.correct;
   const done=Object.keys(intuitionAnswers).length;
   get('intuition-body').innerHTML=`<div class="intuition-layout">
-    <aside class="intuition-nav" aria-label="สารบัญบทเรียนแบบภาพขยับ">
-      <a class="intuition-home" href="#home">กลับหน้าหลัก</a>
-      <p class="intuition-nav-title">บทเรียนแบบภาพขยับ</p>
-      <p class="muted">ลองแล้ว ${done} / ${intuitionScenes.length} เรื่อง</p>
-      <progress value="${done}" max="${intuitionScenes.length}" aria-label="จำนวนเรื่องที่ลองแล้ว"></progress>
-      <nav>${intuitionScenes.map((item,i)=>`<a href="${intuitionLink(i)}" ${i===index?'aria-current="page"':''}>
-        <span>${i+1}. ${item.short}</span>${intuitionAnswers[i]!==undefined?'<b aria-label="ลองแล้ว">✓</b>':''}</a>`).join('')}</nav>
-      <label class="intuition-select">เลือกเรื่อง<select id="intuition-jump">${intuitionScenes.map((item,i)=>
-        `<option value="${i}" ${i===index?'selected':''}>${i+1}. ${item.short}</option>`).join('')}</select></label>
+    <aside class="intuition-nav" aria-label="Visual lesson contents"><a class="intuition-home" href="#home">Back to home</a>
+    <p class="intuition-nav-title">Visual lessons</p>
+    <p class="muted">Tried ${done} / ${intuitionScenes.length} lessons</p><progress value="${done}" max="${intuitionScenes.length}" aria-label="Lessons tried"></progress>
+    <nav>${intuitionScenes.map((item,i)=>`<a href="${intuitionLink(i)}" ${i===index?'aria-current="page"':''}>
+        <span>${i+1}. ${item.short}</span>${intuitionAnswers[i]!==undefined?"<b aria-label=\"Tried\">✓</b>":''}</a>`).join('')}</nav>
+    <label class="intuition-select">Choose a lesson<select id="intuition-jump">${intuitionScenes.map((item,i)=>
+        `<option value="${i}" ${i===index?'selected':''}>${i+1}. ${item.short}</option>`).join('')}</select>
+    </label>
     </aside>
     <article class="panel intuition-story">
-      <p class="kicker">เล่าให้เห็น · เรื่อง ${index+1} / ${intuitionScenes.length}</p><h1>${scene.title}</h1><p class="scene">${scene.story}</p>
-      <ol class="intuition-phases" aria-label="ขั้นตอนเรียน"><li ${answered?'':'aria-current="step"'}>ลองทาย</li><li id="play-step-lab" ${answered?'aria-current="step"':''}>ขยับดู</li><li id="play-step-formula">เปิดสูตร</li></ol>
-      ${answered?`<details class="play-prediction play-prediction-review"><summary>ย้อนดูคำทาย</summary>
-        <p>${scene.ask}</p><p>คุณตอบ <strong>${scene.choices[choice]}</strong> · คำตอบคือ <strong>${scene.choices[scene.correct]}</strong></p>
-      </details>`:`<section class="play-prediction"><h2>${scene.ask}</h2>
-        <div class="choice-grid" role="group" aria-label="เลือกคำตอบ">${scene.choices.map((value,i)=>`
+    <p class="kicker">Visual lesson · ${index+1} / ${intuitionScenes.length}</p>
+    <h1>${scene.title}</h1>
+    <p class="scene">${scene.story}</p>
+    <ol class="intuition-phases" aria-label="Lesson steps"><li ${answered?'':'aria-current="step"'}>Predict</li><li id="play-step-lab" ${answered?'aria-current="step"':''}>Experiment</li><li id="play-step-formula">Reveal the formula</li>
+    </ol>${answered?`<details class="play-prediction play-prediction-review"><summary>Review your prediction</summary>
+    <p>${scene.ask}</p>
+    <p>You chose <strong>${scene.choices[choice]}</strong>. The answer is <strong>${scene.choices[scene.correct]}</strong>.</p>
+    </details>`:`<section class="play-prediction">
+    <h2>${scene.ask}</h2>
+    <div class="choice-grid" role="group" aria-label="Choose an answer">${scene.choices.map((value,i)=>`
           <button class="choice" type="button" data-intuition-answer="${i}">${value}</button>`).join('')}</div>
-      </section>`}
-      ${answered?`<section class="play-lab" aria-labelledby="play-feedback">
-        <div class="play-lab-head"><h2 id="play-feedback" tabindex="-1">${correct?'ทายถูกแล้ว ลองขยับดู':'ลองดูว่าภาพบอกอะไร'}</h2><p>${scene.preview}</p></div>
-        <div id="play-controls"></div>
-        <div id="play-visual" class="play-visual"></div>
-        <p class="play-live" id="play-live" role="status"></p>
-        <p class="play-insight">${scene.insight}</p>
-      </section>
-      <details class="worked play-formula" id="play-formula"><summary>เปิดสูตรเมื่อพร้อม</summary>
-        <p><strong>คำจำ</strong> ${scene.memory}</p><p class="math formula-symbol">${scene.formula}</p>
-        <ol class="steps">${scene.steps.map(step=>`<li>${step}</li>`).join('')}</ol>
-        <div class="actions"><a class="button quiet" href="#${scene.card==='p-value'?scene.card:'formula-'+scene.card}">ลองคำนวณต่อ</a>
-          ${scene.another?`<a class="button quiet" href="#formula-${scene.another}">${index===3?'ดูแบบสองกลุ่มอิสระ':'ดู Overall F'}</a>`:''}</div>
-      </details>
-      <div class="actions"><a class="button primary" href="${index+1===intuitionScenes.length?'#quick-quiz':intuitionLink(index+1)}">${index+1===intuitionScenes.length?'ลองเกมเลือกสูตร':'ไปเรื่องถัดไป'}</a>
-        <button class="button quiet" id="play-retry" type="button">ลองทายใหม่</button></div>`:''}
-    </article></div>`;
+    </section>`}${answered?`<section class="play-lab" aria-labelledby="play-feedback">
+    <div class="play-lab-head">
+    <h2 id="play-feedback" tabindex="-1">${correct?"You got it. Try changing the numbers.":"See what the visual shows."}</h2>
+    <p>${scene.preview}</p>
+    </div>
+    <div id="play-controls">
+    </div>
+    <div id="play-visual" class="play-visual">
+    </div>
+    <p class="play-live" id="play-live" role="status">
+    </p>
+    <p class="play-insight">${scene.insight}</p>
+    </section>
+    <details class="worked play-formula" id="play-formula"><summary>Reveal the formula when ready</summary>
+    <p><strong>Memory cue:</strong> ${scene.memory}</p>
+    <p class="math formula-symbol">${scene.formula}</p>
+    <ol class="steps">${scene.steps.map(step=>`<li>${step}</li>`).join('')}</ol>
+    <div class="actions"><a class="button quiet" href="#${scene.card==='p-value'?scene.card:'formula-'+scene.card}">Work through a calculation</a>${scene.another?`<a class="button quiet" href="#formula-${scene.another}">${index===3?"Compare two independent groups":"Explore the overall F test"}</a>`:''}</div>
+    </details>
+    <div class="actions"><a class="button primary" href="${index+1===intuitionScenes.length?'#quick-quiz':intuitionLink(index+1)}">${index+1===intuitionScenes.length?"Play the formula game":"Next lesson"}</a><button class="button quiet" id="play-retry" type="button">Try the prediction again</button>
+    </div>`:''}</article>
+    </div>`;
   get('intuition-jump').addEventListener('change',event=>{location.hash=intuitionLink(Number(event.target.value));});
   document.querySelectorAll('#intuition-body [data-intuition-answer]').forEach(button=>button.addEventListener('click',()=>{
     intuitionAnswers[index]=Number(button.dataset.intuitionAnswer);

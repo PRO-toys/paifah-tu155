@@ -1,61 +1,61 @@
 <!doctype html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>สถิติที่เล่าได้ | ห้องซ้อมสถิติ BDTM / TU</title>
-<meta name="description" content="เรียนสถิติจากศูนย์ ห้องสูตร 14 สูตร เครื่องคำนวณ p-value เกมเลือกสูตร และข้อสอบจำลอง TU155 พร้อมเฉลยทีละขั้น">
-<meta name="theme-color" content="#fbf7ef">
+<meta name="theme-color" content="#f8f6ef">
+<meta name="description" content="Learn TU155 statistics through visual experiments, worked formulas, and practice exams.">
+<title>Statistics You Can Explain | BDTM / TU</title>
 <link rel="stylesheet" href="assets/lecture.css">
-<link rel="stylesheet" href="assets/experience.css">
+<link rel="stylesheet" href="assets/experience.css?v=en1">
 <link rel="stylesheet" href="assets/intuition.css">
-<script defer src="assets/content.js"></script>
-<script defer src="assets/mock-drills.js"></script>
-<script defer src="assets/mock.js"></script>
-<script defer src="assets/forecast-data.js"></script>
-<script defer src="assets/forecast.js?v=play1"></script>
-<script defer src="assets/formulas.js"></script>
-<script defer src="assets/p-values.js"></script>
-<script defer src="assets/formula-room.js?v=play1"></script>
-<script defer src="assets/warm-up.js?v=intuition1"></script>
-<script defer src="assets/intuition-data.js"></script>
-<script defer src="assets/intuition.js"></script>
-<script defer src="assets/lecture.js?v=intuition1"></script>
+<script defer src="assets/content.js?v=en1"></script>
+<script defer src="assets/mock-drills.js?v=en1"></script>
+<script defer src="assets/mock.js?v=en1"></script>
+<script defer src="assets/forecast-data.js?v=en1"></script>
+<script defer src="assets/forecast.js?v=en1"></script>
+<script defer src="assets/formulas.js?v=en1"></script>
+<script defer src="assets/p-values.js?v=en1"></script>
+<script defer src="assets/formula-room.js?v=en1"></script>
+<script defer src="assets/warm-up.js?v=en1"></script>
+<script defer src="assets/intuition-data.js?v=en1"></script>
+<script defer src="assets/intuition.js?v=en1"></script>
+<script defer src="assets/lecture.js?v=en1"></script>
 </head>
 <body>
-<a class="skip" href="#main">ข้ามไปเนื้อหาบทเรียน</a>
+<a class="skip" href="#main">Skip to content</a>
 <header class="shell top">
   <a class="brand" href="#home"><span aria-hidden="true">Σ</span><b>BDTM / TU</b></a>
-  <nav aria-label="เมนูหลัก"><a href="#home">บทเรียน</a><a href="#formulas">ห้องสูตร</a><a href="#exam">ซ้อมจากชีต</a><a href="#forecast">ข้อสอบจำลอง</a><a href="#sources">แหล่งอ้างอิง</a></nav>
+  <nav aria-label="Main navigation"><a href="#home">Learn</a><a href="#formulas">Formulas</a><a href="#exam">Course practice</a><a href="#forecast">Mock exam</a><a href="#sources">Sources</a></nav>
 </header>
 <main class="shell" id="main">
   <section id="home" data-page>
     <div class="hero study-hero">
       <div class="hero-copy">
         <p class="kicker">TU155 / THAMMASAT</p>
-        <h1>สถิติ<br>ที่เล่าได้</h1>
-        <p class="lede">เริ่มจากโจทย์ใกล้ตัว ลองเดาวิธี แล้วค่อยแกะว่าตัวเลขในสูตรมาจากไหน</p>
-        <div class="actions"><a class="button primary" href="#play">ลองเรียนแบบภาพขยับ</a><a class="button quiet" href="#forecast">ไปข้อสอบจับเวลา</a></div>
+        <h1>Statistics<br> you can<br> explain</h1>
+        <p class="lede">Start with an everyday question. Make a guess, change the numbers, and see where the formula comes from.</p>
+        <div class="actions"><a class="button primary" href="#play">Try a visual lesson</a><a class="button quiet" href="#forecast">Take the timed mock</a></div>
       </div>
-      <img src="assets/statistics-student.jpg" alt="นักศึกษาถือเครื่องคิดเลขข้างแก้วชาไทยและนาฬิกาจับเวลา" width="1440" height="960" fetchpriority="high">
+      <img src="assets/statistics-student.jpg" alt="A student holding a calculator beside a Thai iced tea and a stopwatch" width="1440" height="960" fetchpriority="high">
     </div>
     <section id="warm-up" class="warm-up" aria-labelledby="warm-heading"></section>
     <section class="section study-modes" aria-labelledby="mode-title">
-      <h2 id="mode-title">อยากฝึกแบบไหนต่อ?</h2>
+      <h2 id="mode-title">How do you want to practise?</h2>
       <div class="mode-grid">
-        <a class="mode-card mode-basics" href="#basics"><span class="mode-icon" aria-hidden="true">x̄</span><strong>เริ่มจากศูนย์</strong><span>เข้าใจค่าเฉลี่ยและความแกว่งจากเวลารอหน้าร้านกาแฟ</span></a>
-        <a class="mode-card mode-formula" href="#formulas"><span class="mode-icon" aria-hidden="true">ƒ(x)</span><strong>แกะสูตรทีละขั้น</strong><span>เปิดวิธีคิด 14 สูตร แล้วลองเปลี่ยนตัวเลขเอง</span></a>
-        <a class="mode-card mode-forecast" href="#forecast"><span class="mode-icon" aria-hidden="true">:15</span><strong>ลงสนาม 15 วินาที</strong><span>จับเวลาเฉพาะตอนเลือกวิธี แล้วคำนวณตามจังหวะของตัวเอง</span></a>
+        <a class="mode-card mode-basics" href="#basics"><span class="mode-icon" aria-hidden="true">x̄</span><strong>Start from scratch</strong><span>Meet the mean and standard error through a coffee-shop queue.</span></a>
+        <a class="mode-card mode-formula" href="#formulas"><span class="mode-icon" aria-hidden="true">ƒ(x)</span><strong>Work through a formula</strong><span>Explore 14 formulas one step at a time, then change the numbers.</span></a>
+        <a class="mode-card mode-forecast" href="#forecast"><span class="mode-icon" aria-hidden="true">:15</span><strong>Take the 15-second challenge</strong><span>Pick a method under time pressure, then calculate at your own pace.</span></a>
       </div>
-      <div class="more-practice"><a href="#play">บทเรียนแบบภาพขยับ 8 เรื่อง</a><a href="#quick-quiz">เกมเลือกสูตร 6 ข้อ</a><a href="#mock">ข้อสอบจำลองชุดแรก</a></div>
+      <div class="more-practice"><a href="#play">8 visual lessons</a><a href="#quick-quiz">6-question formula game</a><a href="#mock">First mock exam</a></div>
     </section>
     <section class="section" aria-labelledby="map-title">
-      <div class="section-head"><h2 id="map-title">บทเรียนทั้ง 6 บท</h2><span id="home-progress" class="muted"></span></div>
+      <div class="section-head"><h2 id="map-title">Six topics to explore</h2><span id="home-progress" class="muted"></span></div>
       <div id="lesson-grid" class="lesson-grid"></div>
     </section>
   </section>
   <section id="lecture" data-page hidden>
-    <div class="study-layout"><aside class="study-nav" aria-label="สารบัญบทเรียน"><a href="#home">แผนเลือกวิธี</a><div id="lesson-nav"></div></aside><article class="panel" id="lecture-body"></article></div>
+    <div class="study-layout"><aside class="study-nav" aria-label="Lesson contents"><a href="#home">Back to topics</a><div id="lesson-nav"></div></aside><article class="panel" id="lecture-body"></article></div>
   </section>
   <section id="formula-room" data-page hidden><div id="formula-body"></div></section>
   <section id="intuition" data-page hidden><div id="intuition-body"></div></section>
@@ -70,14 +70,21 @@
   </section>
   <section id="sources" data-page hidden>
     <article class="panel exam-panel">
-      <p class="kicker">แหล่งอ้างอิง</p><h1>ที่มาของบทเรียน</h1>
-      <p>สื่อเสริมทบทวนจากรายวิชา TU155 Elementary Statistics, มหาวิทยาลัยธรรมศาสตร์ อ้างอิงเอกสารประกอบการสอนของ รศ. ดร. Nij Tontisirin</p>
+      <p class="kicker">References</p><h1>Sources and study notes</h1>
+      <p>This companion covers Lectures 8–13 of TU155 Elementary Statistics at Thammasat University, using handouts by Assoc. Prof. Nij Tontisirin. Course practice follows the six questions in the Final Practice Questions dated 16 November 2026.</p>
       <ul id="source-list"></ul>
-      <p>นักศึกษาที่ต้องการดูชีตต้นฉบับและไฟล์ข้อมูลประกอบฉบับเต็ม สามารถเปิดจากช่องทางของรายวิชาได้</p>
+      <h2>Quick notes in English</h2>
+      <ul>
+        <li><strong>Confidence intervals:</strong> start at the sample estimate. Add and subtract a critical value times the standard error.</li>
+        <li><strong>Hypothesis tests:</strong> write the null and alternative before calculating. The alternative determines the tail.</li>
+        <li><strong>Paired data:</strong> calculate one difference per person or pair, then work with those differences.</li>
+        <li><strong>Reporting:</strong> compare the p-value with the significance level and write a conclusion using the words from the question.</li>
+      </ul>
+      <p>For the complete handouts and workbooks, use the course materials provided by Thammasat University.</p>
     </article>
   </section>
 </main>
-<footer class="shell footer"><span>BDTM / TU · TU155 Elementary Statistics</span><a href="#sources">แหล่งที่มาของบทเรียน</a></footer>
-<noscript><p class="shell">เปิด JavaScript ในเบราว์เซอร์เพื่อใช้งานบทเรียนและแบบฝึกหัด</p></noscript>
+<footer class="shell footer"><span>BDTM / TU · TU155 Elementary Statistics</span><a href="#sources">References</a></footer>
+<noscript><p class="shell">Enable JavaScript to use the interactive lessons and practice exercises.</p></noscript>
 </body>
 </html>

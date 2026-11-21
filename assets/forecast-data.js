@@ -2,112 +2,112 @@
 
 const forecastQuestions = [
   {
-    title:'ตรวจงานรอบสองเร็วขึ้นไหม?',
-    preview:'นักศึกษาคนเดิมตรวจไฟล์ก่อนและหลังเรียนทางลัด อยากรู้ว่าเวลาเฉลี่ยลดลงไหม กำหนด d = หลังเรียน − ก่อนเรียน',
-    methods:['Paired t-test ทางซ้าย','Paired t-test ทางขวา','Independent t-test สองทาง'], method:0, lesson:2,
-    context:'นักศึกษา 25 คนตรวจไฟล์แบบเดิมก่อนและหลังเรียนทางลัด กำหนด d = เวลาหลังเรียน − เวลาก่อนเรียน ได้ d̄ = −2.70 นาที และ sᵈ = 4.50 นาที ทดสอบว่าเวลาเฉลี่ยลดลงไหมที่ α = 0.05',
+    title:"Did the shortcut make checking faster?",
+    preview:"The same students check a file before and after learning a shortcut. Does the average time fall? Define d = after − before.",
+    methods:["Paired t-test, left-tailed","Paired t-test, right-tailed","Independent-samples t-test, two-sided"], method:0, lesson:2,
+    context:"Twenty-five students check a file before and after learning a shortcut. Define d = time after − time before. The mean difference is −2.70 minutes and its SD is 4.50 minutes. Test whether the average time decreases at α = 0.05.",
     fields:[
-      {prompt:'ก. คำนวณ SE ของผลต่างเฉลี่ย (นาที)',value:.9,tolerance:.01},
-      {prompt:'ข. คำนวณ t พร้อมเครื่องหมาย',value:-3,tolerance:.02},
-      {prompt:'ค. เลือกข้อสรุป',options:['หลักฐานยังไม่พอว่าเวลาเฉลี่ยลดลง','มีหลักฐานว่าเวลาเฉลี่ยลดลงหลังเรียน','มีหลักฐานว่าเวลาเฉลี่ยเพิ่มขึ้นหลังเรียน'],correct:1}
+      {prompt:"a. Calculate the SE of the mean difference (minutes).",value:.9,tolerance:.01},
+      {prompt:"b. Calculate t, including its sign.",value:-3,tolerance:.02},
+      {prompt:"c. Choose a conclusion.",options:["There is insufficient evidence that the average time decreased.","There is evidence that the average time decreased after training.","There is evidence that the average time increased after training."],correct:1}
     ],
     steps:[
-      ['เลือกวิธีและหาง','วัดคนเดิมสองครั้ง จึงใช้ Paired t-test เมื่อเวลาหลังน้อยกว่าก่อน d จะเป็นลบ จึงใช้หางซ้าย'],
-      ['ตั้งสมมติฐาน','H₀: μᵈ = 0 และ Hₐ: μᵈ < 0 กำหนด α = 0.05 และ df = 25 − 1 = 24'],
-      ['หา SE ของผลต่าง','SE = 4.50/√25 = 0.90 นาที'],
-      ['คำนวณ t และอ่าน p','t = (−2.70 − 0)/0.90 = −3.00 ได้ p ทางซ้ายประมาณ 0.00310'],
-      ['สรุปผล','p < 0.05 จึงปฏิเสธ H₀ มีหลักฐานว่าเวลาเฉลี่ยในการตรวจไฟล์ลดลงหลังเรียน']
+      ["Choose the test and its tail","Each student was measured twice, so use a paired t-test. A shorter time after training means d < 0, so use the left tail."],
+      ["State the hypotheses","H₀: μᵈ = 0 and Hₐ: μᵈ < 0. Use α = 0.05 and df = 25 − 1 = 24."],
+      ["Find the standard error","SE = 4.50/√25 = 0.90 minutes."],
+      ["Calculate t and read the p-value","t = (−2.70 − 0)/0.90 = −3.00. The left-tail p-value is about 0.00310."],
+      ["Write the conclusion","p < 0.05, so reject H₀. The data provide evidence that the average checking time fell after training."]
     ]
   },
   {
-    title:'คนสองกลุ่มสมัครรับข่าวสารต่างกันไหม?',
-    preview:'เปรียบเทียบสัดส่วนคนที่กดรับอีเมลของผู้ชมคนละกลุ่ม ระหว่างหน้าสมัครแบบภาพกับแบบข้อความ โจทย์ถามว่าแตกต่างกันหรือไม่',
-    methods:['Independent t-test สองทาง','Two-proportion z-test สองทาง','One-proportion z-test ทางขวา'], method:1, lesson:3,
-    context:'หน้าสมัครแบบภาพมีคนกดรับข่าวสาร 44 จาก 80 คน แบบข้อความมี 31 จาก 80 คน ผู้ชมสองกลุ่มเป็นอิสระ ทดสอบว่าสัดส่วนต่างกันไหมที่ α = 0.05 โดยใช้แบบภาพเป็นกลุ่ม 1',
+    title:"Do the signup rates differ?",
+    preview:"Two independent groups see different email signup pages, one with pictures and one with text. Do their signup rates differ?",
+    methods:["Independent-samples t-test, two-sided","Two-proportion z-test, two-sided","One-proportion z-test, right-tailed"], method:1, lesson:3,
+    context:"On the picture-based page, 44 of 80 visitors sign up. On the text-based page, 31 of 80 sign up. The groups are independent. Test for a difference in signup rates at α = 0.05. Use the picture-based page as group 1.",
     fields:[
-      {prompt:'ก. สัดส่วนรวม p̂ ภายใต้ H₀ (ตอบเป็นทศนิยมอย่างน้อย 3 ตำแหน่ง)',value:.46875,tolerance:.001},
-      {prompt:'ข. คำนวณ z โดยใช้กลุ่ม 1 ลบกลุ่ม 2',value:2.05951,tolerance:.02},
-      {prompt:'ค. เลือก p และข้อสรุปสำหรับคำถามนี้',options:['p ≈ 0.0197 แบบสองทาง มีหลักฐานว่าสัดส่วนต่างกัน','p ≈ 0.0394 หลักฐานยังไม่พอว่าสัดส่วนต่างกัน','p ≈ 0.0394 แบบสองทาง มีหลักฐานว่าสัดส่วนต่างกัน'],correct:2}
+      {prompt:"a. Find the pooled proportion under H₀. Give at least three decimal places.",value:.46875,tolerance:.001},
+      {prompt:"b. Calculate z using group 1 minus group 2.",value:2.05951,tolerance:.02},
+      {prompt:"c. Choose the p-value and conclusion.",options:["Two-sided p ≈ 0.0197. There is evidence that signup rates differ.","p ≈ 0.0394. There is insufficient evidence that signup rates differ.","Two-sided p ≈ 0.0394. There is evidence that signup rates differ."],correct:2}
     ],
     steps:[
-      ['เลือกวิธีและหาง','เปรียบเทียบสัดส่วนคำตอบใช่ของสองกลุ่มอิสระ ใช้ Two-proportion z-test แบบสองทาง เพราะถามว่าต่างกันไหม'],
-      ['คำนวณสัดส่วน','p̂₁ = 44/80 = 0.55, p̂₂ = 31/80 = 0.3875 ส่วน H₀: p₁ = p₂ ใช้ p̂ รวม = (44 + 31)/(80 + 80) = 0.46875'],
-      ['หา SE ภายใต้ H₀','SE = √[0.46875(1−0.46875)(1/80+1/80)] ≈ 0.07890'],
-      ['คำนวณและสรุป','z = (0.55 − 0.3875)/0.07890 ≈ 2.06 ได้ p สองทาง ≈ 0.0394 < 0.05 จึงมีหลักฐานว่าสัดส่วนคนรับข่าวสารต่างกัน']
+      ["Choose the test and its tails","Compare the yes rates in two independent groups. The question asks whether they differ, so use a two-sided two-proportion z-test."],
+      ["Calculate the sample and pooled proportions","p̂₁ = 44/80 = 0.55 and p̂₂ = 31/80 = 0.3875. Under H₀: p₁ = p₂, the pooled estimate is (44 + 31)/(80 + 80) = 0.46875."],
+      ["Find the SE under H₀",'SE = √[0.46875(1−0.46875)(1/80+1/80)] ≈ 0.07890'],
+      ["Calculate z and conclude","z = (0.55 − 0.3875)/0.07890 ≈ 2.06. The two-sided p-value is about 0.0394, below 0.05, so there is evidence of a difference in signup rates."]
     ]
   },
   {
-    title:'ต้นแบบสามแบบได้คะแนนเท่ากันไหม?',
-    preview:'ผู้ทดสอบแต่ละคนลองใช้ต้นแบบเพียงแบบเดียวจากสามแบบ แล้วให้คะแนนเป็นตัวเลข อยากรู้ว่าคะแนนเฉลี่ยทั้งสามแบบเท่ากันทั้งหมดไหม',
+    title:"Do the three prototypes score equally?",
+    preview:"Each tester rates just one of three prototypes. Are the three population mean ratings all equal?",
     methods:['Paired t-test','Chi-square Independence','One-way ANOVA'], method:2, lesson:2,
-    context:'ผู้ทดสอบให้คะแนนต้นแบบ A, B หรือ C คนละแบบ ใช้ α = 0.05 สมมติว่ากลุ่มเป็นอิสระ คะแนนในประชากรแต่ละกลุ่มแจกแจงใกล้ปกติ และความแปรปรวนประชากรเท่ากัน',
-    data:[['ต้นแบบ','n','คะแนนเฉลี่ย','s'],[['A',12,18,4],['B',18,22,3],['C',15,20,5]]],
+    context:"Test whether mean ratings differ among prototypes A, B, and C at α = 0.05. Assume independent observations, roughly normal scores within each population, and equal population variances.",
+    data:[["Prototype",'n',"Mean rating",'s'],[['A',12,18,4],['B',18,22,3],['C',15,20,5]]],
     fields:[
-      {prompt:'ก. ค่าเฉลี่ยรวมแบบถ่วงน้ำหนัก',value:20.2667,tolerance:.015},
-      {prompt:'ข. คำนวณ F',value:3.61237,tolerance:.03},
-      {prompt:'ค. สรุปผลเมื่อ p ≈ 0.0357',options:['มีหลักฐานว่าค่าเฉลี่ยไม่ได้เท่ากันทั้งหมด','มีหลักฐานว่าทุกคู่ต่างกัน','หลักฐานยังไม่พอว่าค่าเฉลี่ยไม่ได้เท่ากันทั้งหมด'],correct:0}
+      {prompt:"a. Calculate the weighted grand mean.",value:20.2667,tolerance:.015},
+      {prompt:"b. Calculate F.",value:3.61237,tolerance:.03},
+      {prompt:"c. Choose a conclusion if p ≈ 0.0357.",options:["There is evidence that the means are not all equal.","There is evidence that every pair differs.","There is insufficient evidence of a difference in mean scores."],correct:0}
     ],
     steps:[
-      ['เลือกวิธีและตั้งสมมติฐาน','เทียบค่าเฉลี่ยสามกลุ่มอิสระ ใช้ One-way ANOVA โดย H₀: μA = μB = μC'],
-      ['หาค่าเฉลี่ยรวม','จำนวนคนทั้งหมด 45 คน ค่าเฉลี่ยรวม = (12×18 + 18×22 + 15×20)/45 ≈ 20.2667'],
-      ['แยก SS สองส่วน','SS ระหว่าง = Σnᵢ(x̄ᵢ−x̄รวม)² = 116.80, SS ภายใน = 11×4² + 17×3² + 14×5² = 679'],
-      ['หารด้วย df ก่อนคำนวณ F','df ระหว่าง = 2, df ภายใน = 42 จึงได้ F = (116.80/2)/(679/42) ≈ 3.61'],
-      ['สรุปตามที่สถิติตอบได้','p ≈ 0.0357 < 0.05 มีหลักฐานว่าค่าเฉลี่ยไม่ได้เท่ากันทั้งหมด หากอยากระบุคู่ที่ต่าง ให้เปรียบเทียบรายคู่เพิ่มเติม']
+      ["Choose a method and state H₀","Compare three independent means with one-way ANOVA. H₀: μA = μB = μC."],
+      ["Find the grand mean","There are 45 people. The grand mean is (12×18 + 18×22 + 15×20)/45 ≈ 20.2667."],
+      ["Split the sum of squares","SS between = Σnᵢ(x̄ᵢ−x̄ overall)² = 116.80. SS within = 11×4² + 17×3² + 14×5² = 679."],
+      ["Divide each SS by its degrees of freedom","Between-group df = 2 and within-group df = 42. F = (116.80/2)/(679/42) ≈ 3.61."],
+      ["Write the conclusion","p ≈ 0.0357 < 0.05. There is evidence that the means are not all equal. Use follow-up comparisons to find which pairs differ."]
     ]
   },
   {
-    title:'ชั้นปีเกี่ยวข้องกับช่องทางที่รู้จักงานไหม?',
-    preview:'สำรวจชั้นปีของนักศึกษาและช่องทางแรกที่ได้ยินข่าวงาน นักศึกษาแต่ละคนตอบคนละหนึ่งช่องทาง อยากรู้ว่าสองตัวแปรสัมพันธ์กันไหม',
+    title:"Does year of study relate to how people heard about the event?",
+    preview:"Students report their year of study and the first channel through which they heard about an event. Each student names one channel. Are the variables associated?",
     methods:['Chi-square Goodness-of-fit','Chi-square Independence','One-way ANOVA'], method:1, lesson:3,
-    context:'ผู้จัดงานสำรวจนักศึกษา 120 คน แบ่งชั้นปีเป็นสองกลุ่ม และจำแนกช่องทางแรกที่รู้จักงานเป็นสามประเภท ทดสอบความสัมพันธ์ที่ α = 0.05',
-    data:[['ช่องทางแรก','ปี 1','ปี 2 ขึ้นไป','รวม'],[['โซเชียลมีเดีย',32,12,44],['เพื่อนแนะนำ',20,22,42],['โปสเตอร์ในมหาวิทยาลัย',8,26,34],['รวม',60,60,120]]],
+    context:"The organisers survey 120 students. They group the students by year and classify each student's first source of information. Test for an association at α = 0.05.",
+    data:[["First source","First year","Second year or later","Total"],[["Social media",32,12,44],["Friend referral",20,22,42],["Campus poster",8,26,34],["Total",60,60,120]]],
     fields:[
-      {prompt:'ก. คาดว่าจะมีนักศึกษาปี 1 ที่รู้จากโซเชียลกี่คน หากสองตัวแปรเป็นอิสระกัน?',value:22,tolerance:.02},
-      {prompt:'ข. คำนวณ χ² จาก 6 ช่องข้อมูล',value:18.71556,tolerance:.07},
-      {prompt:'ค. เลือก df และข้อสรุป',options:['df = 3, พบความสัมพันธ์','df = 2, หลักฐานยังไม่พอว่ามีความสัมพันธ์','df = 2, มีหลักฐานว่าชั้นปีสัมพันธ์กับช่องทาง'],correct:2}
+      {prompt:"a. If the two variables are independent, how many first-year students would you expect to hear about the event on social media?",value:22,tolerance:.02},
+      {prompt:"b. Calculate χ² using the six data cells.",value:18.71556,tolerance:.07},
+      {prompt:"c. Choose the degrees of freedom and conclusion.",options:["df = 3. There is evidence of an association.","df = 2. There is insufficient evidence of an association.","df = 2. There is evidence that study year is associated with the first source."],correct:2}
     ],
     steps:[
-      ['เลือกวิธีและกำหนด H₀','ชั้นปีและช่องทางเป็นตัวแปรหมวดหมู่สองตัว ใช้ Chi-square Independence โดย H₀: ทั้งสองเป็นอิสระกัน'],
-      ['หาค่าคาดทีละช่อง','E = ยอดรวมแถว × ยอดรวมคอลัมน์ ÷ ยอดทั้งหมด ช่องแรกได้ 44×60/120 = 22 ค่าคาดของสองช่องในแต่ละแถวเท่ากับ 22, 21 และ 17 ตามลำดับ'],
-      ['รวมความคลาดเคลื่อน','ช่องแรกเพิ่ม (32−22)²/22 ≈ 4.55 รวม (O−E)²/E ครบ 6 ช่องได้ χ² ≈ 18.72'],
-      ['หา df และสรุป','df = (3−1)(2−1) = 2 ได้ p ≈ 0.0000863 < 0.05 มีหลักฐานว่าชั้นปีสัมพันธ์กับช่องทางแรกที่รู้จักงาน']
+      ["Choose the test and state H₀","Both variables are categorical. Use the chi-square test of independence. H₀: the two variables are independent."],
+      ["Find the expected counts","E = row total × column total ÷ grand total. The first cell gives 44×60/120 = 22. For the three rows, the two cells in each row have expected counts of 22, 21, and 17, respectively."],
+      ["Add the cell contributions","The first cell contributes (32−22)²/22 ≈ 4.55. Sum (O−E)²/E over all six cells to get χ² ≈ 18.72."],
+      ["Find df and write the conclusion","df = (3−1)(2−1) = 2 and p ≈ 0.0000863 < 0.05. There is evidence that study year is associated with the first source."]
     ]
   },
   {
-    title:'ข้าวกล่องหนักเฉลี่ยอยู่ในช่วงเท่าไร?',
-    preview:'สุ่มชั่งน้ำหนักข้าวกล่อง ได้ค่าเฉลี่ยและ SD ตัวอย่าง โจทย์ขอช่วงความเชื่อมั่นของน้ำหนักเฉลี่ย และไม่ให้ SD ประชากร',
-    methods:['ช่วงความเชื่อมั่นแบบ z สำหรับสัดส่วน','One-sample t-test เปรียบเทียบกับ 500 กรัม','ช่วงความเชื่อมั่นแบบ t สำหรับค่าเฉลี่ย'], method:2, lesson:0,
-    context:'สุ่มข้าวกล่องอิสระ 36 กล่อง น้ำหนักเฉลี่ย 485 กรัม และ s = 24 กรัม ไม่ทราบ σ ต้องการช่วงความเชื่อมั่น 95% ใช้ค่าวิกฤต t* = 2.030',
+    title:"What range could contain the average weight of a boxed lunch?",
+    preview:"A random sample of lunch boxes gives a sample mean and SD. Estimate the population mean with a confidence interval. The population SD is unknown.",
+    methods:["A z confidence interval for a proportion","A one-sample t-test against 500 grams","A t confidence interval for a mean"], method:2, lesson:0,
+    context:"Thirty-six independent lunch boxes have a mean weight of 485 grams and s = 24 grams. The population SD σ is unknown. Find a 95% confidence interval using t* = 2.030.",
     fields:[
-      {prompt:'ก. ขอบล่างของช่วง (กรัม)',value:476.88,tolerance:.04},
-      {prompt:'ข. ขอบบนของช่วง (กรัม)',value:493.12,tolerance:.04},
-      {prompt:'ค. เลือกประโยคแปลผลที่ตรงโจทย์',options:['เราเชื่อมั่น 95% ว่าน้ำหนักเฉลี่ยของข้าวกล่องทั้งหมดอยู่ในช่วงนี้','ข้าวกล่อง 95% มีน้ำหนักอยู่ในช่วงนี้','ข้าวกล่องถัดไปมีโอกาส 95% ที่จะหนักอยู่ในช่วงนี้'],correct:0}
+      {prompt:"a. Lower bound (grams).",value:476.88,tolerance:.04},
+      {prompt:"b. Upper bound (grams).",value:493.12,tolerance:.04},
+      {prompt:"c. Choose the correct interpretation.",options:["We are 95% confident that the population mean weight lies in the interval.","Ninety-five percent of individual boxes weigh within this interval.","There is a 95% chance that the next box weighs within the interval."],correct:0}
     ],
     steps:[
-      ['เลือกช่วงให้ตรงข้อมูล','โจทย์ขอช่วงของค่าเฉลี่ยประชากร และใช้ s ประมาณ σ จึงใช้ t interval ที่ df = 36−1 = 35'],
-      ['หา SE และระยะเผื่อ','SE = 24/√36 = 4 กรัม ระยะเผื่อ = 2.030×4 = 8.12 กรัม'],
-      ['ใส่ระยะเผื่อทั้งสองข้าง','485 ± 8.12 ได้ช่วง (476.88, 493.12) กรัม'],
-      ['อ่านช่วงเป็นภาษาของโจทย์','เราเชื่อมั่น 95% ว่าน้ำหนักเฉลี่ยของข้าวกล่องในประชากรเป้าหมายอยู่ระหว่าง 476.88 ถึง 493.12 กรัม']
+      ["Choose the right interval","The target is the population mean. We estimate σ with s, so use a t interval with df = 36−1 = 35."],
+      ["Find the standard error and margin","SE = 24/√36 = 4 grams. The margin of error is 2.030×4 = 8.12 grams."],
+      ["Build both endpoints","485 ± 8.12 gives (476.88, 493.12) grams."],
+      ["Interpret the interval","We are 95% confident that the target population's mean lunch-box weight is between 476.88 and 493.12 grams."]
     ]
   },
   {
-    title:'บูธจะขายได้เท่าไรในวันงาน?',
-    preview:'อยากทำนายยอดขายจากชั่วโมงเปิดบูธ จำนวนร้านใกล้เคียง และการโปรโมตออนไลน์ พร้อมดูผลของตัวทำนายแต่ละตัวเมื่อควบคุมตัวอื่น',
+    title:"What will the booth earn on event day?",
+    preview:"Predict sales from opening hours, the number of nearby shops, and online promotion. Assess each predictor while holding the others fixed.",
     methods:['Simple Linear Regression','Multiple Linear Regression','One-way ANOVA'], method:1, lesson:5,
-    context:'ใช้ข้อมูลบูธ 35 แห่งทำนายยอดขายต่อวันเป็นพันบาท โดย Promotion = 1 ถ้าโปรโมตออนไลน์ และ 0 ถ้าไม่ได้โปรโมต ตาราง ANOVA ให้ SS Regression = 180, SS Residual = 75 และ df เท่ากับ 3 กับ 31 ใช้ α = 0.05',
-    data:[['ตัวแปร','Coefficient','p-value'],[['Intercept','2.40','0.019'],['จำนวนชั่วโมงเปิด','0.75','0.001'],['จำนวนร้านใกล้เคียง','−0.18','0.041'],['Promotion','1.20','0.083']]],
+    context:"Data from 35 booths predict daily sales in thousands of baht. Promotion = 1 for online promotion and 0 otherwise. The ANOVA table gives SS Regression = 180 with 3 df and SS Residual = 75 with 31 df. Use α = 0.05.",
+    data:[["Variable",'Coefficient','p-value'],[['Intercept','2.40','0.019'],["Opening hours",'0.75','0.001'],["Nearby shops",'−0.18','0.041'],['Promotion','1.20','0.083']]],
     fields:[
-      {prompt:'ก. คำนวณ F ของโมเดลโดยรวม',value:24.8,tolerance:.08},
-      {prompt:'ข. ตัวทำนายใดมีนัยสำคัญรายตัว?',options:['ชั่วโมงเปิดและ Promotion','ทั้งสามตัว','ชั่วโมงเปิดและจำนวนร้านใกล้เคียง'],correct:2},
-      {prompt:'ค. ถ้าร้านใกล้เคียงเพิ่ม 1 ร้าน ยอดขายที่ทำนายเปลี่ยนกี่บาทเมื่อคงตัวแปรอื่น? ใส่เครื่องหมายด้วย',value:-180,tolerance:.05},
-      {prompt:'ง. ทำนายเมื่อเปิด 6 ชม. มีร้านใกล้ 5 ร้าน และโปรโมตออนไลน์ (พันบาท)',value:7.2,tolerance:.025}
+      {prompt:"a. Calculate F for the overall model.",value:24.8,tolerance:.08},
+      {prompt:"b. Which predictors are individually significant?",options:["Opening hours and Promotion","All three predictors","Opening hours and nearby shops"],correct:2},
+      {prompt:"c. How many baht does predicted sales revenue change for one extra nearby shop, holding other predictors fixed? Include the sign.",value:-180,tolerance:.05},
+      {prompt:"d. Predict sales (thousands of baht) for a booth open 6 hours with 5 nearby shops and online promotion.",value:7.2,tolerance:.025}
     ],
     steps:[
-      ['เขียนสมการจากค่าสัมประสิทธิ์','ใช้ Multiple Linear Regression เพราะมีสามตัวทำนาย ได้ ŷ = 2.40 + 0.75(ชั่วโมง) − 0.18(ร้านใกล้เคียง) + 1.20(Promotion)'],
-      ['ทดสอบทั้งโมเดล','F = (180/3)/(75/31) = 24.80 ที่ df = (3,31) ได้ p < 0.001 จึงปฏิเสธ H₀ ที่ว่าความชันทั้งสามเป็นศูนย์'],
-      ['ดูนัยสำคัญทีละตัว','ชั่วโมงเปิด (p = 0.001) และร้านใกล้เคียง (p = 0.041) ผ่านเกณฑ์ 0.05 ส่วน Promotion มี p = 0.083'],
-      ['อ่านความชันให้ตรงหน่วย','เพิ่มร้านใกล้เคียง 1 ร้าน ค่าทำนายลด 0.18 พันบาท หรือ 180 บาท เมื่อคงชั่วโมงเปิดและการโปรโมตไว้'],
-      ['แทนค่าแล้วทำนาย','วันนั้นโปรโมตออนไลน์จึงแทน Promotion = 1 ได้ 2.40 + 0.75×6 − 0.18×5 + 1.20×1 = 7.20 พันบาท หรือ 7,200 บาท']
+      ["Write the prediction equation","With three predictors, use multiple linear regression. ŷ = 2.40 + 0.75(hours) − 0.18(nearby shops) + 1.20(Promotion)."],
+      ["Test the overall model","F = (180/3)/(75/31) = 24.80 with df = (3,31). Since p < 0.001, reject H₀ that all three slopes equal zero."],
+      ["Read the individual tests","Opening hours (p = 0.001) and nearby shops (p = 0.041) meet the 0.05 threshold. Promotion has p = 0.083."],
+      ["Interpret the slope and units","One extra nearby shop lowers predicted revenue by 0.18 thousand baht, or 180 baht, holding opening hours and promotion fixed."],
+      ["Substitute and predict","With Promotion = 1, ŷ = 2.40 + 0.75×6 − 0.18×5 + 1.20×1 = 7.20 thousand baht, or 7,200 baht."]
     ]
   }
 ];

@@ -2,108 +2,108 @@
 
 const mockQuestions = [
   {
-    title:'ป้ายใหม่ช่วยให้เดินถึงห้องสอบเร็วขึ้นไหม?',
-    context:'นักศึกษา 16 คนลองเดินจากประตูมหาวิทยาลัยถึงห้องสอบก่อนและหลังติดป้ายใหม่ วัดเป็นนาที กำหนด d = เวลาก่อน − เวลาหลัง จากทั้ง 16 คู่ได้ d̄ = 1.80 และ sᵈ = 2.40 ทดสอบที่ α = 0.05 ว่าหลังติดป้ายใช้เวลาน้อยลงหรือไม่',
+    title:"Did the new signs shorten the walk?",
+    context:"Sixteen students walk from the university gate to the exam room before and after new signs are installed. Define d = time before − time after in minutes. The mean and SD of the 16 differences are 1.80 and 2.40. Test whether average walking time fell, using α = 0.05.",
     lesson:2,
     fields:[
-      {prompt:'ก. เลือกวิธีทดสอบและสมมติฐานทางเลือก',options:['Independent t-test, Hₐ: μก่อน > μหลัง','Paired t-test, Hₐ: μᵈ > 0','Paired t-test, Hₐ: μᵈ < 0'],correct:1},
-      {prompt:'ข. คำนวณ t',value:3,tolerance:.01},
-      {prompt:'ค. ข้อสรุปในภาษาของโจทย์',options:['หลักฐานยังไม่พอว่าหลังติดป้ายใช้เวลาลดลง','มีหลักฐานว่าหลังติดป้ายใช้เวลามากขึ้น','มีหลักฐานว่าเวลาเดินเฉลี่ยหลังติดป้ายลดลง'],correct:2}
+      {prompt:"a. Choose the test and alternative hypothesis.",options:["Independent-samples t-test, Hₐ: μ before > μ after",'Paired t-test, Hₐ: μᵈ > 0','Paired t-test, Hₐ: μᵈ < 0'],correct:1},
+      {prompt:"b. Calculate t.",value:3,tolerance:.01},
+      {prompt:"c. Choose a conclusion in context.",options:["There is insufficient evidence that average walking time fell after the new signs.","There is evidence that average walking time increased after the new signs.","There is evidence that average walking time fell after the new signs."],correct:2}
     ],
     steps:[
-      ['ตั้งสมมติฐาน','H₀: μᵈ = 0 และ Hₐ: μᵈ > 0 เพราะ d = ก่อน − หลัง ถ้าเวลาเดินลดลง d จะเป็นบวก'],
-      ['เลือกสถิติ','ใช้ Paired t-test ทางขวา เพราะวัดคนเดิมสองครั้ง และใช้ผลต่างทีละคน คำนวณ df = 16 − 1 = 15'],
-      ['กำหนดระดับนัยสำคัญ','ใช้ α = 0.05 ตามโจทย์'],
-      ['ตั้งกฎตัดสิน','ปฏิเสธ H₀ เมื่อ t > 1.753 หรือ p ทางขวา ≤ 0.05'],
-      ['คำนวณ','SE = 2.40/√16 = 0.60 นาที ดังนั้น t = (1.80 − 0)/0.60 = 3.00 และ p ≈ 0.00449'],
-      ['สรุป','ปฏิเสธ H₀ มีหลักฐานว่าหลังติดป้ายใหม่ นักศึกษาใช้เวลาเดินเฉลี่ยน้อยลง']
+      ["State the hypotheses","H₀: μᵈ = 0 and Hₐ: μᵈ > 0. We define d = before − after, so a shorter walk gives a positive difference."],
+      ["Choose the method","Use a right-tailed paired t-test because each student is measured twice. There are 16 differences, so df = 16 − 1 = 15."],
+      ["Set the significance level","Use α = 0.05 as stated."],
+      ["State the decision rule","Reject H₀ if t > 1.753 or the right-tail p-value is ≤ 0.05."],
+      ["Calculate","SE = 2.40/√16 = 0.60 minutes. Then t = (1.80 − 0)/0.60 = 3.00 and p ≈ 0.00449."],
+      ["Write the conclusion","Reject H₀. There is evidence that students took less time on average after the new signs were installed."]
     ]
   },
   {
-    title:'สมาชิกสองกลุ่มสนใจรับแก้วใช้ซ้ำต่างกันไหม?',
-    context:'ชมรมสำรวจนักศึกษาจากสองกลุ่มอิสระ กลุ่มที่เดินทางโดยรถไฟฟ้าตอบว่าสนใจ 54 จาก 120 คน และกลุ่มที่เดินทางโดยรถเมล์ตอบว่าสนใจ 34 จาก 100 คน ทดสอบว่าสัดส่วนผู้สนใจของสองกลุ่มแตกต่างกันหรือไม่ ที่ α = 0.05 กำหนดกลุ่ม 1 เป็นรถไฟฟ้า',
+    title:"Do the groups differ in interest in reusable cups?",
+    context:"A student club surveys two independent groups. Of 120 train users, 54 are interested in a reusable cup. Of 100 bus users, 34 are interested. Test for a difference at α = 0.05, with train users as group 1.",
     lesson:3,
     fields:[
-      {prompt:'ก. คำนวณสัดส่วนรวม p̂ ภายใต้ H₀ (ตอบเป็นทศนิยม)',value:.4,tolerance:.002},
-      {prompt:'ข. คำนวณ z โดยใช้กลุ่ม 1 ลบกลุ่ม 2',value:1.6583,tolerance:.015},
-      {prompt:'ค. เลือก p-value และข้อสรุปตามคำถามที่ให้',options:['p ≈ 0.049 พบความต่างแบบสองทาง','p ≈ 0.097 หลักฐานยังไม่พอว่าสัดส่วนต่างกัน','p ≈ 0.097 พบความต่างที่ α = 0.05'],correct:1}
+      {prompt:"a. Calculate the pooled proportion under H₀. Enter a decimal.",value:.4,tolerance:.002},
+      {prompt:"b. Calculate z using group 1 minus group 2.",value:1.6583,tolerance:.015},
+      {prompt:"c. Choose the p-value and conclusion for this question.",options:["Two-sided p ≈ 0.049. There is evidence that the proportions differ.","p ≈ 0.097. There is insufficient evidence that the proportions differ.","p ≈ 0.097. There is evidence of a difference at α = 0.05."],correct:1}
     ],
     steps:[
-      ['ตั้งสมมติฐาน','H₀: p₁ = p₂ และ Hₐ: p₁ ≠ p₂ คำว่า “ต่างกันหรือไม่” ให้ดูสองหาง'],
-      ['หาสัดส่วนรวม','p̂₁ = 54/120 = 0.45, p̂₂ = 34/100 = 0.34 และ p̂รวม = (54+34)/(120+100) = 0.40 ใช้สัดส่วนรวมใน SE เพราะ H₀ กำหนดให้สองกลุ่มมีสัดส่วนเดียวกัน'],
-      ['แทนสูตร','SE = √[0.40(1−0.40)(1/120+1/100)] ≈ 0.0663 แล้วหารผลต่าง 0.11 ด้วย SE ได้ z ≈ 1.658'],
-      ['อ่านสองหางและสรุป','p สองทาง ≈ 0.0973 > 0.05 จึงยังมีหลักฐานไม่พอว่าสัดส่วนผู้สนใจต่างกัน ค่า 0.0486 เป็น p ทางขวาสำหรับคำถามเจาะทิศทางที่กำหนดไว้ก่อนดูข้อมูล']
+      ["State the hypotheses","H₀: p₁ = p₂ and Hₐ: p₁ ≠ p₂. The question asks whether the proportions differ, so use two tails."],
+      ["Calculate the pooled proportion","p̂₁ = 54/120 = 0.45 and p̂₂ = 34/100 = 0.34. The pooled proportion is (54+34)/(120+100) = 0.40."],
+      ["Substitute into the formula","SE = √[0.40(1−0.40)(1/120+1/100)] ≈ 0.0663. Divide the observed difference of 0.11 by SE to get z ≈ 1.658."],
+      ["Read both tails and conclude","Two-sided p ≈ 0.0973 > 0.05, so there is insufficient evidence that interest differs. A right-tail value of 0.0486 applies to an alternative specified in that direction before seeing the data."]
     ]
   },
   {
-    title:'เวิร์กช็อปสามแบบให้คะแนนต่างกันไหม?',
-    context:'นักศึกษาแต่ละคนเข้าร่วมเวิร์กช็อปออกแบบต้นแบบเพียงแบบเดียว หลังจบกิจกรรมทุกคนทำข้อสอบชุดเดียวกัน ใช้สถิติสรุปในตารางทดสอบที่ α = 0.05 สมมติว่ากลุ่มเป็นอิสระ คะแนนในแต่ละประชากรแจกแจงใกล้ปกติ และความแปรปรวนประชากรเท่ากัน',
-    data:[['รูปแบบ','n','ค่าเฉลี่ย','s'],[['วิดีโอ',15,72,8],['ลงมือทำ',12,76,7],['เพื่อนสอนเพื่อน',18,81,9]]],
+    title:"Do the three workshops lead to different mean scores?",
+    context:"Each student attends one prototype-design workshop. Everyone then takes the same test. At α = 0.05, compare the means using the summaries below. Assume independent observations, roughly normal scores in each population, and equal population variances.",
+    data:[["Workshop",'n',"Mean score",'s'],[["Video",15,72,8],["Hands-on",12,76,7],["Peer teaching",18,81,9]]],
     lesson:2,
     fields:[
-      {prompt:'ก. คำนวณค่าเฉลี่ยรวมแบบถ่วงน้ำหนัก',value:76.6667,tolerance:.02},
-      {prompt:'ข. คำนวณ F',value:5.0036,tolerance:.03},
-      {prompt:'ค. เลือกข้อสรุปจากการทดสอบ One-way ANOVA',options:['คะแนนเฉลี่ยทั้งสามแบบเท่ากัน','ทุกคู่แตกต่างกันอย่างมีนัยสำคัญ','มีหลักฐานว่าคะแนนเฉลี่ยไม่ได้เท่ากันทั้งหมด'],correct:2}
+      {prompt:"a. Calculate the weighted grand mean.",value:76.6667,tolerance:.02},
+      {prompt:"b. Calculate F.",value:5.0036,tolerance:.03},
+      {prompt:"c. Choose the one-way ANOVA conclusion.",options:["The three population means are equal.","Every pair differs significantly.","There is evidence that the three population means are not all equal."],correct:2}
     ],
     steps:[
-      ['ตั้งสมมติฐาน','H₀: μ₁ = μ₂ = μ₃ และ Hₐ: ค่าเฉลี่ยไม่ได้เท่ากันทั้งหมด ใช้ One-way ANOVA เพราะเทียบคะแนนเฉลี่ยของสามกลุ่มอิสระ'],
-      ['หาค่าเฉลี่ยรวมและความต่างระหว่างกลุ่ม','x̄รวม = (15×72 + 12×76 + 18×81)/45 ≈ 76.667 และ SS ระหว่าง = Σnᵢ(x̄ᵢ−x̄รวม)² = 670'],
-      ['หาความแกว่งภายในกลุ่ม','SS ภายใน = Σ(nᵢ−1)sᵢ² = 14×8² + 11×7² + 17×9² = 2,812'],
-      ['เปลี่ยน SS เป็น MS แล้วหาร','df ระหว่าง = 3−1 = 2 และ df ภายใน = 45−3 = 42 ได้ F = (670/2)/(2,812/42) ≈ 5.004'],
-      ['สรุป','p ≈ 0.0112 < 0.05 จึงปฏิเสธ H₀ มีหลักฐานว่าคะแนนเฉลี่ยไม่ได้เท่ากันทั้งหมด ต้องทดสอบรายคู่เพื่อระบุคู่ที่ต่าง']
+      ["State the hypotheses","H₀: μ₁ = μ₂ = μ₃. Hₐ: The means are not all equal. Use one-way ANOVA to compare three independent groups."],
+      ["Find the grand mean and between-group variation","Grand mean = (15×72 + 12×76 + 18×81)/45 ≈ 76.667. SS between = Σnᵢ(x̄ᵢ−grand mean)² = 670."],
+      ["Find the within-group variation","SS within = Σ(nᵢ−1)sᵢ² = 14×8² + 11×7² + 17×9² = 2,812."],
+      ["Convert each SS to MS and divide","Between-group df = 3−1 = 2. Within-group df = 45−3 = 42. F = (670/2)/(2,812/42) ≈ 5.004."],
+      ["Write the conclusion","p ≈ 0.0112 < 0.05. Reject H₀. The means are not all equal. Follow-up comparisons are needed to identify particular pairs."]
     ]
   },
   {
-    title:'ที่พักสัมพันธ์กับวิธีเดินทางไปมหาวิทยาลัยไหม?',
-    context:'นักศึกษา 200 คนตอบแบบสำรวจเรื่องที่พักและวิธีเดินทางหลัก คนละหนึ่งคำตอบ ใช้ α = 0.05 ทดสอบว่าตัวแปรทั้งสองเป็นอิสระกันหรือไม่',
-    data:[['วิธีเดินทาง','หอใกล้ campus','หอนอกพื้นที่','บ้าน','รวม'],[['เดิน / จักรยาน',36,18,12,66],['รถรับส่ง / รถเมล์',20,32,18,70],['รถส่วนตัว',14,20,30,64],['รวม',70,70,60,200]]],
+    title:"Is accommodation related to how students commute?",
+    context:"Two hundred students identify their accommodation and one main way of getting to university. Test independence at α = 0.05.",
+    data:[["Commute method","Dorm near campus","Off-campus dorm","Home","Total"],[["Walk or cycle",36,18,12,66],["Shuttle or bus",20,32,18,70],["Private vehicle",14,20,30,64],["Total",70,70,60,200]]],
     lesson:3,
     fields:[
-      {prompt:'ก. คำนวณ E ของช่องเดิน / จักรยาน × หอใกล้ campus',value:23.1,tolerance:.02},
-      {prompt:'ข. คำนวณ χ² จากทุกช่อง (ไม่รวมแถวและคอลัมน์ยอดรวม)',value:24.4358,tolerance:.08},
-      {prompt:'ค. เลือก df และข้อสรุป',options:['df = 4, มีหลักฐานว่าที่พักสัมพันธ์กับวิธีเดินทาง','df = 4, หลักฐานยังไม่พอว่าตัวแปรสัมพันธ์กัน','df = 8, ยืนยันว่าตัวแปรเป็นอิสระ'],correct:0}
+      {prompt:"a. Calculate E for walking or cycling among students in dorms near campus.",value:23.1,tolerance:.02},
+      {prompt:"b. Calculate χ² across the data cells. Exclude the total row and column.",value:24.4358,tolerance:.08},
+      {prompt:"c. Choose the degrees of freedom and conclusion.",options:["df = 4. There is evidence that accommodation is associated with commute method.","df = 4. There is insufficient evidence of an association.","df = 8. The variables are confirmed to be independent."],correct:0}
     ],
     steps:[
-      ['ตั้งสมมติฐาน','H₀: ที่พักกับวิธีเดินทางเป็นอิสระกัน และ Hₐ: ตัวแปรทั้งสองสัมพันธ์กัน ใช้ Chi-square test of independence'],
-      ['เติมจำนวนที่คาด','E = ยอดรวมแถว × ยอดรวมคอลัมน์ / ยอดรวมทั้งหมด ช่องแรกได้ 66×70/200 = 23.10 จำนวนคาดหมายทั้งเก้าช่องมากกว่า 5'],
-      ['คิดทีละช่อง','ช่องแรกได้ (36−23.10)²/23.10 ≈ 7.20 ลองทำแบบเดียวกันอีก 8 ช่องแล้วบวก จะได้ χ² ≈ 24.436'],
-      ['หา df แล้วตัดสิน','df = (3−1)(3−1) = 4, p ≈ 0.0000653 < 0.05 จึงปฏิเสธ H₀ มีหลักฐานว่าที่พักสัมพันธ์กับวิธีเดินทางหลัก']
+      ["State the hypotheses","H₀: Accommodation and commute method are independent. Hₐ: They are associated. Use the chi-square test of independence."],
+      ["Calculate the expected counts","E = row total × column total ÷ grand total. The first cell gives 66×70/200 = 23.10. All nine expected counts are above 5."],
+      ["Work one cell at a time","The first cell gives (36−23.10)²/23.10 ≈ 7.20. Add contributions from all nine cells to get χ² ≈ 24.436."],
+      ["Find df and make a decision","df = (3−1)(3−1) = 4, and p ≈ 0.0000653 < 0.05. Reject H₀. There is evidence that accommodation is associated with commute method."]
     ]
   },
   {
-    title:'ลูกค้ารอกาแฟเฉลี่ยกี่นาที?',
-    context:'สุ่มจับเวลาออเดอร์ 49 รายการที่เป็นอิสระกันในช่วงเช้า พบค่าเฉลี่ย 8.40 นาที และส่วนเบี่ยงเบนมาตรฐานตัวอย่าง 2.80 นาที ต้องการช่วงความเชื่อมั่น 95% ของเวลาเฉลี่ยที่ลูกค้ารอในช่วงเช้าของร้านนี้ ไม่ทราบ σ',
+    title:"How long do customers wait for coffee?",
+    context:"Time 49 independent morning orders selected at random. The mean wait is 8.40 minutes and the sample SD is 2.80 minutes. Find a 95% confidence interval for the shop's mean morning wait. The population SD is unknown.",
     lesson:0,
     fields:[
-      {prompt:'ก. ขอบล่างของช่วง 95% (นาที)',value:7.59575,tolerance:.02},
-      {prompt:'ข. ขอบบนของช่วง 95% (นาที)',value:9.20425,tolerance:.02},
-      {prompt:'ค. ประโยคใดแปลผลช่วงได้ถูกต้อง?',options:['ออเดอร์ 95% ใช้เวลาอยู่ในช่วงที่คำนวณ','เราเชื่อมั่น 95% ว่าเวลาเฉลี่ยของออเดอร์ช่วงเช้าของร้านอยู่ในช่วงที่คำนวณ','ออเดอร์ถัดไปมีโอกาส 95% ที่จะอยู่ในช่วงที่คำนวณ'],correct:1}
+      {prompt:"a. Lower bound (minutes).",value:7.59575,tolerance:.02},
+      {prompt:"b. Upper bound (minutes).",value:9.20425,tolerance:.02},
+      {prompt:"c. Choose the correct interpretation.",options:["Ninety-five percent of individual orders take a time within this interval.","We are 95% confident that the population mean morning wait lies in this interval.","The next order has a 95% chance of a wait within this interval."],correct:1}
     ],
     steps:[
-      ['เลือกการแจกแจง','ใช้ one-sample t interval เพราะใช้ s ประมาณ σ และ df = 49−1 = 48 จากตารางได้ t* ≈ 2.011'],
-      ['หา SE และระยะเผื่อ','SE = 2.80/√49 = 0.40 นาที ระยะเผื่อ = 2.011×0.40 ≈ 0.804 นาที'],
-      ['สร้างช่วง','8.40 ± 0.804 ได้ช่วงประมาณ (7.60, 9.20) นาที'],
-      ['แปลผล','เราเชื่อมั่น 95% ว่าค่าเฉลี่ยเวลารอกาแฟของออเดอร์ช่วงเช้าของร้านนี้อยู่ระหว่าง 7.60 ถึง 9.20 นาที ช่วงนี้ประมาณค่าเฉลี่ยประชากร']
+      ["Choose the reference distribution","Use a one-sample t interval because s estimates σ. With df = 49−1 = 48, t* ≈ 2.011."],
+      ["Find the SE and margin of error","SE = 2.80/√49 = 0.40 minutes. The margin is 2.011×0.40 ≈ 0.804 minutes."],
+      ["Find the endpoints","8.40 ± 0.804 gives approximately (7.60, 9.20) minutes."],
+      ["Interpret the interval","We are 95% confident that the shop's population mean morning wait lies between 7.60 and 9.20 minutes."]
     ]
   },
   {
-    title:'ค่าเช่าหอใกล้รถไฟฟ้าทำนายได้เท่าไร?',
-    context:'สำรวจห้องเช่า 50 ห้อง ใช้ขนาดห้อง (ตร.ม.) เวลาเดินถึงสถานี (นาที) และชั้นอาคาร ทำนายค่าเช่ารายเดือนในหน่วยพันบาท ผล ANOVA ของโมเดลให้ SS Regression = 96, SS Residual = 44 และ df เท่ากับ 3 กับ 46 ตามลำดับ ใช้ α = 0.05',
-    data:[['ตัวแปร','Coefficient','p-value'],[['Intercept','5.20','&lt;0.001'],['ขนาดห้อง','0.18','0.0004'],['เวลาเดินถึงสถานี','−0.35','0.008'],['ชั้นอาคาร','0.12','0.180']]],
+    title:"How much rent does the model predict?",
+    context:"Data from 50 rooms predict monthly rent in thousands of baht from room size in m², walking time to the BTS in minutes, and floor. The model gives SS Regression = 96 with 3 df and SS Residual = 44 with 46 df. Use α = 0.05.",
+    data:[["Variable",'Coefficient','p-value'],[['Intercept','5.20','&lt;0.001'],["Room size",'0.18','0.0004'],["Walking time to the station",'−0.35','0.008'],["Floor",'0.12','0.180']]],
     lesson:5,
     fields:[
-      {prompt:'ก. เลือกสมการทำนายค่าเช่า',options:['ŷ = 5.20 + 0.18(ขนาด) − 0.35(เวลาเดิน) + 0.12(ชั้น)','ŷ = 5.20 + 0.18(ขนาด) + 0.35(เวลาเดิน) + 0.12(ชั้น)','ŷ = 0.18(ขนาด) − 0.35(เวลาเดิน) + 0.12(ชั้น)'],correct:0},
-      {prompt:'ข. คำนวณ F สำหรับทดสอบโมเดลโดยรวม',value:33.4545,tolerance:.1},
-      {prompt:'ค. ตัวทำนายใดมีนัยสำคัญรายตัวที่ระดับ 0.05?',options:['ทุกตัวทำนาย','ขนาดห้องและเวลาเดินถึงสถานี','ขนาดห้องและชั้นอาคาร'],correct:1},
-      {prompt:'ง. ถ้าเดินไกลขึ้น 1 นาที โดยขนาดและชั้นคงที่ ค่าเช่าที่ทำนายจะเปลี่ยนกี่บาท? (ใส่เครื่องหมายด้วย)',value:-350,tolerance:.1},
-      {prompt:'จ. ทำนายค่าเช่าห้อง 32 ตร.ม. เดิน 8 นาที อยู่ชั้น 7 (ตอบเป็นพันบาท)',value:9,tolerance:.02}
+      {prompt:"a. Choose the prediction equation.",options:["ŷ = 5.20 + 0.18(size) − 0.35(walking time) + 0.12(floor)","ŷ = 5.20 + 0.18(size) + 0.35(walking time) + 0.12(floor)","ŷ = 0.18(size) − 0.35(walking time) + 0.12(floor)"],correct:0},
+      {prompt:"b. Calculate F for the overall model.",value:33.4545,tolerance:.1},
+      {prompt:"c. Which predictors are individually significant at 0.05?",options:["All three predictors","Room size and walking time to the station","Room size and floor"],correct:1},
+      {prompt:"d. What is the change in predicted rent in baht for one more minute of walking, with size and floor fixed? Include the sign.",value:-350,tolerance:.1},
+      {prompt:"e. Predict rent in thousands of baht for 32 m², an 8-minute walk, and floor 7.",value:9,tolerance:.02}
     ],
     steps:[
-      ['เขียนสมการ','ŷ = 5.20 + 0.18(ขนาด) − 0.35(เวลาเดิน) + 0.12(ชั้น) ได้จากคอลัมน์ Coefficient โดยคงเครื่องหมายของแต่ละตัว'],
-      ['ทดสอบทั้งโมเดล','H₀: ความชันทั้งสามเป็นศูนย์ F = (96/3)/(44/46) ≈ 33.45 ที่ df = (3,46) และ p < 0.001 จึงปฏิเสธ H₀ มีหลักฐานว่าความชันอย่างน้อยหนึ่งตัวต่างจากศูนย์'],
-      ['ดูนัยสำคัญรายตัว','ขนาด (p = 0.0004) และเวลาเดิน (p = 0.008) ผ่านเกณฑ์ 0.05 ส่วนชั้น (p = 0.180) ยังมีหลักฐานไม่พอว่าความชันต่างจากศูนย์'],
-      ['แปลความชันและแปลงหน่วย','เมื่อขนาดและชั้นคงที่ เดินเพิ่ม 1 นาทีสัมพันธ์กับค่าเช่าที่ทำนายลดลง 0.35 พันบาท หรือ 350 บาท'],
-      ['แทนค่าทำนาย','5.20 + 0.18(32) − 0.35(8) + 0.12(7) = 9.00 พันบาท หรือ 9,000 บาทต่อเดือน']
+      ["Write the prediction equation","Use the Coefficient column and keep each sign: ŷ = 5.20 + 0.18(size) − 0.35(walking time) + 0.12(floor)."],
+      ["Test the overall model","H₀: All three slopes are zero. F = (96/3)/(44/46) ≈ 33.45 with df = (3,46). Since p < 0.001, reject H₀."],
+      ["Test each coefficient","Size (p = 0.0004) and walking time (p = 0.008) meet the 0.05 level. For floor (p = 0.180), there is insufficient evidence of a nonzero slope."],
+      ["Interpret the slope and convert the units","With size and floor fixed, an extra minute of walking lowers predicted rent by 0.35 thousand baht, or 350 baht."],
+      ["Predict the rent","5.20 + 0.18(32) − 0.35(8) + 0.12(7) = 9.00 thousand baht, or 9,000 baht per month."]
     ]
   }
 ];
@@ -173,9 +173,8 @@ function mockDiagnosis() {
 }
 
 function mockPager(index, review = false) {
-  return `<div class="mock-pager" role="group" aria-label="เลือกข้อ">${mockQuestions.map((_, i) =>
-    `<button type="button" class="button quiet" data-mock-page="${i}" ${i === index ? 'aria-current="step"' : ''}
-      aria-label="ข้อ ${i+1}${review ? '' : mockComplete(i, mockState.questions[i].values) ? ' ตอบครบแล้ว' : ' ยังตอบไม่ครบ'}">${i+1}${!review && mockComplete(i, mockState.questions[i].values) ? ' ✓' : ''}</button>`
+  return `<div class="mock-pager" role="group" aria-label="Choose a question">${mockQuestions.map((_, i) =>
+    `<button type="button" class="button quiet" data-mock-page="${i}" ${i === index ? 'aria-current="step"' : ''} aria-label="Question ${i+1}${review ? '' : mockComplete(i, mockState.questions[i].values) ? " complete" : " incomplete"}">${i+1}${!review && mockComplete(i, mockState.questions[i].values) ? ' ✓' : ''}</button>`
   ).join('')}</div>`;
 }
 
@@ -185,17 +184,17 @@ function mockFields(question) {
       <legend>${field.prompt}</legend>
       ${field.options.map((option, i) => `<label class="mock-option"><input type="radio" name="mock-field-${index}" data-mock-field="${index}" value="${i}"><span>${option}</span></label>`).join('')}
     </fieldset>` :
-    `<label class="mock-field mock-number"><strong>${field.prompt}</strong><input type="text" inputmode="decimal" autocomplete="off" data-mock-field="${index}" placeholder="คำตอบเป็นตัวเลข" maxlength="28"></label>`).join('');
+    `<label class="mock-field mock-number"><strong>${field.prompt}</strong><input type="text" inputmode="decimal" autocomplete="off" data-mock-field="${index}" placeholder="Enter a number" maxlength="28"></label>`).join('');
 }
 
 function updateMockProgress() {
   const done = mockQuestions.map((_, i) => mockComplete(i, mockState.questions[i].values));
   const count = done.filter(Boolean).length;
-  get('mock-progress-text').textContent = `ตอบครบ ${count} จาก ${mockQuestions.length} ข้อ`;
+  get('mock-progress-text').textContent = `${count} of ${mockQuestions.length} questions complete`;
   get('mock-progress-bar').style.width = `${100 * count / mockQuestions.length}%`;
   get('mock-body').querySelectorAll('[data-mock-page]').forEach((button, i) => {
     button.textContent = (i+1) + (done[i] ? ' ✓' : '');
-    button.setAttribute('aria-label', `ข้อ ${i+1} ${done[i] ? 'ตอบครบแล้ว' : 'ยังตอบไม่ครบ'}`);
+    button.setAttribute('aria-label', `Question ${i+1} ${done[i] ? "complete" : "incomplete"}`);
   });
 }
 
@@ -203,26 +202,21 @@ function renderMockAttempt(box) {
   const index = mockState.index;
   const question = mockQuestions[index];
   const entry = mockState.questions[index];
-  box.innerHTML = `
-    <p class="kicker">ข้อสอบจำลอง · ข้อ ${index+1} / ${mockQuestions.length}</p>
+  box.innerHTML = `<p class="kicker">Mock exam · Question ${index+1} / ${mockQuestions.length}</p>
     <h1 tabindex="-1">${question.title}</h1>
-    <p>คิดเหมือนทำข้อสอบจริงแล้วค่อยกรอกคำตอบ เฉลยจะเปิดหลังส่งครบทั้งชุด</p>
-    ${mockPager(index)}
-    <p id="mock-progress-text" class="muted" role="status"></p>
-    <div class="progress" aria-hidden="true"><span id="mock-progress-bar"></span></div>
-    <div class="problem"><p>${question.context}</p>${question.data ? table(...question.data) : ''}</div>
-    <p class="muted">กรอกตัวเลขเป็นทศนิยมอย่างน้อย 2 ตำแหน่งเมื่อจำเป็น และปัดเศษตอนสุดท้าย</p>
-    ${mockFields(question)}
-    <details class="mock-work"><summary>จดวิธีทำของข้อนี้</summary>
-      <label for="mock-work">เช่น H₀/Hₐ สูตรที่ใช้ และข้อสรุป</label>
-      <textarea id="mock-work" rows="4" maxlength="2400" placeholder="จดตรงนี้หรือทำบนกระดาษ"></textarea>
-    </details>
-    <div class="actions">
-      ${index > 0 ? '<button class="button quiet" type="button" id="mock-prev">ข้อก่อนหน้า</button>' : ''}
-      ${index < mockQuestions.length-1 ? '<button class="button quiet" type="button" id="mock-next">ข้อถัดไป</button>' : ''}
-      <button class="button primary" type="button" id="mock-submit">ส่งคำตอบทั้งชุด</button>
+    <p>Work through the questions before checking the answers. Solutions unlock when you submit the full set.</p>${mockPager(index)}<p id="mock-progress-text" class="muted" role="status">
+    </p>
+    <div class="progress" aria-hidden="true"><span id="mock-progress-bar"></span>
     </div>
-    <p id="mock-submit-message" role="status"></p>`;
+    <div class="problem">
+    <p>${question.context}</p>${question.data ? table(...question.data) : ''}</div>
+    <p class="muted">Use at least two decimal places when needed. Round at the end.</p>${mockFields(question)}<details class="mock-work"><summary>Show your working</summary>
+    <label for="mock-work">You can note H₀ and Hₐ, your formula, and a conclusion.</label><textarea id="mock-work" rows="4" maxlength="2400" placeholder="Write your working here or use paper"></textarea>
+    </details>
+    <div class="actions">${index > 0 ? "<button class=\"button quiet\" type=\"button\" id=\"mock-prev\">Previous question</button>" : ''}${index < mockQuestions.length-1 ? "<button class=\"button quiet\" type=\"button\" id=\"mock-next\">Next question</button>" : ''}<button class="button primary" type="button" id="mock-submit">Submit all answers</button>
+    </div>
+    <p id="mock-submit-message" role="status">
+    </p>`;
 
   box.querySelectorAll('[data-mock-field]').forEach(input => {
     const fieldIndex = Number(input.dataset.mockField);
@@ -256,7 +250,7 @@ function renderMockAttempt(box) {
     if (missing.length) {
       openQuestion(missing[0]);
       get('mock-submit-message').className = 'tip';
-      get('mock-submit-message').textContent = `กรอกคำตอบข้อ ${missing.map(i => i+1).join(', ')} ให้ครบก่อนส่ง`;
+      get('mock-submit-message').textContent = `Finish question(s) ${missing.map(i => i+1).join(', ')} before submitting.`;
       get('mock-submit-message').tabIndex = -1;
       get('mock-submit-message').focus();
       return;
@@ -272,25 +266,25 @@ function renderMockResults(box) {
   const diagnosis = mockDiagnosis();
   const missed = diagnosis.filter(item => !item.correct);
   const remaining = missed.filter(item => !mockState.drilled.includes(item.key));
-  box.innerHTML = `<p class="kicker">ส่งข้อสอบจำลองแล้ว</p><h1 tabindex="-1">ได้ ${diagnosis.length - missed.length} / ${diagnosis.length} คะแนน</h1>
-    <p>แต่ละข้อย่อยมี 1 คะแนน ส่วนวิธีทำที่จดไว้ ให้ตรวจเทียบกับเฉลยทีละขั้นด้วยตัวเอง</p>
+  box.innerHTML = `<p class="kicker">Mock exam submitted</p>
+    <h1 tabindex="-1">Score: ${diagnosis.length - missed.length} / ${diagnosis.length}</h1>
+    <p>Each part is one point. Compare your written working with the step-by-step solution.</p>
     <section class="mock-diagnosis" aria-labelledby="diagnosis-title">
-      <h2 id="diagnosis-title">พลาดตรงไหน?</h2>
-      <p class="muted">สรุปจากทักษะที่แต่ละข้อย่อยวัด หากตัวเลขคลาดเคลื่อน ให้เทียบวิธีทำกับเฉลยเพื่อดูว่าพลาดตอนเลือกตัวเลข แทนสูตร หรือคำนวณ</p>
-      <div class="mock-skill-grid">${Object.entries(mockSkills).map(([key, skill]) => {
+    <h2 id="diagnosis-title">Where did you lose marks?</h2>
+    <p class="muted">This summary groups the skills tested by each part. For a missed numerical answer, compare your working with the solution to see which step needs practice.</p>
+    <div class="mock-skill-grid">${Object.entries(mockSkills).map(([key, skill]) => {
         const entries = diagnosis.filter(item => item.skill === key);
         const errors = entries.filter(item => !item.correct);
-        return `<div class="mock-skill"><h3>${skill.label}</h3>
-          <strong>ถูก ${entries.length - errors.length}/${entries.length}</strong><p class="muted">${skill.description}</p>
-          ${errors.length ? `<ul>${errors.map(error => `<li>ข้อ ${error.index+1} · ${error.title}${mockState.drilled.includes(error.key) ? ' <span class="tag done">ฝึกผ่านแล้ว</span>' : ''}</li>`).join('')}</ul>` : '<p>ทำถูกทุกข้อที่วัดทักษะนี้</p>'}</div>`;
-      }).join('')}</div>
-      ${remaining.length ? `<div class="actions"><button class="button primary" id="mock-start-drills" type="button">ฝึกเฉพาะจุด · เหลือ ${remaining.length} ข้อ</button></div>` :
-        `<p class="feedback">${missed.length ? 'ทำโจทย์ใหม่ผ่านครบทุกจุดที่พลาดแล้ว' : 'ทำถูกครบทุกข้อในชุดนี้ จึงไม่มีโจทย์เฉพาะจุดให้ฝึกเพิ่ม'}</p>`}
-    </section>
-    <h2>เฉลยข้อสอบทีละขั้น</h2>
+        return `<div class="mock-skill">
+    <h3>${skill.label}</h3><strong>${entries.length - errors.length} / ${entries.length} correct</strong>
+    <p class="muted">${skill.description}</p>${errors.length ? `<ul>${errors.map(error => `<li>Question ${error.index+1} · ${error.title}${mockState.drilled.includes(error.key) ? " <span class=\"tag done\">Practised</span>" : ''}</li>`).join('')}</ul>` : "<p>All the parts that test this skill were correct.</p>"}</div>`;
+      }).join('')}</div>${remaining.length ? `<div class="actions"><button class="button primary" id="mock-start-drills" type="button">Targeted practice · ${remaining.length} remaining</button></div>` :
+        `<p class="feedback">${missed.length ? "You have completed a new practice question for every skill you missed." : "You got every part right. There are no missed skills to practise from this attempt."}</p>`}</section>
+    <h2>Step-by-step solutions</h2>
     <ol class="mock-results">${mockQuestions.map((question, i) => `<li><button type="button" class="button quiet" data-mock-review="${i}">
       <span>${i+1}. ${question.title}</span><strong>${mockScore(question, i)}/${question.fields.length}</strong></button></li>`).join('')}</ol>
-    <div class="actions"><a class="button primary" href="#forecast">ลองชุดเก็ง 15 วินาที</a><button class="button quiet" type="button" id="mock-reset">เริ่มทำชุดนี้ใหม่</button><a class="button quiet" href="#exam">กลับไปชุดซ้อมจากชีต</a></div>`;
+    <div class="actions"><a class="button primary" href="#forecast">Try the 15-second mock</a><button class="button quiet" type="button" id="mock-reset">Retake this mock</button><a class="button quiet" href="#exam">Back to course practice</a>
+    </div>`;
   box.querySelectorAll('[data-mock-review]').forEach(button => button.addEventListener('click', () => {
     mockReview = Number(button.dataset.mockReview);
     renderMock(true);
@@ -300,7 +294,7 @@ function renderMockResults(box) {
     renderMock(true);
   });
   get('mock-reset').addEventListener('click', () => {
-    if (!confirm('เริ่มใหม่และล้างคำตอบกับคะแนนของข้อสอบจำลองชุดนี้ไหม?')) return;
+    if (!confirm("Reset your answers and score for this mock exam?")) return;
     mockState = emptyMock();
     mockDrillKey = null;
     saveMock();
@@ -313,19 +307,17 @@ function renderMockDrill(box) {
   const entry = missed.find(item => item.key === mockDrillKey);
   const drill = mockDrills[entry.key];
   const passed = mockState.drilled.filter(key => missed.some(item => item.key === key)).length;
-  box.innerHTML = `<p class="kicker">ฝึกเฉพาะจุด · ${mockSkills[entry.skill].label}</p>
+  box.innerHTML = `<p class="kicker">Targeted practice · ${mockSkills[entry.skill].label}</p>
     <h1 tabindex="-1">${drill.title}</h1>
-    <p class="muted" id="mock-drill-progress">ฝึกผ่าน ${passed} จาก ${missed.length} จุด · จากข้อสอบข้อ ${entry.index+1}</p>
-    <div class="problem"><p>${drill.prompt}</p></div>
-    <form id="mock-drill-form">
-      ${mockFields({fields:[{...drill, prompt:'คำตอบของคุณ'}]})}
-      <button class="button primary" id="mock-drill-check" type="submit">ตรวจคำตอบ</button>
-      <p id="mock-drill-feedback" role="status"></p>
-      <button class="button primary" id="mock-drill-next" type="button" hidden></button>
+    <p class="muted" id="mock-drill-progress">Completed ${passed} / ${missed.length} skills · From question ${entry.index+1}</p>
+    <div class="problem">
+    <p>${drill.prompt}</p>
+    </div>
+    <form id="mock-drill-form">${mockFields({fields:[{...drill, prompt:"Your answer"}]})}<button class="button primary" id="mock-drill-check" type="submit">Check answer</button>
+    <p id="mock-drill-feedback" role="status">
+    </p><button class="button primary" id="mock-drill-next" type="button" hidden></button>
     </form>
-    <div class="actions">
-      <button class="button quiet" id="mock-drill-back" type="button">กลับไปดูสรุป</button>
-      <a class="button quiet" href="#lesson-${mockQuestions[entry.index].lesson}">ทวนบทที่เกี่ยวข้อง</a>
+    <div class="actions"><button class="button quiet" id="mock-drill-back" type="button">Back to the summary</button><a class="button quiet" href="#lesson-${mockQuestions[entry.index].lesson}">Review the related lesson</a>
     </div>`;
   get('mock-drill-form').addEventListener('submit', event => {
     event.preventDefault();
@@ -333,27 +325,27 @@ function renderMockDrill(box) {
     const feedback = get('mock-drill-feedback');
     if (!answer || (!drill.options && !Number.isFinite(mockNumber(answer.value)))) {
       feedback.className = 'feedback retry';
-      feedback.textContent = drill.options ? 'เลือกหนึ่งคำตอบก่อนตรวจ' : 'กรอกคำตอบเป็นตัวเลขก่อนตรวจ';
+      feedback.textContent = drill.options ? "Choose one answer first." : "Enter a number before checking.";
       return;
     }
     if (!mockCorrect(drill, answer.value)) {
       feedback.className = 'feedback retry';
-      feedback.textContent = 'ลองอีกครั้ง · ' + drill.hint;
+      feedback.textContent = "Try again · " + drill.hint;
       return;
     }
     if (!mockState.drilled.includes(entry.key)) mockState.drilled.push(entry.key);
     saveMock();
     feedback.className = 'feedback';
-    feedback.textContent = 'ถูกครับ · ' + drill.explanation;
+    feedback.textContent = "Correct · " + drill.explanation;
     box.querySelectorAll('[data-mock-field]').forEach(input => {input.disabled = true;});
     const checkButton = get('mock-drill-check');
     checkButton.disabled = true;
     checkButton.hidden = true;
     const remaining = missed.find(item => !mockState.drilled.includes(item.key));
     const next = get('mock-drill-next');
-    next.textContent = remaining ? 'ฝึกจุดถัดไป' : 'ดูสรุปหลังฝึก';
+    next.textContent = remaining ? "Next skill to practise" : "See the practice summary";
     next.hidden = false;
-    get('mock-drill-progress').textContent = `ฝึกผ่าน ${passed + 1} จาก ${missed.length} จุด · จากข้อสอบข้อ ${entry.index+1}`;
+    get('mock-drill-progress').textContent = `Completed ${passed + 1} / ${missed.length} skills · From question ${entry.index+1}`;
     next.addEventListener('click', () => {
       mockDrillKey = remaining?.key ?? null;
       renderMock(true);
@@ -370,17 +362,16 @@ function renderMockDrill(box) {
 function renderMockReview(box, index) {
   const question = mockQuestions[index];
   const entry = mockState.questions[index];
-  box.innerHTML = `<p class="kicker">เฉลยข้อ ${index+1} / ${mockQuestions.length}</p><h1 tabindex="-1">${question.title}</h1>
-    ${mockPager(index, true)}
-    <div class="problem"><p>${question.context}</p>${question.data ? table(...question.data) : ''}</div>
-    <h2>คำตอบของคุณ</h2>
-    <ol class="steps" id="mock-own-answers"></ol>
-    ${entry.work ? '<details class="mock-work"><summary>วิธีทำที่คุณจดไว้</summary><p id="mock-own-work"></p></details>' : ''}
-    <h2>เฉลยทีละขั้น</h2>
-    <ol class="steps" id="mock-solution" aria-label="ขั้นตอนเฉลย"></ol>
-    <button type="button" class="button primary" id="mock-reveal"></button>
-    <div class="actions"><button class="button quiet" type="button" id="mock-back-score">กลับไปดูคะแนน</button>
-      <a class="button quiet" href="#lesson-${question.lesson}">ทวนบท ${topics[question.lesson].title}</a></div>`;
+  box.innerHTML = `<p class="kicker">Solution ${index+1} / ${mockQuestions.length}</p>
+    <h1 tabindex="-1">${question.title}</h1>${mockPager(index, true)}<div class="problem">
+    <p>${question.context}</p>${question.data ? table(...question.data) : ''}</div>
+    <h2>Your answers</h2>
+    <ol class="steps" id="mock-own-answers">
+    </ol>${entry.work ? "<details class=\"mock-work\"><summary>Your written working</summary><p id=\"mock-own-work\"></p></details>" : ''}<h2>Work through the solution</h2>
+    <ol class="steps" id="mock-solution" aria-label="Solution steps">
+    </ol><button type="button" class="button primary" id="mock-reveal"></button>
+    <div class="actions"><button class="button quiet" id="mock-back-score" type="button">Back to scores</button><a class="button quiet" href="#lesson-${question.lesson}">Review ${topics[question.lesson].title}</a>
+    </div>`;
   question.fields.forEach((field, i) => {
     const item = document.createElement('li');
     const response = field.options ? field.options[Number(entry.values[i])] : entry.values[i];
@@ -400,7 +391,7 @@ function renderMockReview(box, index) {
       const correct = mockCorrect(question.fields[i], entry.values[i]);
       const badge = document.createElement('span');
       badge.className = 'tag mock-result-tag' + (correct ? ' done' : '');
-      badge.textContent = correct ? 'ถูก' : 'ทบทวน';
+      badge.textContent = correct ? "Correct" : "Review";
       item.append(' ', badge);
     });
   });
@@ -408,7 +399,7 @@ function renderMockReview(box, index) {
 
 function bindExamStepReveal(list, button, steps, onComplete = () => {}) {
   let step = 0;
-  button.textContent = `เปิดขั้นที่ 1 จาก ${steps.length}`;
+  button.textContent = `Reveal step 1 of ${steps.length}`;
   button.addEventListener('click', () => {
     const [heading, explanation] = steps[step++];
     const element = document.createElement('li');
@@ -421,7 +412,7 @@ function bindExamStepReveal(list, button, steps, onComplete = () => {}) {
     list.append(element);
     element.focus();
     button.disabled = step === steps.length;
-    button.textContent = button.disabled ? 'เปิดเฉลยครบแล้ว' : `เปิดขั้นที่ ${step+1} จาก ${steps.length}`;
+    button.textContent = button.disabled ? "All steps revealed" : `Reveal step ${step+1} of ${steps.length}`;
     if (button.disabled) onComplete();
   });
 }

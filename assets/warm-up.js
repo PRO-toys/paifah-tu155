@@ -2,27 +2,27 @@
 
 const warmQuestions = [
   {
-    title:'ชาไทยสูตรใหม่ ชนะสูตรเดิมไหม?',
-    prompt:'ให้เพื่อนชุดเดิมชิมทั้งสองสูตรแล้วให้คะแนน อยากรู้ว่าคะแนนเฉลี่ยเปลี่ยนไหม',
-    options:['เทียบคะแนนของคนเดิมทีละคู่','เทียบเหมือนเป็นเพื่อนสองกลุ่ม','นับจำนวนคนในแต่ละหมวด'],
+    title:"Does the new Thai tea recipe score differently?",
+    prompt:"The same friends taste both recipes and rate them. You want to know whether the average score changed.",
+    options:["Compare the two scores from each person.","Compare the scores as two separate groups.","Count the people in each category."],
     correct:0,
-    explain:'คนเดิมชิมสองรอบ จับคู่คะแนนของแต่ละคนได้เลย คำจำคือ คนเดิม → ลบทีละคน → Paired t-test',
+    explain:"Each friend tastes both recipes. Match their two scores, then subtract one from the other. That is the idea behind a paired t-test.",
     formula:'paired-t'
   },
   {
-    title:'ถามเพื่อนเพิ่ม จะมั่นใจขึ้นแค่ไหน?',
-    prompt:'จากเดิมสุ่มถาม 4 คน เปลี่ยนเป็น 16 คน ถ้า SD เท่าเดิม ค่า SE ของค่าเฉลี่ยเปลี่ยนอย่างไร?',
-    options:['เหลือหนึ่งในสี่','เหลือครึ่งหนึ่ง','เท่าเดิม'],
+    title:"What happens when you ask more people?",
+    prompt:"You increase a random sample from 4 to 16 people. If the SD stays the same, what happens to the standard error of the mean?",
+    options:["It drops to one quarter.","It drops by half.","It stays the same."],
     correct:1,
-    explain:'SE = SD ÷ √n จำนวนคนมากขึ้น 4 เท่า แต่ √n เพิ่ม 2 เท่า ค่า SE จึงเหลือครึ่งเดียว',
+    explain:"SE = SD ÷ √n. The sample becomes four times as large, so √n doubles and the SE falls by half.",
     formula:'ci-mean'
   },
   {
-    title:'เดินไกลขึ้น ค่าเช่าที่ทำนายเปลี่ยนเท่าไร?',
-    prompt:'โมเดลค่าเช่าหน่วยพันบาทให้ความชันของเวลาเดินเท่ากับ −0.3 ต่อนาที ถ้าเดินเพิ่ม 1 นาทีและตัวอื่นคงที่ จะอ่านอย่างไร?',
-    options:['ลดลง 3 บาท','เพิ่มขึ้น 300 บาท','ลดลง 300 บาท'],
+    title:"How does a longer walk affect predicted rent?",
+    prompt:"A rent model uses thousands of baht. The coefficient for walking time is −0.3 per minute. What happens if the walk is one minute longer and everything else stays fixed?",
+    options:["It falls by 3 baht.","It rises by 300 baht.","It falls by 300 baht."],
     correct:2,
-    explain:'เครื่องหมายลบแปลว่าค่าทำนายลดลง และ 0.3 พันบาทเท่ากับ 300 บาท จุดนี้ให้เช็กเครื่องหมายกับหน่วยเสมอ',
+    explain:"The minus sign means the prediction falls. A change of 0.3 thousand baht is 300 baht. Check both the sign and the units.",
     formula:'regression-predict'
   }
 ];
@@ -38,21 +38,33 @@ function renderWarmUp(moveFocus = false) {
   const marks=warmQuestions.map((_,i)=>`<span class="${i<warmAnswers.length?'seen':''}"></span>`).join('');
   if (complete) {
     const score=warmAnswers.filter((choice,i)=>choice===warmQuestions[i].correct).length;
-    box.innerHTML=`<div class="warm-rail"><p>จบเกมอุ่นเครื่อง</p><div class="warm-marks" aria-hidden="true">${marks}</div></div>
-      <div class="warm-content"><h2 id="warm-heading" tabindex="-1">ตอบถูก ${score} / ${warmQuestions.length} ข้อ</h2>
-        <p>${score===warmQuestions.length?'พร้อมลองโจทย์สลับบท หรือจับเวลาเลือกวิธีได้เลย':'ลองทวนจุดที่พลาด แล้วกลับมาตอบจากความจำอีกครั้ง'}</p>
-        <div class="actions"><a class="button primary" href="#quick-quiz">เล่นเกมเลือกสูตรต่อ</a><button class="button quiet" type="button" id="warm-reset">เล่นใหม่</button></div></div>`;
+    box.innerHTML=`<div class="warm-rail">
+    <p>Warm-up complete</p>
+    <div class="warm-marks" aria-hidden="true">${marks}</div>
+    </div>
+    <div class="warm-content">
+    <h2 id="warm-heading" tabindex="-1">${score} / ${warmQuestions.length} correct</h2>
+    <p>${score===warmQuestions.length?"Try a mixed round or put your method choice on the clock.":"Review the ideas you missed, then try again from memory."}</p>
+    <div class="actions"><a class="button primary" href="#quick-quiz">Play the formula game</a><button class="button quiet" type="button" id="warm-reset">Play again</button>
+    </div>
+    </div>`;
     get('warm-reset').addEventListener('click',()=>{warmIndex=0;warmAnswers.length=0;renderWarmUp(true);});
   } else {
-    box.innerHTML=`<div class="warm-rail"><p>เกมอุ่นเครื่อง</p><strong>ข้อ ${warmIndex+1} / ${warmQuestions.length}</strong><div class="warm-marks" aria-hidden="true">${marks}</div></div>
-      <div class="warm-content"><h2 id="warm-heading" tabindex="-1">${question.title}</h2><p>${question.prompt}</p>
-        <div class="warm-choices" role="group" aria-label="เลือกคำตอบ">${question.options.map((label,i)=>`
+    box.innerHTML=`<div class="warm-rail">
+    <p>Warm-up</p><strong>Question ${warmIndex+1} / ${warmQuestions.length}</strong>
+    <div class="warm-marks" aria-hidden="true">${marks}</div>
+    </div>
+    <div class="warm-content">
+    <h2 id="warm-heading" tabindex="-1">${question.title}</h2>
+    <p>${question.prompt}</p>
+    <div class="warm-choices" role="group" aria-label="Choose an answer">${question.options.map((label,i)=>`
           <button class="choice${selected===undefined?'':i===question.correct?' good':i===selected?' bad':''}" type="button" data-warm-answer="${i}" ${selected===undefined?'':'disabled'}>
-            <span class="warm-letter" aria-hidden="true">${['ก','ข','ค'][i]}</span><span>${label}${selected!==undefined&&i===question.correct?' ✓':''}</span>
-          </button>`).join('')}</div>
-        ${selected===undefined?'':`<div class="feedback${selected===question.correct?'':' retry'} warm-feedback" tabindex="-1" id="warm-note"><strong>${selected===question.correct?'ถูกแล้ว':'เคล็ดลับของข้อนี้'}</strong><p>${question.explain}</p></div>
-          <div class="actions"><button class="button primary" id="warm-next" type="button">${warmIndex===warmQuestions.length-1?'ดูสรุป':'เล่นข้อต่อไป'}</button>
-            <a class="button quiet" href="#formula-${question.formula}">ลองสูตรนี้</a></div>`}</div>`;
+            <span class="warm-letter" aria-hidden="true">${["A","B","C"][i]}</span><span>${label}${selected!==undefined&&i===question.correct?' ✓':''}</span>
+          </button>`).join('')}</div>${selected===undefined?'':`<div class="feedback${selected===question.correct?'':' retry'} warm-feedback" tabindex="-1" id="warm-note"><strong>${selected===question.correct?"Correct":"The clue to look for"}</strong>
+    <p>${question.explain}</p>
+    </div>
+    <div class="actions"><button class="button primary" id="warm-next" type="button">${warmIndex===warmQuestions.length-1?"See your score":"Next question"}</button><a class="button quiet" href="#formula-${question.formula}">Try this formula</a>
+    </div>`}</div>`;
     box.querySelectorAll('[data-warm-answer]').forEach(button=>button.addEventListener('click',()=>{
       warmAnswers[warmIndex]=Number(button.dataset.warmAnswer);
       renderWarmUp();

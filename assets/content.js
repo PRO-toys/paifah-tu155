@@ -6,112 +6,112 @@ const sources = [
   ['Lecture 11 · Comparing Proportions & Chi-square'],
   ['Lecture 12 · Simple Linear Regression'],
   ['Lecture 13 · Multiple Linear Regression'],
-  ['ชุดซ้อมปลายภาค · 6 ข้อ']
+  ["Final Practice Questions · 6 questions"]
 ];
 
 const topics = [
-  {title:'ช่วงความเชื่อมั่น', short:'CI', context:'อยากรู้ว่านักศึกษานอนเฉลี่ยกี่ชั่วโมง', cue:'ประมาณค่าเป็นช่วง', 
-   story:'คุณถามเพื่อนเรื่องเวลานอนแล้วได้ค่าเฉลี่ย 6.83 ชม. ถ้าถามเพื่อนอีกชุด ค่าเฉลี่ยอาจขยับ เราเลยให้ช่วงรอบตัวเลขที่หาได้',
-   prompt:'ลองเลื่อนจำนวนเพื่อนที่ตอบ แล้วทายว่าช่วงจะกว้างขึ้นหรือแคบลง',
+  {title:"Confidence intervals", short:'CI', context:"How long do students sleep on average?", cue:"Estimate a range",
+   story:"Your friends average 6.83 hours of sleep. Another sample might give a different average. A confidence interval puts a margin around the sample estimate.",
+   prompt:"Change the number of respondents. Will the interval grow or shrink?",
    parts:[
-    ['ตั้งจุดกลาง','ใช้ค่าเฉลี่ยที่สังเกตได้ x̄ เป็นค่าประมาณของค่าเฉลี่ยประชากร μ'],
-    ['วัดว่าจุดกลางแกว่งแค่ไหน','SE = s/√n เพราะการเฉลี่ยข้อมูลอิสระหลายคนทำให้ค่าเฉลี่ยแกว่งน้อยลง ถ้า n เพิ่ม 4 เท่า SE จะเหลือครึ่งหนึ่งเมื่อ s คงที่'],
-    ['เผื่อระยะออกสองข้าง','CI = ค่าประมาณ ± (ค่าวิกฤต × SE) ใช้ t* ที่ df = n − 1 เมื่อประมาณ σ ด้วย s และใช้ z* เมื่อรู้ σ ถ้าเป็นสัดส่วนใช้ p̂ ± z*√[p̂(1−p̂)/n] เมื่อจำนวนสำเร็จและไม่สำเร็จมากพอ']
+    ["Choose the centre","Use the sample mean x̄ to estimate the population mean μ."],
+    ["Measure how much the estimate varies","SE = s/√n. With independent observations, the mean from a larger sample is more precise. If n quadruples and s stays fixed, SE halves."],
+    ["Allow a margin on both sides","CI = estimate ± critical value × SE. For a mean, use t* with df = n−1 when estimating σ with s. Use z* when σ is known. For a proportion, use p̂ ± z*√[p̂(1−p̂)/n] with sufficiently many successes and failures."]
    ],
-   example:'นอนเฉลี่ย 6.83 ชม., s = 1.33, n = 60 → SE = 1.33/√60 ≈ 0.172 → t* ≈ 2.001 → 95% CI ≈ (6.49, 7.17) ชม. เราเชื่อมั่น 95% ว่าค่าเฉลี่ยเวลานอนของประชากรเป้าหมายอยู่ในช่วงนี้',
-   tip:'95% เป็นอัตราที่วิธีสร้างช่วงจะครอบคลุมค่าจริงเมื่อสุ่มซ้ำหลายครั้งภายใต้สมมติฐานเดิม ช่วงนี้อธิบายค่าเฉลี่ยประชากร',
-   check:['ถ้าเพิ่มจำนวนคนเป็น 4 เท่าและใช้ s เดิม SE จะเป็นเท่าไร?', ['ครึ่งหนึ่ง','เท่าเดิม','สองเท่า'],0,'√4 = 2 ตัวหารจึงใหญ่ขึ้น 2 เท่า']
+   example:"Mean sleep = 6.83 h, s = 1.33, n = 60. SE = 1.33/√60 ≈ 0.172, t* ≈ 2.001, and the 95% CI is approximately (6.49, 7.17) hours. We are 95% confident that the target population mean lies in this interval.",
+   tip:"Across repeated random samples, about 95% of intervals constructed this way cover the true mean under the assumptions of the method.",
+   check:["If the sample size quadruples and s stays fixed, what happens to the SE?", ["It halves.","It stays the same.","It doubles."],0,"√4 = 2, so the denominator doubles."]
   },
-  {title:'ทดสอบสมมติฐาน', short:'สมมติฐาน', context:'ค่าอาหารเฉลี่ยต่างจาก 60 บาทไหม', cue:'เทียบหลักฐานกับเกณฑ์',
-   story:'สมมติร้านบอกว่าลูกค้าจ่ายเฉลี่ย 60 บาท แต่กลุ่มที่สำรวจจ่ายเฉลี่ย 64 บาท เราอยากรู้ว่าความต่าง 4 บาทใหญ่แค่ไหนเมื่อเทียบกับความแกว่งของค่าเฉลี่ย',
-   prompt:'ค่าตัวอย่างจำลองมี p ทางขวา = 0.039 ลองสลับข้ออ้างแล้วดูว่าผลเปลี่ยนอย่างไร',
+  {title:"Hypothesis testing", short:"Hypotheses", context:"Does the average meal cost differ from 60 baht?", cue:"Compare the evidence with a threshold",
+   story:"A café says customers spend an average of 60 baht. Your sample averages 64 baht. How large is that gap of 4 baht compared with the uncertainty of the sample mean?",
+   prompt:"The simulated result has a right-tail p-value of 0.039. Change the alternative hypothesis to see what happens.",
    parts:[
-    ['เขียนข้ออ้างก่อนดูข้อมูล','H₀ ตั้งค่าอ้างอิง เช่น μ = 60 ส่วน Hₐ ใช้ ≠ เมื่อถาม “ต่างไหม” ใช้ > เมื่อถาม “สูงขึ้นไหม” และใช้ < เมื่อถาม “ต่ำลงไหม”'],
-    ['ทำให้ผลต่างอ่านได้ในหน่วยเดียวกัน','t = (x̄ − μ₀)/(s/√n) บอกว่าค่าเฉลี่ยตัวอย่างอยู่ห่างจากค่าอ้างอิงกี่หน่วย SE ถ้ารู้ σ ให้ใช้ z และแทน s ด้วย σ สำหรับการทดสอบสัดส่วนกลุ่มเดียว z = (p̂ − p₀)/√[p₀(1−p₀)/n] โดยใช้ p₀ ในตัวหารเพราะคำนวณภายใต้ H₀'],
-    ['เทียบ p กับ α แล้วตอบเป็นคำพูด','p คือโอกาสเห็นสถิติสุดโต่งเท่านี้หรือมากกว่า ถ้า H₀ เป็นจริงและใช้หางตาม Hₐ ถ้า p ≤ α ให้ปฏิเสธ H₀ ถ้า p > α ให้สรุปว่าหลักฐานยังไม่พอ']
+    ["State the claims before seeing the data","H₀ gives the reference value, such as μ = 60. In Hₐ, use ≠ for different, > for higher, and < for lower."],
+    ["Express the difference in standard-error units","t = (x̄ − μ₀)/(s/√n) tells you how many standard errors the sample mean is from the reference. With known σ, use z and replace s with σ. For one proportion, use z = (p̂ − p₀)/√[p₀(1−p₀)/n] because the denominator is computed under H₀."],
+    ["Compare p with α and write a conclusion","Under H₀, p is the probability of a test statistic at least as extreme as the one observed, using the tails from Hₐ. Reject H₀ if p ≤ α. Otherwise, report insufficient evidence."]
    ],
-   example:'เขียนคำตอบ 6 ขั้นตามชีต ตั้ง H₀/Hₐ → เลือกสถิติ → ตั้ง α → ระบุกฎตัดสิน → คำนวณ → สรุปเป็นภาษาของโจทย์',
-   tip:'สำหรับการทดสอบสองทางและ CI ที่ใช้สูตรสอดคล้องกัน ค่าอ้างอิงอยู่นอกช่วง 95% สัมพันธ์กับการปฏิเสธ H₀ ที่ α = 0.05',
-   check:['โจทย์ถามว่า “ค่าอาหารเฉลี่ยต่างจาก 60 บาทไหม” ควรเปิดกี่หาง?', ['หางขวา','สองหาง','หางซ้าย'],1,'คำว่า “ต่าง” รวมทั้งมากขึ้นและน้อยลง']
+   example:"Six steps: state H₀ and Hₐ, choose the test, set α, state the decision rule, calculate, and conclude in the words of the question.",
+   tip:"For a two-sided test and its matching 95% interval, a reference value outside the interval is rejected at the 5% level.",
+   check:["“Does the average meal cost differ from 60 baht?” Which tail(s)?", ["Right tail","Both tails","Left tail"],1,"Different includes both higher and lower."]
   },
-  {title:'เปรียบเทียบค่าเฉลี่ย', short:'t-test / ANOVA', context:'คะแนนติว คนละกลุ่ม หรือสามห้อง', cue:'ดูว่าจับคู่กันไหม',
-   story:'ถ้าคนเดิมสอบก่อนและหลังติว เราลบคะแนนทีละคนได้ ถ้าเทียบคนละห้อง เราเทียบค่าเฉลี่ยของห้อง ถ้าเทียบสามห้อง เราดูความห่างระหว่างห้องพร้อมกัน',
-   prompt:'เลื่อนคะแนนหลังติวของเมย์ แล้วดูว่าคะแนนเฉลี่ยที่เพิ่มเปลี่ยนเท่าไร คะแนนตัวอย่างจำลองนี้ใช้ฝึกจับคู่',
+  {title:"Comparing means", short:'t-test / ANOVA', context:"Before and after, two separate groups, or three classes", cue:"Check whether the data are paired",
+   story:"With before-and-after data, subtract scores within each person. With two separate classes, compare their means. With three classes, compare their means together.",
+   prompt:"Change May's after-tutoring score and watch the average gain change. These numbers are made up to practise pairing.",
    parts:[
-    ['Paired t-test · คนเดิม','เริ่มจาก d = หลัง − ก่อนของแต่ละคู่ เราจึงเหลือข้อมูลชุดเดียวคือผลต่าง t = (d̄ − 0)/(sᵈ/√n) โดย n คือจำนวนคู่ และ df = n − 1'],
-    ['Independent t-test · สองกลุ่มอิสระ','เอาค่าเฉลี่ยสองกลุ่มมาลบกัน ถ้าใช้ Welch ให้หารด้วย √(s₁²/n₁ + s₂²/n₂) เพราะความแปรปรวนของค่าเฉลี่ยอิสระสองตัวบวกกัน ถ้าโจทย์สมมติความแปรปรวนเท่ากัน ให้ใช้ sₚ√(1/n₁ + 1/n₂) โดย sₚ² = [(n₁−1)s₁² + (n₂−1)s₂²]/(n₁+n₂−2) และ df = n₁+n₂−2'],
-    ['One-way ANOVA · หลายกลุ่มอิสระ','F = MS ระหว่างกลุ่ม ÷ MS ภายในกลุ่ม ตัวเศษดูว่าค่าเฉลี่ยกลุ่มห่างจากค่าเฉลี่ยรวมแค่ไหน ตัวส่วนดูว่าคนในกลุ่มเดียวกันแกว่งแค่ไหน คำนวณ MS ระหว่าง = Σnᵢ(x̄ᵢ−x̄รวม)²/(k−1) และ MS ภายใน = Σ(nᵢ−1)sᵢ²/(N−k)']
+    ["Paired t-test · same people","Form d = after − before for each pair. Test the mean difference with t = (d̄ − 0)/(sᵈ/√n), where n is the number of pairs and df = n−1."],
+    ["Independent-samples t-test · two separate groups","Subtract the two sample means. Welch uses SE = √(s₁²/n₁ + s₂²/n₂). If equal variances are assumed, use sₚ√(1/n₁ + 1/n₂), with sₚ² = [(n₁−1)s₁² + (n₂−1)s₂²]/(n₁+n₂−2) and df = n₁+n₂−2."],
+    ["One-way ANOVA · several independent groups","F = MS between groups ÷ MS within groups. MS between = Σnᵢ(x̄ᵢ−grand mean)²/(k−1). MS within = Σ(nᵢ−1)sᵢ²/(N−k). The ratio compares separation between means with spread within groups."]
    ],
-   example:'เปรียบเทียบเวลาเดินทางของนักศึกษาที่อยู่บ้านกับใกล้มหาวิทยาลัย ค่าเฉลี่ยห่าง 19.92 นาที ใช้ Welch t ≈ 3.51, p ≈ 0.0016 แบบสองทาง ส่วน ANOVA ผู้เปิดวาล์ว 4 คนได้ F ≈ 10.18 และ p ≈ 0.00028',
-   tip:'paired t-test ตรวจที่ผลต่างของแต่ละคู่ ส่วน ANOVA แบบมาตรฐานอาศัยกลุ่มอิสระ ความแปรปรวนประชากรเท่ากัน และการกระจายภายในกลุ่มใกล้ปกติ ผล ANOVA ที่มีนัยสำคัญบอกได้ว่าค่าเฉลี่ยไม่เท่ากันทั้งหมด',
-   check:['ห้อง A กับห้อง B มีนักเรียนคนละชุดและมีจำนวนเท่ากัน ควรใช้วิธีใด?', ['Paired t-test','Independent t-test','One-way ANOVA สำหรับหลายห้อง'],1,'สองห้องเป็นคนละกลุ่มและไม่มีคู่ที่กำหนดไว้']
+   example:"The mean commute gap is 19.92 minutes for students living at home versus near the university. Welch gives t ≈ 3.51 and two-sided p ≈ 0.0016. For the four valve operators, ANOVA gives F ≈ 10.18 and p ≈ 0.00028.",
+   tip:"Paired tests work with differences within pairs. Standard ANOVA assumes independent observations, equal population variances, and roughly normal within-group distributions. A significant result means the means are not all equal.",
+   check:["Classes A and B contain different students but have the same size. Which test compares their mean scores?", ['Paired t-test','Independent t-test',"One-way ANOVA for several classes"],1,"The two groups have no defined pairs."]
   },
-  {title:'สัดส่วนและ Chi-square', short:'สัดส่วน / χ²', context:'คนเลือกแพลตฟอร์มต่างกันตามวัยไหม', cue:'นับคนตามหมวด',
-   story:'ถ้าถามว่า “ชอบหรือไม่ชอบ” เราคิดเป็นสัดส่วนได้ ถ้าเก็บทั้งแพลตฟอร์มที่ใช้และช่วงอายุ เราสร้างตารางนับคนเพื่อดูความสัมพันธ์',
-   prompt:'ลองเลือกช่อง Facebook ในตาราง แล้วเปรียบเทียบจำนวนที่เห็นกับจำนวนที่คาดภายใต้สมมติฐานว่าอายุกับแพลตฟอร์มเป็นอิสระกัน',
+  {title:"Proportions and chi-square", short:"Proportions / χ²", context:"Does platform choice vary by age?", cue:"Count people by category",
+   story:"A yes/no response gives a proportion. Two categorical variables, such as age group and platform, give a table of counts that can show an association.",
+   prompt:"Choose a Facebook cell and compare its observed count with the count expected if age group and platform were independent.",
    parts:[
-    ['สองสัดส่วน · เริ่มจากคนที่ตอบว่าใช่','p̂₁ = x₁/n₁ และ p̂₂ = x₂/n₂ เมื่อ H₀ บอกว่าสัดส่วนเท่ากัน ให้รวมจำนวนคนที่ตอบใช่ทั้งหมดหารด้วยคนทั้งหมด ได้ p̂ รวม เป็นค่าประมาณร่วมภายใต้ H₀'],
-    ['เอาความต่างหารความแกว่ง','z = (p̂₁−p̂₂)/√[p̂รวม(1−p̂รวม)(1/n₁+1/n₂)] ใช้กับกลุ่มอิสระและจำนวนสำเร็จ/ไม่สำเร็จที่คาดไว้เพียงพอ'],
-    ['Chi-square · คิดทีละช่อง','E = ยอดรวมแถว × ยอดรวมคอลัมน์ ÷ ยอดรวมทั้งหมด เพราะภายใต้ความเป็นอิสระ แต่ละวัยควรมีสัดส่วนเลือกแพลตฟอร์มเดียวกับภาพรวม ให้บวก (O−E)²/E ทุกช่อง ได้ χ² และ df = (แถว−1)(คอลัมน์−1)']
+    ["Two proportions · start with yes responses","p̂₁ = x₁/n₁ and p̂₂ = x₂/n₂. Under H₀ of equal proportions, divide the combined yes count by the combined sample size to estimate the common proportion."],
+    ["Divide the difference by its standard error","z = (p̂₁−p̂₂)/√[p̂ pooled(1−p̂ pooled)(1/n₁+1/n₂)]. Use it for independent groups with sufficiently large expected success and failure counts."],
+    ["Chi-square · work one cell at a time","E = row total × column total ÷ grand total. Under independence, the overall platform share applies to each age group. Sum (O−E)²/E over the cells to get χ². The degrees of freedom are (rows−1)(columns−1)."]
    ],
-   example:'Facebook อายุ 12–34 มี O = 45 คน คาด E = 192×165/480 = 66 คน ช่องนี้จึงเพิ่ม χ² ประมาณ 6.68 พอบวกครบ 12 ช่องได้ 26.26, df = 6 และ p ≈ 0.000199',
-   tip:'เช็กว่าหนึ่งคนถูกนับในช่องเดียวและจำนวนคาดหมายเพียงพอ สถิติ χ² ใช้หางขวาเพราะยิ่ง O ห่าง E ค่า χ² ยิ่งใหญ่',
-   check:['ถ้า O = E ช่องนั้นเพิ่ม χ² เท่าไร?', ['0','1','เท่ากับ E'],0,'ผลต่าง O − E เป็นศูนย์']
+   example:"For Facebook users aged 12–34, O = 45 and E = 192×165/480 = 66. The cell contributes about 6.68. Across 12 cells, χ² ≈ 26.26, df = 6, and p ≈ 0.000199.",
+   tip:"Count each person in one cell and check that expected counts are large enough. Use the right tail because larger discrepancies produce larger χ² values.",
+   check:["If O = E, what does that cell add to χ²?", ['0','1',"Exactly E"],0,"O − E is zero."]
   },
-  {title:'ถดถอยเชิงเส้นอย่างง่าย', short:'Simple regression', context:'ใช้ความยาวแขนช่วยทำนายความยาวเท้า', cue:'ทำนายจากตัวแปรเดียว',
-   story:'แต่ละคนเป็นหนึ่งจุดในกราฟ เส้นช่วยทำนายว่าถ้าแขนยาว x เซนติเมตร เท้าน่าจะยาวเท่าไร ระยะจากจุดจริงถึงเส้นในแนวตั้งเรียกว่าค่าคลาดเคลื่อนคงเหลือ',
-   prompt:'ลองขยับความชันของเส้นจำลอง แล้วสังเกตว่าผลรวมกำลังสองของค่าคลาดเคลื่อนลดลงตอนไหน',
+  {title:"Simple linear regression", short:'Simple regression', context:"Predict foot length from forearm length", cue:"Predict from one variable",
+   story:"Each person is a dot. The line predicts foot length from forearm length. The vertical gap from a dot to its fitted value is the residual.",
+   prompt:"Change the slope and watch the sum of squared residuals.",
    parts:[
-    ['สร้างเส้น','ŷ = b₀ + b₁x ค่า b₁ คือค่าทำนายที่เปลี่ยนเมื่อ x เพิ่ม 1 หน่วย และ b₀ คือค่าทำนายเมื่อ x = 0'],
-    ['วัดว่าทายพลาดเท่าไร','e = y − ŷ ถ้าจุดจริงอยู่เหนือเส้น e เป็นบวก เรานำ e มายกกำลังสองเพื่อให้บวกกับลบไม่หักล้างกัน และให้ความผิดพลาดใหญ่มีน้ำหนักมาก'],
-    ['เลือกเส้นที่พลาดน้อยสุด','OLS เลือก b₀, b₁ ให้ Σe² ต่ำสุด จึงได้ b₁ = Σ(x−x̄)(y−ȳ)/Σ(x−x̄)² และ b₀ = ȳ−b₁x̄ ทดสอบความชันด้วย t = b₁/SE(b₁) ที่ df = n−2 เมื่อ H₀: β₁ = 0']
+    ["Write the line","ŷ = b₀ + b₁x. The slope b₁ describes how ŷ changes for a one-unit increase in x. The intercept b₀ is ŷ at x = 0."],
+    ["Measure prediction error","A residual is e = y − ŷ and is positive when the dot lies above the line. Squaring keeps positive and negative errors from cancelling and gives larger errors greater weight."],
+    ["Choose the line with the smallest squared error","OLS selects b₀ and b₁ to minimise Σe². The line has b₁ = Σ(x−x̄)(y−ȳ)/Σ(x−x̄)² and b₀ = ȳ−b₁x̄. To test H₀: β₁ = 0, use t = b₁/SE(b₁) with df = n−2."]
    ],
-   example:'ข้อมูลตัวอย่างในชีตได้ ŷความยาวเท้า = 9.580 + 0.594(ความยาวแขน) ถ้าแขนยาว 25 ซม. ทำนายเท้ายาวประมาณ 24.43 ซม. ค่า p ของความชัน ≈ 0.000155',
-   tip:'ดูกราฟ residual ด้วย จุดกระจายไร้รูปแบบรอบ 0 สอดคล้องกับเส้นตรงและความกระจายคงที่ รูปโค้งหรือรูปกรวยชวนให้กลับไปตรวจแบบจำลอง',
-   check:['ราคาจริง 4 ล้านบาท ทำนาย 3.5 ล้านบาท residual เท่าไร?', ['−0.5 ล้านบาท','+0.5 ล้านบาท','+7.5 ล้านบาท'],1,'จริง − ทำนาย = 4 − 3.5']
+   example:"The handout gives predicted foot length = 9.580 + 0.594(forearm length). A 25 cm forearm predicts about 24.43 cm. The slope p-value is approximately 0.000155.",
+   tip:"Check the residual plot. An even, patternless spread around zero supports a straight line with constant variance. A curve or funnel prompts a closer look.",
+   check:["An actual price is 4 million baht and the prediction is 3.5 million. What is the residual?", ["−0.5 million baht","+0.5 million baht","+7.5 million baht"],1,"Observed − predicted = 4 − 3.5."]
   },
-  {title:'ถดถอยพหุคูณ', short:'Multiple regression', context:'ทายราคาคอนโดจากขนาด ระยะ BTS และอายุ', cue:'ขยับทีละปัจจัย',
-   story:'คอนโดใหญ่กับคอนโดใกล้ BTS อาจราคาแพงด้วยเหตุผลต่างกัน เมื่ออ่านผลของระยะทาง เราลองสมมติว่าขนาดห้องและอายุอาคารเท่าเดิม',
-   prompt:'ขยับระยะถึง BTS โดยคงขนาดห้องที่ 45 ตร.ม. และอายุอาคาร 10 ปี แล้วดูราคาที่ทำนาย',
+  {title:"Multiple linear regression", short:'Multiple regression', context:"Predict condo prices from size, BTS distance, and age", cue:"Change one predictor at a time",
+   story:"Large condos and condos near BTS can command higher prices for different reasons. To read the distance coefficient, hold room size and building age fixed.",
+   prompt:"Change the distance to BTS. Keep the room size at 45 m² and building age at 10 years.",
    parts:[
-    ['รวมผลของตัวแปรในสมการเดียว','ŷ = b₀ + b₁x₁ + b₂x₂ + … ความชัน bⱼ บอกการเปลี่ยนของ ŷ เมื่อ xⱼ เพิ่ม 1 หน่วย โดยตรึงตัวอื่น ถ้ามีตัวแปรหมวด k กลุ่ม ให้ใช้ตัวแปร dummy k−1 ตัวเมื่อมี intercept'],
-    ['อ่านทั้งโมเดลด้วย F','F = MSR/MSE เทียบความแปรปรวนที่โมเดลอธิบายได้ต่อ df กับความแปรปรวนที่เหลือต่อ df ช่อง Significance F คือ p-value ของ H₀ ที่ว่าความชันทุกตัวเป็นศูนย์'],
-    ['อ่านรายตัวและความพอดี','คอลัมน์ P-value แยกทดสอบความชันแต่ละตัวด้วย t = bⱼ/SE(bⱼ) ส่วน R² = 1−SSE/SST คือสัดส่วนความแปรปรวนของ y ในตัวอย่างที่โมเดลอธิบายได้ Adjusted R² คำนึงถึงจำนวนตัวแปร และ VIF ช่วยดูว่าตัวแปรอิสระซ้ำข้อมูลกันเพียงใด']
+    ["Combine predictors in one equation","ŷ = b₀ + b₁x₁ + b₂x₂ + …. The slope bⱼ is the change in ŷ for a one-unit increase in xⱼ with other predictors fixed. With an intercept, a categorical predictor with k levels uses k−1 dummy variables."],
+    ["Use F for the overall model","F = MSR/MSE compares explained variation per degree of freedom with unexplained variation per degree of freedom. Significance F is the p-value for H₀ that all slopes are zero."],
+    ["Read individual coefficients and model fit","Use each P-value to test a slope with t = bⱼ/SE(bⱼ). R² = 1−SSE/SST is the share of sample variation explained. Adjusted R² takes predictor count into account. VIF helps assess overlap among predictors."]
    ],
-   example:'ในโจทย์คอนโด ŷ = 0.874 + 0.0562(ขนาด) − 0.0007(ระยะ BTS) + 0.0021(อายุ) ราคาเป็นล้านบาท ระยะเพิ่ม 100 ม. ทำนายราคาลด 0.07 ล้านบาท หรือ 70,000 บาท เมื่อขนาดและอายุคงที่',
-   tip:'F = 44.79 และ Significance F แสดง 0.0000 เพราะปัดเลข ผลรายตัวให้ขนาด (p แสดง 0.000) และระยะ BTS (p = 0.006) ผ่านเกณฑ์ 0.05 ส่วนอายุ (p = 0.863) ยังไม่มีหลักฐานพอ',
-   check:['อยากรู้ว่า “อายุอาคาร” มีนัยสำคัญเมื่อคุมตัวแปรอื่นไหม ดูตรงไหน?', ['Significance F','R²','P-value แถว Building age'],2,'P-value รายแถวตอบคำถามของตัวแปรนั้นเมื่อคุมตัวแปรอื่น']
+   example:"Predicted condo price in millions of baht is ŷ = 0.874 + 0.0562(size) − 0.0007(BTS distance) + 0.0021(age). For 100 extra metres, predicted price falls by 70,000 baht with size and age fixed.",
+   tip:"F = 44.79. Significance F rounds to 0.0000. Size (p rounds to 0.000) and distance (p = 0.006) meet 0.05. Age (p = 0.863) does not.",
+   check:["Which entry tells you whether building age is significant after controlling for the other predictors?", ['Significance F','R²',"P-value in the Building Age row"],2,"A predictor's row gives its own p-value while controlling for the other predictors."]
   }
 ];
 
 const variants = [
-  'ถ้าสุ่มแบบไม่คืนจากประชากรขนาด N และสุ่มมาเป็นสัดส่วนมาก ให้คูณ SE ด้วย √[(N−n)/(N−1)] เพราะเมื่อสำรวจเกือบทั้งประชากร ความไม่แน่นอนจากการสุ่มลดลง',
-  'ข้อผิดพลาดแบบที่ 1 คือปฏิเสธ H₀ ทั้งที่ H₀ จริง ส่วนแบบที่ 2 คือไม่ปฏิเสธ H₀ ทั้งที่ H₀ ผิด ที่ระดับ α = 0.05 สำหรับ z-test ใช้ค่าวิกฤต ±1.96 สำหรับสองทาง และ ±1.645 ตามทิศทางสำหรับทางเดียว',
-  'ถ้า ANOVA มีนัยสำคัญและโจทย์ถามว่าคู่ไหนต่าง ให้เปรียบเทียบรายคู่ด้วยวิธีที่คุมความผิดพลาดจากการทดสอบหลายครั้ง',
-  'ถ้ามีตัวแปรหมวดเดียวและโจทย์ให้สัดส่วนที่คาดไว้ ใช้ chi-square goodness-of-fit คิด Eᵢ = Npᵢ และบวก (O−E)²/E ทุกหมวด ถ้าโจทย์กำหนดสัดส่วนทั้งหมดไว้แล้ว df = จำนวนหมวด − 1',
-  'R² เท่ากับ 1 − SSE/SST เมื่อโมเดลมี intercept ส่วน Pearson r บอกทั้งทิศและความแรงของความสัมพันธ์เชิงเส้น ใน simple regression ที่มี intercept จะได้ R² = r²',
-  'เมื่อใช้ ln(y) ความชัน b ต่อ x หนึ่งหน่วยแปลงเป็น 100(eᵇ−1)% หรือประมาณ 100b% เมื่อ b เล็ก ถ้าใช้ ln(x) อย่างเดียว x เพิ่ม 1% ทำให้ ŷ เปลี่ยนประมาณ b/100 หน่วย ถ้าใช้ log ทั้งสองฝั่ง b คือความยืดหยุ่นโดยประมาณเมื่อ x เปลี่ยนเล็กน้อย'
+  "When sampling without replacement and n is a large share of population N, multiply the SE by √[(N−n)/(N−1)]. As the sample approaches the whole population, sampling uncertainty falls.",
+  "A Type I error rejects a true H₀. A Type II error fails to reject a false H₀. At α = 0.05, z cutoffs are ±1.96 for two tails and +1.645 or −1.645 for the chosen single tail.",
+  "If ANOVA is significant and you need to identify pairs, use follow-up comparisons that control for multiple testing.",
+  "For one categorical variable with expected proportions, use a chi-square goodness-of-fit test. Calculate Eᵢ = Npᵢ and sum (O−E)²/E over categories. With every proportion specified in advance, df = categories − 1.",
+  "With an intercept, R² = 1 − SSE/SST. Pearson r describes direction and strength of a linear association. In simple regression with an intercept, R² = r².",
+  "With ln(y) as the outcome, a one-unit increase in x gives a change of 100(eᵇ−1)%, approximately 100b% for small b. With ln(x) alone, a 1% increase in x changes ŷ by about b/100 units. In a log–log model, b is the elasticity."
 ];
 
 const practice = [
-  {title:'ติวแล้วคะแนนดีขึ้นไหม?', lesson:2, context:'นักศึกษา 18 คนสอบก่อนและหลังติว กำหนด d = หลัง − ก่อน ได้ d̄ = 3.389, sᵈ = 3.274 และ α = 0.05',
-   ask:'ตั้งหางและคำนวณ t แล้วเลือกคำตอบ', choices:['สองทาง, t ≈ 4.39','ทางขวา, t ≈ 4.39','ทางซ้าย, t ≈ −4.39'], correct:1,
-   steps:['H₀: μᵈ = 0, Hₐ: μᵈ > 0 เพราะโจทย์ถามว่าคะแนนดีขึ้นไหม','ใช้ paired t-test ทางขวา, df = 18−1 = 17','กำหนด α = 0.05','ปฏิเสธ H₀ เมื่อ t > 1.740 หรือ p ≤ 0.05','t = 3.389/(3.274/√18) ≈ 4.39','ปฏิเสธ H₀ มีหลักฐานว่าคะแนนเฉลี่ยหลังติวสูงขึ้น']},
-  {title:'สองกลุ่มนิยามความสำเร็จต่างกันไหม?', lesson:3, context:'ผู้ประกอบการหญิงกลุ่มยอดขายต่ำกว่า 100,000 บาท เลือกยอดขาย/กำไร 24 จาก 100 คน กลุ่มยอดขาย 100,000–500,000 บาท เลือก 39 จาก 95 คน ทดสอบที่ α = 0.01',
-   ask:'ยึดคำสั่งท้ายโจทย์ว่า “แตกต่างไหม” เมื่อได้ z ≈ 2.545 ควรสรุปอย่างไร?', choices:['p ≈ 0.00546 จึงพบความต่างแบบสองทาง','p ≈ 0.01092 จึงพบความต่าง','p ≈ 0.01092 หลักฐานยังไม่พอว่าต่างกัน'], correct:2,
-   steps:['กำหนดกลุ่ม 1 = ยอดขายสูง และกลุ่ม 2 = ยอดขายต่ำ H₀: p₁ = p₂, Hₐ: p₁ ≠ p₂','ใช้ two-proportion z-test แบบสองทางที่ α = 0.01','p̂ รวม = (39+24)/(95+100) = 0.3231','z = (39/95−24/100)/√[0.3231(1−0.3231)(1/95+1/100)] ≈ 2.545','p สองทาง ≈ 0.01092 > 0.01 หลักฐานยังไม่พอว่าสัดส่วนต่างกัน','ถ้าโจทย์กำหนด “กลุ่มยอดขายสูงมีสัดส่วนสูงกว่าไหม” ไว้ล่วงหน้า จะได้ p ทางขวา ≈ 0.00546 และข้อสรุปต่างกัน']},
-  {title:'สามห้องสอบได้เท่ากันไหม?', lesson:2, context:'ใช้สถิติสรุปของสามห้อง (n, mean, s) คือ (20, 17.59, 6.38), (19, 18.14, 6.25) และ (21, 16.23, 4.96) ที่ α = 0.05',
-   ask:'เลือกสถิติและข้อสรุปจากตัวเลขที่กำหนด', choices:['One-way ANOVA, F ≈ 0.566, หลักฐานยังไม่พอว่าค่าเฉลี่ยต่างกัน','One-way ANOVA, F ≈ 0.566, ทุกห้องต่างกัน','Paired t-test เพราะสอบวิชาเดียวกัน'], correct:0,
-   steps:['H₀: μ₁ = μ₂ = μ₃ ส่วน Hₐ: อย่างน้อยหนึ่งค่าเฉลี่ยต่าง','ค่าเฉลี่ยรวมถ่วงน้ำหนัก = (20×17.59 + 19×18.14 + 21×16.23)/60 ≈ 17.288','SS ระหว่าง ≈ 39.123 จาก Σnᵢ(x̄ᵢ−x̄รวม)² และ SS ภายใน ≈ 1968.541 จาก Σ(nᵢ−1)sᵢ²','df = (2,57) จึงได้ F = (39.123/2)/(1968.541/57) ≈ 0.566','p ≈ 0.571 > 0.05 หลักฐานยังไม่พอว่าค่าเฉลี่ยสามห้องต่างกัน']},
-  {title:'ช่วงอายุกับแพลตฟอร์มเกี่ยวกันไหม?', lesson:3, context:'แบบสำรวจ 480 คน แยกเป็น 4 แพลตฟอร์มและ 3 ช่วงอายุ ใช้เกณฑ์ α = 0.05',
-   table:true, ask:'ช่อง Facebook อายุ 12–34 คาดว่าจะมีกี่คนถ้าอายุกับแพลตฟอร์มเป็นอิสระ?', choices:['45','66','96'], correct:1,
-   steps:['H₀: อายุและแพลตฟอร์มเป็นอิสระกัน ส่วน Hₐ: สองตัวแปรสัมพันธ์กัน','ใช้ chi-square test of independence ที่ α = 0.05','ช่อง Facebook อายุ 12–34 มี E = 192×165/480 = 66 และ (45−66)²/66 ≈ 6.68','ทำทุกช่องแล้วบวก ได้ χ² ≈ 26.265, df = (4−1)(3−1) = 6','p ≈ 0.000199 < 0.05 มีหลักฐานว่าอายุและแพลตฟอร์มสัมพันธ์กัน']},
-  {title:'นักศึกษานอนเฉลี่ยกี่ชั่วโมง?', lesson:0, context:'นักศึกษา 60 คนรายงานเวลานอนเฉลี่ย 6.83 ชม./คืน ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง 1.33 ชม. ต้องการช่วงความเชื่อมั่น 95% ของค่าเฉลี่ยประชากร',
-   ask:'คำนวณช่วงจาก t* ≈ 2.001 แล้วเลือกคำตอบ', choices:['ประมาณ 5.50–8.16 ชม.','ประมาณ 6.66–7.00 ชม.','ประมาณ 6.49–7.17 ชม.'], correct:2,
-   steps:['ใช้ t เพราะใช้ s ประมาณ σ และ df = 60−1 = 59','SE = 1.33/√60 ≈ 0.1717','ระยะเผื่อ = 2.001×0.1717 ≈ 0.3436 ชม.','6.83 ± 0.3436 ได้ (6.49, 7.17) ชม.','เราเชื่อมั่น 95% ว่าค่าเฉลี่ยเวลานอนของนักศึกษาปีหนึ่งในประชากรเป้าหมายอยู่ระหว่าง 6.49 ถึง 7.17 ชม./คืน ภายใต้สมมติฐานของการสุ่มและการอนุมาน']},
-  {title:'คอนโดใกล้ BTS ราคาเท่าไร?', lesson:5, context:'แบบจำลองจากคอนโด 40 ห้อง ราคามีหน่วยเป็นล้านบาท โมเดลให้ F(3,36) = 44.79 และ Significance F แสดง 0.0000',
-   condo:true, ask:'แทนขนาด 45 ตร.ม. ระยะ BTS 300 ม. และอายุ 10 ปี จะทำนายได้เท่าไร?', choices:['3.214 ล้านบาท','3.424 ล้านบาท','3.634 ล้านบาท'], correct:0,
-   steps:['(ก) ŷ = 0.874 + 0.0562(ขนาด) − 0.0007(ระยะ BTS) + 0.0021(อายุ)','(ข) Overall F ทดสอบ H₀ ว่าความชันทั้งสามเป็นศูนย์ p ต่ำกว่า 0.05 จึงปฏิเสธ H₀','(ค) ขนาดและระยะ BTS มีนัยสำคัญที่ระดับ 0.05 อายุอาคารมี p = 0.863 จึงยังไม่มีหลักฐานพอว่าความชันต่างจากศูนย์','(ง) เมื่อขนาดและอายุคงที่ ระยะเพิ่ม 1 เมตร ราคาที่ทำนายลดลง 0.0007 ล้านบาท หรือ 700 บาท','(จ) ŷ = 0.874 + 0.0562(45) − 0.0007(300) + 0.0021(10) = 3.214 ล้านบาท']}
+  {title:"Did scores improve after tutoring?", lesson:2, context:"Eighteen students take a test before and after tutoring. Let d = after − before, with d̄ = 3.389 and sᵈ = 3.274. Use α = 0.05.",
+   ask:"Choose the tail and calculate t.", choices:["Two-sided, t ≈ 4.39","Right-tailed, t ≈ 4.39","Left-tailed, t ≈ −4.39"], correct:1,
+   steps:["H₀: μᵈ = 0. Hₐ: μᵈ > 0 because the question asks whether scores improved.","Use a right-tailed paired t-test with df = 18−1 = 17.","Set α = 0.05.","Reject H₀ when t > 1.740 or p ≤ 0.05.",'t = 3.389/(3.274/√18) ≈ 4.39',"Reject H₀. The data provide evidence that the mean score rose after tutoring."]},
+  {title:"Do the two groups define success differently?", lesson:3, context:"Among women entrepreneurs with sales below 100,000 baht, 24 of 100 chose sales or profit as their measure of success. In the 100,000–500,000 baht group, 39 of 95 did. Use α = 0.01.",
+   ask:"The question asks whether the rates differ. Given z ≈ 2.545, what should you conclude?", choices:["Two-sided p ≈ 0.00546. There is evidence of a difference.","p ≈ 0.01092. There is evidence of a difference.","p ≈ 0.01092. There is insufficient evidence of a difference."], correct:2,
+   steps:["Group 1 is higher sales and group 2 is lower sales. H₀: p₁ = p₂ and Hₐ: p₁ ≠ p₂.","Use a two-sided two-proportion z-test at α = 0.01.","Pooled p̂ = (39+24)/(95+100) = 0.3231.",'z = (39/95−24/100)/√[0.3231(1−0.3231)(1/95+1/100)] ≈ 2.545',"Two-sided p ≈ 0.01092 > 0.01, so there is insufficient evidence of different proportions.","A right-tailed question specified in advance, asking whether the higher-sales group has a greater proportion, gives p ≈ 0.00546."]},
+  {title:"Are the mean scores the same across three classes?", lesson:2, context:"The class summaries (n, mean, s) are (20, 17.59, 6.38), (19, 18.14, 6.25), and (21, 16.23, 4.96). Use α = 0.05.",
+   ask:"Choose the test statistic and conclusion.", choices:["One-way ANOVA, F ≈ 0.566. There is insufficient evidence of differing means.","One-way ANOVA, F ≈ 0.566. All class means differ.","Paired t-test because the classes took the same exam."], correct:0,
+   steps:["H₀: μ₁ = μ₂ = μ₃. Hₐ: The population means are not all equal.","Weighted grand mean = (20×17.59 + 19×18.14 + 21×16.23)/60 ≈ 17.288.","SS between ≈ 39.123 from Σnᵢ(x̄ᵢ−grand mean)². SS within ≈ 1968.541 from Σ(nᵢ−1)sᵢ².","With df = (2,57), F = (39.123/2)/(1968.541/57) ≈ 0.566.","p ≈ 0.571 > 0.05. There is insufficient evidence that the three mean scores differ."]},
+  {title:"Is age group associated with platform choice?", lesson:3, context:"The 480 respondents are grouped by four platforms and three age bands. Use α = 0.05.",
+   table:true, ask:"If age and platform are independent, what count is expected for Facebook users aged 12–34?", choices:['45','66','96'], correct:1,
+   steps:["H₀: Age group and platform are independent. Hₐ: They are associated.","Use the chi-square test of independence at α = 0.05.","For Facebook and ages 12–34, E = 192×165/480 = 66. The contribution is (45−66)²/66 ≈ 6.68.","Sum all cell contributions: χ² ≈ 26.265, df = (4−1)(3−1) = 6.","p ≈ 0.000199 < 0.05. There is evidence of an association."]},
+  {title:"How much do first-year students sleep on average?", lesson:0, context:"Sixty students report a mean of 6.83 hours per night with a sample SD of 1.33 hours. Find a 95% interval for the population mean.",
+   ask:"Use t* ≈ 2.001 to find the interval.", choices:["About 5.50–8.16 hours","About 6.66–7.00 hours","About 6.49–7.17 hours"], correct:2,
+   steps:["Use t because s estimates σ, with df = 60−1 = 59.",'SE = 1.33/√60 ≈ 0.1717',"Margin of error = 2.001×0.1717 ≈ 0.3436 hours.","6.83 ± 0.3436 gives about (6.49, 7.17) hours.","Under the sampling and inference assumptions, we are 95% confident that the target population mean sleep for first-year students is 6.49 to 7.17 hours per night."]},
+  {title:"How much does the condo cost?", lesson:5, context:"The model uses 40 condos and predicts prices in millions of baht. F(3,36) = 44.79. Excel displays Significance F as 0.0000 because of rounding.",
+   condo:true, ask:"Predict the price of a 45 m² unit, 300 metres from BTS, in a 10-year-old building.", choices:["3.214 million baht","3.424 million baht","3.634 million baht"], correct:0,
+   steps:["(a) ŷ = 0.874 + 0.0562(size) − 0.0007(BTS distance) + 0.0021(age).","(b) Overall F tests whether all three slopes are zero. p is below 0.05, so reject H₀.","(c) Size and distance to BTS are significant at 0.05. Age has p = 0.863, which gives insufficient evidence that its slope differs from zero.","(d) With size and age fixed, one more metre lowers predicted price by 0.0007 million baht, or 700 baht.","(e) ŷ = 0.874 + 0.0562(45) − 0.0007(300) + 0.0021(10) = 3.214 million baht."]}
 ];
 
 const social = {labels:['Facebook','Instagram','Pinterest','Twitter'], ages:['12–34','35–54','55+'], rows:[[45,87,60],[34,49,21],[38,31,15],[48,30,22]], totals:[165,197,118]};
