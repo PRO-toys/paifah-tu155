@@ -44,7 +44,7 @@ function renderSheetIndex(root, selectedGroup) {
     <header class="sheet-intro">
       <div>
         <h1>Sheet Walkthroughs</h1>
-        <p>Pick a question. Spot the clue, catch the trap, then work through the calculation one step at a time.</p>
+        <p>Follow a worked question, then try a new one on the same skill and get feedback on your answers.</p>
       </div>
       <div class="sheet-progress">
         <strong>${sheetCompleted.size} of ${sheetWalkthroughs.length} reviewed</strong>
@@ -115,6 +115,7 @@ function renderSheetQuestion(root, question, groupId) {
       </nav>
       <h1>${escapeSheetText(question.title)}</h1>
       <p class="sheet-source">${sheetSourceLabel(source)}</p>
+      <button type="button" class="button quiet sheet-practice-jump">Jump to the new question ↓</button>
       <section class="sheet-prompt" aria-labelledby="sheet-prompt-title">
         <h2 id="sheet-prompt-title">The question</h2>
         <p>${escapeSheetText(question.question)}</p>
@@ -144,6 +145,7 @@ function renderSheetQuestion(root, question, groupId) {
           <a class="button quiet" href="${formulaURL}">${question.formula === 'p-value' ? 'Explore p-values' : 'Open the formula guide'}</a></div>
         <p class="sheet-reviewed" id="sheet-reviewed" role="status" ${sheetCompleted.has(question.id) ? '' : 'hidden'}>Reviewed</p>
       </section>
+      <section id="sheet-practice" class="sheet-practice" aria-labelledby="sheet-practice-title"></section>
       ${references.length > 1 ? `<p class="sheet-source">Also appears in ${references.filter(ref => ref !== source).map(ref => sheetSourceLabel(ref)).join(', ')}</p>` : ''}
       ${question.related?.length ? `<section class="sheet-related"><h2>Related questions</h2><ul>${question.related.map(id =>
         `<li><a href="#sheet-${id}">${escapeSheetText(sheetQuestionById[id].title)}</a></li>`).join('')}</ul></section>` : ''}
@@ -161,6 +163,13 @@ function renderSheetQuestion(root, question, groupId) {
       // Progress remains available for this session.
     }
     root.querySelector('#sheet-reviewed').hidden = false;
+  });
+  mountSheetPractice(root, question.id);
+  root.querySelector('.sheet-practice-jump').addEventListener('click', () => {
+    const heading = root.querySelector('#sheet-practice-title');
+    heading.tabIndex = -1;
+    heading.focus();
+    heading.scrollIntoView({block:'start'});
   });
 }
 
