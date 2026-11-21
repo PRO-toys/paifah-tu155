@@ -56,11 +56,13 @@ function renderSheetIndex(root, selectedGroup) {
         <a class="button quiet" href="#sheets${group.id ? '-' + group.id : ''}" ${group.id === selectedGroup ? 'aria-current="page"' : ''}>${group.label}</a>
       `).join('')}
     </nav>
+    ${selectedGroup ? `<p class="sheet-summary-link"><a href="#sheets-${selectedGroup}-summary">Jump to the sheet summary ↓</a></p>` : ''}
     <label class="sheet-search">Find a question or method
       <input type="search" id="sheet-search" placeholder="Try paired t, chi-square, or sleep" autocomplete="off">
     </label>
     <p class="muted" id="sheet-result-count" aria-live="polite"></p>
-    <div id="sheet-results"></div>`;
+    <div id="sheet-results"></div>
+    ${selectedGroup ? `<section class="panel sheet-summary" id="sheets-${selectedGroup}-summary" aria-labelledby="sheet-summary-title"></section>` : ''}`;
 
   const input = root.querySelector('#sheet-search');
   const results = root.querySelector('#sheet-results');
@@ -88,6 +90,7 @@ function renderSheetIndex(root, selectedGroup) {
             ${reviewed ? '<span class="tag done">Reviewed</span>' : ''}
           </a></li>`;
         }).join('')}</ul>
+        ${selectedGroup ? '' : `<p class="sheet-summary-link"><a href="#sheets-${group.id}-summary">View ${group.label} summary →</a></p>`}
       </section>`;
     });
     count.textContent = `${matchedIds.size} ${matchedIds.size === 1 ? 'walkthrough' : 'walkthroughs'}`;
@@ -95,6 +98,7 @@ function renderSheetIndex(root, selectedGroup) {
   }
   input.addEventListener('input', showMatches);
   showMatches();
+  if (selectedGroup) renderSheetSummary(root.querySelector('.sheet-summary'), sheetGroupById[selectedGroup]);
 }
 
 function renderSheetQuestion(root, question, groupId) {
@@ -152,7 +156,8 @@ function renderSheetQuestion(root, question, groupId) {
       <nav class="sheet-neighbors" aria-label="Other questions in ${group.label}">
         ${previous ? `<a class="button quiet" href="${caseURL(previous)}">← Previous question</a>` : ''}
         <a class="button quiet" href="#sheets-${groupId}">All ${group.label} questions</a>
-        ${next ? `<a class="button quiet" href="${caseURL(next)}">Next question →</a>` : ''}
+        ${next ? `<a class="button quiet" href="${caseURL(next)}">Next question →</a>` :
+          `<a class="button primary" href="#sheets-${groupId}-summary">See sheet summary →</a>`}
       </nav>
     </article>`;
   bindExamStepReveal(root.querySelector('#sheet-steps'), root.querySelector('#sheet-reveal'), question.steps, () => {
@@ -184,6 +189,8 @@ function renderSheetRoute(hash) {
       return;
     }
   }
-  const group = hash.slice(7);
+  const summary = /^sheets-([a-z0-9]+)-summary$/.exec(hash);
+  const group = summary ? summary[1] : hash.slice(7);
   renderSheetIndex(root, Object.hasOwn(sheetGroupById, group) ? group : '');
+  if (summary) return root.querySelector('#sheet-summary-title');
 }

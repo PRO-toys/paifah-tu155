@@ -292,12 +292,13 @@ function route(focus = false) {
   if (page === 'forecast') renderForecast();
   if (intuitionMatch) renderIntuition(Number(intuitionMatch[1] ?? 1) - 1);
   if (formulaRoute) renderFormulaRoute(hash);
-  if (sheetRoute) renderSheetRoute(hash);
-  if (focus) {
-    const heading = get(page).querySelector('h1');
+  const summaryHeading = sheetRoute ? renderSheetRoute(hash) : null;
+  if (focus || summaryHeading) {
+    const heading = summaryHeading || get(page).querySelector('h1');
     heading.tabIndex = -1;
     heading.focus({preventScroll:true});
-    window.scrollTo(0,0);
+    if (summaryHeading) summaryHeading.scrollIntoView({block:'start'});
+    else window.scrollTo(0,0);
   }
 }
 

@@ -1,3 +1,9 @@
+function readSheetNumber(value) {
+  const raw = value.trim();
+  const grouped = /^[+−-]?[0-9๐-๙]{1,3}(?:,[0-9๐-๙]{3})+(?:\.[0-9๐-๙]+)?$/.test(raw);
+  return mockNumber(grouped ? raw.replaceAll(',', '') : raw);
+}
+
 function mountSheetPractice(root, id) {
   const drill = sheetPracticeById[id];
   const section = root.querySelector('#sheet-practice');
@@ -55,9 +61,7 @@ function mountSheetPractice(root, id) {
     event.preventDefault();
     if (!review.hidden) return;
     const values = new FormData(form);
-    const rawNumber = values.get('number').trim();
-    const groupedNumber = /^[+−-]?[0-9๐-๙]{1,3}(?:,[0-9๐-๙]{3})+(?:\.[0-9๐-๙]+)?$/.test(rawNumber);
-    const number = mockNumber(groupedNumber ? rawNumber.replaceAll(',', '') : rawNumber);
+    const number = readSheetNumber(values.get('number'));
     if (!Number.isFinite(number)) {
       answer.setCustomValidity('Enter a number, such as 2.35 or −0.8.');
       answer.reportValidity();
@@ -66,6 +70,7 @@ function mountSheetPractice(root, id) {
 
     const scores = [values.get('trap') === '0', values.get('method') === '0',
       Math.abs(number - drill.value) <= drill.tolerance + 1e-9];
+    saveSheetFirstAttempt(id, scores);
     review.querySelector('.sheet-practice-results').innerHTML = [...stages.map(stage => stage.label), 'Calculation']
       .map((label, index) => `<li class="${scores[index] ? 'practice-correct' : 'practice-retry'}">
         <strong>${label} · ${scores[index] ? 'Correct' : 'Check this'}</strong>

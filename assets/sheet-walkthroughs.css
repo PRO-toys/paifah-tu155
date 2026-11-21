@@ -148,7 +148,42 @@
 }
 .sheet-practice-option input {flex:none; margin:0; accent-color:var(--wine)}
 .sheet-practice-field:disabled .sheet-practice-option {cursor:default}
-#sheet-practice-answer {
+.sheet-practice-review {border-top:1px solid #ddd0ef}
+.sheet-practice-results {padding:0; list-style:none; display:grid; gap:6px}
+.sheet-practice-results li {border-radius:8px; padding:8px 10px; border:1px solid var(--line)}
+.sheet-practice-results p {margin:2px 0 0}
+.practice-correct {background:var(--green-bg); color:var(--green)}
+.practice-retry {background:#fff0d9; color:#673818}
+.sheet-practice-steps:empty {display:none}
+.sheet-practice-steps li {padding:7px 9px; background:var(--white); border-radius:8px; overflow-wrap:anywhere}
+
+.sheet-summary-link {margin:9px 0 13px; font-size:.9rem; font-weight:750}
+.sheet-summary {margin-block:24px}
+#sheet-summary-title {scroll-margin-top:15px}
+.sheet-summary-scores {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  padding:0;
+  margin:14px 0 17px;
+  list-style:none;
+}
+.sheet-summary-scores li {
+  display:grid;
+  gap:2px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+}
+.sheet-summary-scores li.sheet-summary-priority {background:#fff0d9; border-color:#efd1a7}
+.sheet-summary-focus .actions button[aria-pressed="true"] {background:var(--deep); color:var(--white)}
+.sheet-summary-misses {margin-top:12px; font-size:.91rem}
+.sheet-summary-misses summary {cursor:pointer; color:var(--wine); font-weight:750}
+.sheet-summary-misses ul {margin:7px 0 0; padding-left:1.3em}
+.sheet-follow-up {margin-bottom:0}
+.sheet-follow-up h4 {color:var(--lime); margin:0 0 5px; font-size:1.16rem}
+#sheet-practice-answer, #sheet-follow-answer {
   display:block;
   width:min(100%, 220px);
   margin-top:5px;
@@ -158,11 +193,8 @@
   background:#fff;
   color:var(--ink);
 }
-.sheet-practice-review {border-top:1px solid #ddd0ef}
-.sheet-practice-results {padding:0; list-style:none; display:grid; gap:6px}
-.sheet-practice-results li {border-radius:8px; padding:8px 10px; border:1px solid var(--line)}
-.sheet-practice-results p {margin:2px 0 0}
-.practice-correct {background:var(--green-bg); color:var(--green)}
-.practice-retry {background:#fff0d9; color:#673818}
-.sheet-practice-steps:empty {display:none}
-.sheet-practice-steps li {padding:7px 9px; background:var(--white); border-radius:8px; overflow-wrap:anywhere}
+.sheet-follow-feedback {padding:8px 10px; border-radius:8px}
+@media(max-width:550px) {
+  .sheet-summary-scores {grid-template-columns:1fr}
+  .sheet-summary-scores li {grid-template-columns:1fr auto; gap:8px}
+}
