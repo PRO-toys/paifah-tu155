@@ -28,8 +28,7 @@ function saveSheetFirstAttempt(id, scores) {
   }
 }
 
-function renderSheetSummary(section, group) {
-  const questions = sheetGroupQuestions(group.id);
+function getSheetPerformance(questions) {
   const attempts = questions.map(question => ({question, scores:getSheetFirstAttempt(question.id)}))
     .filter(attempt => attempt.scores);
   const results = sheetSkills.map((skill, index) => ({
@@ -37,6 +36,12 @@ function renderSheetSummary(section, group) {
   }));
   const mostMissed = Math.max(...results.map(result => result.missed.length));
   const weakest = mostMissed ? results.filter(result => result.missed.length === mostMissed) : [];
+  return {attempts, results, weakest};
+}
+
+function renderSheetSummary(section, group) {
+  const questions = sheetGroupQuestions(group.id);
+  const {attempts, results, weakest} = getSheetPerformance(questions);
   const followUpTitle = weakest.length > 1 ? 'Choose a skill to practise' : 'Practise your most missed skill';
 
   section.innerHTML = `
@@ -44,6 +49,7 @@ function renderSheetSummary(section, group) {
       <p class="kicker">${group.label}</p>
       <h2 id="sheet-summary-title">Your sheet summary</h2>
       <p>${attempts.length} of ${questions.length} practice questions submitted. Each question counts once, based on your first submitted answer.</p>
+      <p class="sheet-summary-link"><a href="#sheets-review">Review all sheets together →</a></p>
     </header>
     <ul class="sheet-summary-scores">
       ${results.map(result => `<li${weakest.includes(result) ? ' class="sheet-summary-priority"' : ''}>
@@ -79,18 +85,18 @@ function renderSheetSummary(section, group) {
   showSkill(weakest[0]);
 }
 
-function mountSheetFollowUp(section, group, result) {
+function mountSheetFollowUp(section, group, result, heading = 'h4') {
   const question = sheetFollowUps[group.id][result.key];
   const isNumeric = !question.options;
   const offset = (walkthroughGroups.indexOf(group) + sheetSkills.findIndex(skill => skill.key === result.key)) % 3;
   section.innerHTML = `
-    <details class="sheet-summary-misses">
+    ${result.missed.length ? `<details class="sheet-summary-misses">
       <summary>See the questions you missed in this skill</summary>
       <ul>${result.missed.map(item => `<li><a href="#sheet-${item.id}${item.group === group.id ? '' : '--' + group.id}">${escapeSheetText(item.title)}</a></li>`).join('')}</ul>
-    </details>
+    </details>` : ''}
     <div class="sheet-practice sheet-follow-up">
       <div class="sheet-practice-header">
-        <h4 tabindex="-1">${result.label} practice</h4>
+        <${heading} class="sheet-follow-up-title" tabindex="-1">${result.label} practice</${heading}>
         <p>${escapeSheetText(question.prompt)}</p>
       </div>
       <form class="sheet-practice-form">
@@ -142,7 +148,7 @@ function mountSheetFollowUp(section, group, result) {
     feedback.focus();
   });
   review.querySelector('[data-follow-retry]').addEventListener('click', () => {
-    mountSheetFollowUp(section, group, result);
+    mountSheetFollowUp(section, group, result, heading);
     section.querySelector('input').focus();
   });
 }

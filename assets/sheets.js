@@ -49,6 +49,7 @@ function renderSheetIndex(root, selectedGroup) {
       <div class="sheet-progress">
         <strong>${sheetCompleted.size} of ${sheetWalkthroughs.length} reviewed</strong>
         <progress aria-label="Walkthroughs reviewed" value="${sheetCompleted.size}" max="${sheetWalkthroughs.length}"></progress>
+        <a class="button sheet-review-cta" href="#sheets-review">All-Sheet Review →</a>
       </div>
     </header>
     <nav class="sheet-filters" aria-label="Filter walkthroughs by source">
@@ -180,6 +181,10 @@ function renderSheetQuestion(root, question, groupId) {
 
 function renderSheetRoute(hash) {
   const root = get('sheet-body');
+  if (hash === 'sheets-review') {
+    renderSheetReview(root);
+    return;
+  }
   if (hash.startsWith('sheet-')) {
     const [id, group] = hash.slice(6).split('--');
     if (Object.hasOwn(sheetQuestionById, id)) {

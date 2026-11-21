@@ -182,7 +182,7 @@
 .sheet-summary-misses summary {cursor:pointer; color:var(--wine); font-weight:750}
 .sheet-summary-misses ul {margin:7px 0 0; padding-left:1.3em}
 .sheet-follow-up {margin-bottom:0}
-.sheet-follow-up h4 {color:var(--lime); margin:0 0 5px; font-size:1.16rem}
+.sheet-follow-up-title {color:var(--lime); margin:0 0 5px; font-size:1.16rem}
 #sheet-practice-answer, #sheet-follow-answer {
   display:block;
   width:min(100%, 220px);
@@ -197,4 +197,48 @@
 @media(max-width:550px) {
   .sheet-summary-scores {grid-template-columns:1fr}
   .sheet-summary-scores li {grid-template-columns:1fr auto; gap:8px}
+}
+
+.sheet-review-cta {justify-self:start; margin-top:6px; background:var(--lime); color:var(--deep)}
+.sheet-review-cta:hover {background:#f1f9a7}
+.sheet-review-back {display:inline-block; margin-bottom:8px; color:#f1e8ff; font-size:.9rem}
+.sheet-review-overview {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin:16px 0;
+}
+.sheet-review-section {margin:16px 0}
+.sheet-review .sheet-summary-scores {grid-template-columns:1fr; margin-bottom:13px}
+.sheet-review .sheet-summary-scores li,.sheet-review-topics li {
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:baseline;
+  gap:9px;
+}
+.sheet-review-topics {list-style:none; padding:0; margin:13px 0 0}
+.sheet-review-topics li {
+  display:grid;
+  padding:8px 10px;
+  border-radius:7px;
+}
+.sheet-review-topics li.sheet-summary-priority {background:#fff0d9}
+.sheet-review-topics strong {font-size:.91rem}
+.sheet-review-list,.sheet-review-next {padding-left:1.35em; margin:13px 0 0}
+.sheet-review-list > li {margin:0 0 9px; padding:0 0 8px 3px; border-bottom:1px solid var(--line)}
+.sheet-review-list > li::marker {font-weight:800; color:var(--wine)}
+.sheet-review-item {display:flex; justify-content:space-between; align-items:center; gap:8px 13px}
+.sheet-review-item h3 {margin-top:2px; font-size:1.03rem}
+.sheet-review-item .button {flex:none; font-size:.86rem}
+.sheet-review-misses {color:#704717; font-size:.88rem; margin-top:4px}
+.sheet-review-more summary {cursor:pointer; font-weight:750; color:var(--wine)}
+.sheet-review-next li {margin:3px 0}
+#sheet-review-drill {scroll-margin-top:14px}
+.sheet-review-switch .button[aria-pressed="true"] {color:var(--white); background:var(--deep)}
+.sheet-review-close {margin-top:12px}
+@media(max-width:730px) {
+  .sheet-review-overview {grid-template-columns:1fr}
+}
+@media(max-width:530px) {
+  .sheet-review-item {display:block}
+  .sheet-review-item .button {margin-top:7px}
 }
