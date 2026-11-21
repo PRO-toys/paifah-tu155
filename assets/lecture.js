@@ -133,6 +133,7 @@ function renderAnova(wide) {
 }
 
 function renderHome() {
+  renderWarmUp();
   get('home-progress').textContent = `ผ่านคำถามท้ายบท ${completed.size} / ${topics.length} บท`;
   get('lesson-grid').innerHTML = topics.map((topic,index) => `<a class="tile" href="#lesson-${index}">
     <span class="topic">LECTURE ${String(index + 8).padStart(2,'0')} · ${topic.short}</span><strong>${topic.title}</strong>
@@ -267,7 +268,7 @@ function route(focus = false) {
   if (page !== 'forecast') stopForecastTimer();
   document.querySelectorAll('[data-page]').forEach(section => {section.hidden = section.id !== page;});
   document.querySelectorAll('.top nav a').forEach(link => {
-    if (link.hash === '#' + (page === 'lecture' ? 'home' : formulaRoute ? 'formulas' : page === 'forecast' ? 'mock' : page)) link.setAttribute('aria-current','page');
+    if (link.hash === '#' + (page === 'lecture' ? 'home' : formulaRoute ? 'formulas' : page === 'mock' ? 'forecast' : page)) link.setAttribute('aria-current','page');
     else link.removeAttribute('aria-current');
   });
   if (page === 'home') renderHome();

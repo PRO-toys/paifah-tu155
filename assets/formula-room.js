@@ -233,9 +233,11 @@ function mixFormulaChoices(items) {
 
 function renderFormulaGame(box, moveFocus = false) {
   if (!formulaGame) {
-    box.innerHTML = `<article class="panel formula-panel"><p class="kicker">ฝึกนึกจากโจทย์</p><h1>เกมเลือกสูตร</h1>
-      <p class="scene">อ่านสถานการณ์แล้วเลือกวิธีก่อนเปิดสูตร โจทย์สลับบทเพื่อฝึกแยกว่าแต่ละข้อกำลังถามอะไร</p>
-      <div class="actions"><button class="button primary" type="button" id="game-short">รอบสั้น 6 ข้อ</button><button class="button quiet" type="button" id="game-all">เล่นครบ 14 สูตร</button><a href="#formulas" class="button quiet">ทวนคำจำ</a></div></article>`;
+    box.innerHTML = `<article class="panel formula-panel"><div class="formula-game-cover"><h1>เกมเลือกสูตร</h1>
+      <p>เห็นสถานการณ์แล้วเลือกวิธี ลองจับคำสำคัญให้ทันก่อนเปิดสูตร</p></div>
+      <div class="game-modes"><button class="button quiet" type="button" id="game-short"><b>6 ข้อ</b><span>รอบสั้น · สลับครบทุกบท</span></button>
+        <button class="button quiet" type="button" id="game-all"><b>14 ข้อ</b><span>รอบเต็ม · หนึ่งข้อต่อสูตร</span></button></div>
+      <div class="actions"><a href="#formulas" class="button quiet">ทวนคำจำ</a></div></article>`;
     get('game-short').addEventListener('click', () => {
       const cards = formulaGroups.map((_,group) => mixFormulaChoices(formulaPractice.filter(q => formulaById[q[1]].group===group))[0]);
       startFormulaGame(box, cards);
@@ -256,7 +258,8 @@ function renderFormulaGame(box, moveFocus = false) {
     const {question, choices} = formulaGame.deck[index];
     const [scene, answer,,reason] = question;
     const selected = formulaGame.answers[index];
-    box.innerHTML = `<article class="panel formula-panel"><p class="kicker">เกมเลือกสูตร · ข้อ ${index+1} / ${formulaGame.deck.length}</p>
+    box.innerHTML = `<article class="panel formula-panel game-question"><p class="kicker">เกมเลือกสูตร · ข้อ ${index+1} / ${formulaGame.deck.length}</p>
+      <div class="progress" aria-hidden="true"><span style="width:${100*formulaGame.answers.length/formulaGame.deck.length}%"></span></div>
       <h1>ข้อนี้ใช้สูตรไหน?</h1><div class="problem"><p>${scene}</p></div>
       <div class="choice-grid" role="group" aria-label="เลือกสูตร">${choices.map(id => `<button type="button" class="choice${selected && id===answer ? ' good' : id===selected ? ' bad' : ''}" data-game-answer="${id}" ${selected ? 'disabled' : ''}>${formulaById[id].name}${selected && id===answer ? ' ✓' : ''}</button>`).join('')}</div>
       ${selected ? `<div class="feedback${selected===answer ? '' : ' retry'}" id="game-feedback" tabindex="-1"><strong>${selected===answer ? 'ถูกครับ' : 'ดูคำใบ้จากโจทย์'}</strong><p>${reason}</p></div>` : ''}

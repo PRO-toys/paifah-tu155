@@ -7,37 +7,47 @@
 <meta name="description" content="เรียนสถิติจากศูนย์ ห้องสูตร 14 สูตร เครื่องคำนวณ p-value เกมเลือกสูตร และข้อสอบจำลอง TU155 พร้อมเฉลยทีละขั้น">
 <meta name="theme-color" content="#fbf7ef">
 <link rel="stylesheet" href="assets/lecture.css">
+<link rel="stylesheet" href="assets/experience.css">
 <script defer src="assets/content.js"></script>
 <script defer src="assets/mock-drills.js"></script>
 <script defer src="assets/mock.js"></script>
 <script defer src="assets/forecast-data.js"></script>
-<script defer src="assets/forecast.js"></script>
+<script defer src="assets/forecast.js?v=play1"></script>
 <script defer src="assets/formulas.js"></script>
 <script defer src="assets/p-values.js"></script>
-<script defer src="assets/formula-room.js"></script>
-<script defer src="assets/lecture.js"></script>
+<script defer src="assets/formula-room.js?v=play1"></script>
+<script defer src="assets/warm-up.js"></script>
+<script defer src="assets/lecture.js?v=play1"></script>
 </head>
 <body>
 <a class="skip" href="#main">ข้ามไปเนื้อหาบทเรียน</a>
 <header class="shell top">
   <a class="brand" href="#home"><span aria-hidden="true">Σ</span><b>BDTM / TU</b></a>
-  <nav aria-label="เมนูหลัก"><a href="#home">บทเรียน</a><a href="#formulas">ห้องสูตร</a><a href="#exam">ซ้อมจากชีต</a><a href="#mock">ข้อสอบจำลอง</a><a href="#sources">แหล่งอ้างอิง</a></nav>
+  <nav aria-label="เมนูหลัก"><a href="#home">บทเรียน</a><a href="#formulas">ห้องสูตร</a><a href="#exam">ซ้อมจากชีต</a><a href="#forecast">ข้อสอบจำลอง</a><a href="#sources">แหล่งอ้างอิง</a></nav>
 </header>
 <main class="shell" id="main">
   <section id="home" data-page>
-    <div class="hero">
+    <div class="hero study-hero">
       <div class="hero-copy">
-        <p class="kicker">TU155 · บททบทวนก่อนสอบ</p>
+        <p class="kicker">TU155 / THAMMASAT</p>
         <h1>สถิติ<br>ที่เล่าได้</h1>
-        <p class="lede">จากเวลานอน คะแนนสอบ และราคาคอนโด สู่การเลือกวิธี แทนสูตร และเขียนคำตอบด้วยตัวเอง</p>
-        <div class="actions"><a class="button primary" href="#basics">เริ่มจากศูนย์</a><a class="button quiet" href="#formulas">เปิดห้องสูตร</a></div>
+        <p class="lede">เริ่มจากโจทย์ใกล้ตัว ลองเดาวิธี แล้วค่อยแกะว่าตัวเลขในสูตรมาจากไหน</p>
+        <div class="actions"><button class="button primary" id="start-warm-up" type="button">เล่นโจทย์แรก</button><a class="button quiet" href="#forecast">ไปข้อสอบจับเวลา</a></div>
       </div>
-      <img src="assets/campus-statistics.jpg" alt="ภาพตัดกระดาษนักศึกษาในร้านกาแฟ รถไฟฟ้า คอนโด และกราฟข้อมูล" width="1300" height="867">
+      <img src="assets/statistics-student.jpg" alt="นักศึกษาถือเครื่องคิดเลขข้างแก้วชาไทยและนาฬิกาจับเวลา" width="1440" height="960" fetchpriority="high">
     </div>
-    <div class="route mock-route"><div><strong>พร้อมลองทำเอง?</strong><p>ชุดเก็ง 6 แนว ให้เวลาเลือกวิธี 15 วินาทีต่อข้อ แล้วคำนวณตามจังหวะของตัวเอง</p></div><div class="exam-start"><a class="button primary" href="#forecast">เริ่มชุดเก็ง 15 วินาที</a><a class="button quiet" href="#mock">ข้อสอบชุดแรก</a></div></div>
-    <div class="route"><strong>มีเวลา 5 นาที?</strong><span>ลองเกมเลือกสูตรก่อน แล้วเปิดเฉพาะสูตรที่ตอบพลาด</span><a href="#quick-quiz">เล่นเกมเลือกสูตร</a></div>
+    <section id="warm-up" class="warm-up" aria-labelledby="warm-heading"></section>
+    <section class="section study-modes" aria-labelledby="mode-title">
+      <h2 id="mode-title">อยากฝึกแบบไหนต่อ?</h2>
+      <div class="mode-grid">
+        <a class="mode-card mode-basics" href="#basics"><span class="mode-icon" aria-hidden="true">x̄</span><strong>เริ่มจากศูนย์</strong><span>เข้าใจค่าเฉลี่ยและความแกว่งจากเวลารอหน้าร้านกาแฟ</span></a>
+        <a class="mode-card mode-formula" href="#formulas"><span class="mode-icon" aria-hidden="true">ƒ(x)</span><strong>แกะสูตรทีละขั้น</strong><span>เปิดวิธีคิด 14 สูตร แล้วลองเปลี่ยนตัวเลขเอง</span></a>
+        <a class="mode-card mode-forecast" href="#forecast"><span class="mode-icon" aria-hidden="true">:15</span><strong>ลงสนาม 15 วินาที</strong><span>จับเวลาเฉพาะตอนเลือกวิธี แล้วคำนวณตามจังหวะของตัวเอง</span></a>
+      </div>
+      <div class="more-practice"><a href="#quick-quiz">เกมเลือกสูตร 6 ข้อ</a><a href="#mock">ข้อสอบจำลองชุดแรก</a></div>
+    </section>
     <section class="section" aria-labelledby="map-title">
-      <div class="section-head"><div><p class="kicker">แผนเลือกวิธี</p><h2 id="map-title">โจทย์กำลังถามอะไร?</h2></div><span id="home-progress" class="muted"></span></div>
+      <div class="section-head"><h2 id="map-title">บทเรียนทั้ง 6 บท</h2><span id="home-progress" class="muted"></span></div>
       <div id="lesson-grid" class="lesson-grid"></div>
     </section>
   </section>

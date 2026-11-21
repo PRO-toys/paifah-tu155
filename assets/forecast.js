@@ -48,6 +48,12 @@ function forecastProblem(question) {
   return `<div class="problem"><p>${question.context}</p>${question.data ? table(...question.data) : ''}</div>`;
 }
 
+function forecastPhases(active) {
+  return `<ol class="exam-phases" aria-label="ขั้นตอนทำข้อสอบ">${['เลือกวิธี','คำนวณ','เฉลย'].map((label,i) =>
+    `<li${i===active?' aria-current="step"':''}>${label}</li>`
+  ).join('')}</ol>`;
+}
+
 function forecastPager(box, selected) {
   const pager = box.querySelector('.mock-pager');
   pager.innerHTML = forecastQuestions.map((question,i) => {
@@ -65,11 +71,15 @@ function forecastPager(box, selected) {
 }
 
 function renderForecastReady(box, index, entry) {
-  box.innerHTML = `<p class="kicker">ข้อสอบเก็ง 6 แนว · ข้อ ${index+1} / ${forecastQuestions.length}</p><h1>เลือกวิธีใน 15 วินาที</h1>
-    <p>เมื่อกดเริ่ม จะเห็นโจทย์ย่อกับตัวเลือกวิธี มีเวลา 15 วินาทีเพื่อเลือก พอหมดเวลา ระบบจะบันทึกตัวเลือกที่ติ๊กไว้และเปิดโจทย์เต็มให้คำนวณ</p>
-    <p class="muted">ถ้าหมดเวลาก่อนเลือก ยังทำส่วนคำนวณได้ เฉลยจะเปิดหลังส่งคำตอบครบทั้งชุด</p>
+  box.innerHTML = `<div class="forecast-cover">
+    <div><p class="kicker">ข้อสอบเก็ง · ข้อ ${index+1} / ${forecastQuestions.length}</p><h1>อ่านโจทย์.<br>จับวิธีให้ทัน.</h1>
+      <p>กดเริ่มเพื่อเปิดโจทย์ย่อ พอเลือกวิธีหรือหมดเวลาแล้ว จะได้โจทย์เต็มไปคำนวณตามจังหวะของคุณ</p>
+      <div class="actions"><button class="button primary" id="forecast-start" type="button">เริ่มจับเวลา 15 วินาที</button></div></div>
+    <div class="cover-timer" aria-hidden="true"><b>15</b><span>วินาที</span></div></div>
+    ${forecastPhases(0)}
     <div class="mock-pager" role="group" aria-label="เลือกข้อ"></div>
-    <div class="actions"><button class="button primary" id="forecast-start" type="button">เริ่มจับเวลา 15 วินาที</button><a class="button quiet" href="#mock">ข้อสอบชุดแรก</a></div>`;
+    <p class="muted">ถ้าหมดเวลาก่อนเลือก ยังทำส่วนคำนวณได้ เฉลยเปิดเมื่อส่งครบทั้งชุด</p>
+    <div class="actions"><a class="button quiet" href="#mock">ข้อสอบชุดแรก</a><a class="button quiet" href="#quick-quiz">อุ่นเครื่องก่อนสอบ</a></div>`;
   forecastPager(box,index);
   get('forecast-start').addEventListener('click', () => {
     entry.deadline=Date.now()+forecastDuration;
@@ -79,9 +89,10 @@ function renderForecastReady(box, index, entry) {
 }
 
 function renderForecastTimed(box, index, question, entry) {
-  box.innerHTML = `<p class="kicker">ข้อสอบเก็ง 6 แนว · ข้อ ${index+1} / ${forecastQuestions.length} · เลือกวิธี</p>
-    <h1>${question.title}</h1><div class="forecast-clock"><span>เวลาที่เหลือ</span><strong id="forecast-seconds" role="timer" aria-live="off">15 วินาที</strong></div>
-    <div class="progress" aria-hidden="true"><span id="forecast-timebar"></span></div>
+  box.innerHTML = `${forecastPhases(0)}
+    <div class="forecast-timed-head"><div><p class="kicker">ข้อ ${index+1} / ${forecastQuestions.length} · เลือกวิธี</p><h1>${question.title}</h1></div>
+      <div class="forecast-clock" id="forecast-clock"><span>เหลือเวลา</span><strong id="forecast-seconds" role="timer" aria-live="off">15 วินาที</strong></div></div>
+    <div class="progress forecast-time-track" aria-hidden="true"><span id="forecast-timebar"></span></div>
     <div class="problem"><p>${question.preview}</p></div>
     <form id="forecast-method-form">
       <fieldset class="mock-field"><legend>โจทย์นี้ใช้วิธีไหน?</legend>
@@ -111,13 +122,14 @@ function renderForecastTimed(box, index, question, entry) {
     if (remaining<=0) {lockMethod();return;}
     get('forecast-seconds').textContent=`${Math.ceil(remaining/1000)} วินาที`;
     get('forecast-timebar').style.width=`${100*remaining/forecastDuration}%`;
+    get('forecast-clock').dataset.urgent=String(remaining<=5000);
   }
   forecastTimer=setInterval(tick,100);
   tick();
 }
 
 function renderForecastCalculate(box, index, question, entry) {
-  box.innerHTML = `<p class="kicker">ข้อสอบเก็ง 6 แนว · ข้อ ${index+1} / ${forecastQuestions.length} · คำนวณ</p><h1>${question.title}</h1>
+  box.innerHTML = `${forecastPhases(1)}<p class="kicker">ข้อ ${index+1} / ${forecastQuestions.length} · คำนวณ</p><h1>${question.title}</h1>
     <p class="forecast-record">${entry.choice===null ? 'หมดเวลาก่อนเลือกวิธี' : 'บันทึกวิธีที่เลือกแล้ว · '+question.methods[entry.choice]} <strong>ตอนนี้คำนวณได้ตามจังหวะของคุณ</strong></p>
     <div class="mock-pager" role="group" aria-label="เลือกข้อ"></div><p class="muted" id="forecast-progress" role="status"></p>
     ${forecastProblem(question)}
@@ -198,7 +210,7 @@ function renderForecastResults(box) {
 
 function renderForecastReview(box, index) {
   const question=forecastQuestions[index], entry=forecastState.entries[index];
-  box.innerHTML = `<p class="kicker">เฉลยข้อ ${index+1} / ${forecastQuestions.length}</p><h1>${question.title}</h1>
+  box.innerHTML = `${forecastPhases(2)}<p class="kicker">เฉลยข้อ ${index+1} / ${forecastQuestions.length}</p><h1>${question.title}</h1>
     <div class="mock-pager" role="group" aria-label="เลือกข้อ"></div>${forecastProblem(question)}
     <h2>คำตอบของคุณ</h2><ol class="steps" id="forecast-answers"></ol>
     <h2>วิธีคิดทีละขั้น</h2><ol class="steps forecast-solution" id="forecast-solution"></ol>
