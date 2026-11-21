@@ -263,12 +263,13 @@ function renderExam(focus = false) {
 function route(focus = false) {
   const hash = location.hash.slice(1);
   const lessonMatch = /^lesson-([0-5])$/.exec(hash);
+  const intuitionMatch = /^play(?:-([1-8]))?$/.exec(hash);
   const formulaRoute = /^(basics|quick-quiz|p-value|formulas(?:-[0-5])?|formula-[a-z0-9-]+)$/.test(hash);
-  const page = lessonMatch ? 'lecture' : formulaRoute ? 'formula-room' : ['exam','mock','forecast','sources'].includes(hash) ? hash : 'home';
+  const page = lessonMatch ? 'lecture' : intuitionMatch ? 'intuition' : formulaRoute ? 'formula-room' : ['exam','mock','forecast','sources'].includes(hash) ? hash : 'home';
   if (page !== 'forecast') stopForecastTimer();
   document.querySelectorAll('[data-page]').forEach(section => {section.hidden = section.id !== page;});
   document.querySelectorAll('.top nav a').forEach(link => {
-    if (link.hash === '#' + (page === 'lecture' ? 'home' : formulaRoute ? 'formulas' : page === 'mock' ? 'forecast' : page)) link.setAttribute('aria-current','page');
+    if (link.hash === '#' + (['lecture','intuition'].includes(page) ? 'home' : formulaRoute ? 'formulas' : page === 'mock' ? 'forecast' : page)) link.setAttribute('aria-current','page');
     else link.removeAttribute('aria-current');
   });
   if (page === 'home') renderHome();
@@ -276,6 +277,7 @@ function route(focus = false) {
   if (page === 'exam') renderExam();
   if (page === 'mock') renderMock();
   if (page === 'forecast') renderForecast();
+  if (intuitionMatch) renderIntuition(Number(intuitionMatch[1] ?? 1) - 1);
   if (formulaRoute) renderFormulaRoute(hash);
   if (focus) {
     const heading = get(page).querySelector('h1');

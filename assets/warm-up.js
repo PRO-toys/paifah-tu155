@@ -60,9 +60,5 @@ function renderWarmUp(moveFocus = false) {
     }));
     get('warm-next')?.addEventListener('click',()=>{warmIndex++;renderWarmUp(true);});
   }
-  get('start-warm-up').onclick=()=>{
-    box.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
-    get('warm-heading').focus({preventScroll:true});
-  };
   if (moveFocus) get('warm-heading').focus();
 }
