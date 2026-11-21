@@ -277,11 +277,12 @@ function route(focus = false) {
   const intuitionMatch = /^play(?:-([1-8]))?$/.exec(hash);
   const formulaRoute = /^(basics|quick-quiz|p-value|formulas(?:-[0-5])?|formula-[a-z0-9-]+)$/.test(hash);
   const sheetRoute = /^(sheets(?:-[a-z0-9-]+)?|sheet-[a-z0-9-]+)$/.test(hash);
-  const page = lessonMatch ? 'lecture' : intuitionMatch ? 'intuition' : formulaRoute ? 'formula-room' : sheetRoute ? 'sheets' : ['exam','mock','forecast','sources'].includes(hash) ? hash : 'home';
+  const page = lessonMatch ? 'lecture' : intuitionMatch ? 'intuition' : formulaRoute ? 'formula-room' : sheetRoute ? 'sheet-room' : ['exam','mock','forecast','sources'].includes(hash) ? hash : 'home';
+  const tab = ['lecture','intuition'].includes(page) ? 'home' : formulaRoute ? 'formulas' : sheetRoute ? 'sheets' : page === 'mock' ? 'forecast' : page;
   if (page !== 'forecast') stopForecastTimer();
   document.querySelectorAll('[data-page]').forEach(section => {section.hidden = section.id !== page;});
   document.querySelectorAll('.top nav a').forEach(link => {
-    if (link.hash === '#' + (['lecture','intuition'].includes(page) ? 'home' : formulaRoute ? 'formulas' : page === 'mock' ? 'forecast' : page)) link.setAttribute('aria-current','page');
+    if (link.hash === '#' + tab) link.setAttribute('aria-current','page');
     else link.removeAttribute('aria-current');
   });
   if (page === 'home') renderHome();
