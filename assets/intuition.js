@@ -95,7 +95,7 @@ function playPairs() {
   playButtons(people.map(person=>person[0]),0,index=>{
     const [name,before,after]=people[index];
     update([before,after]);
-    get('play-live').textContent=`${name}: ${after} − ${before} = ${after-before} points gained`;
+    get('play-live').textContent=`${name}: ${after} − ${before}. Gain: ${after-before} ${after-before===1?'point':'points'}.`;
   });
 }
 
