@@ -298,3 +298,19 @@
 .sheet-sprint-comparisons li span {font-size:.92rem}
 .sheet-sprint-up {font-weight:800; color:var(--green)}
 .sheet-sprint-down {font-weight:800; color:#794412}
+
+.sheet-sprint-promo .actions {margin-top:0}
+.sheet-sprint-history {list-style:none; margin:12px 0 0; padding:0; display:grid; gap:8px}
+.sheet-sprint-history li {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px 15px;
+  padding:9px 12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+}
+.sheet-sprint-history li > div {display:grid; gap:2px}
+.sheet-sprint-history a {justify-self:start; font-weight:800}

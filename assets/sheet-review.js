@@ -71,7 +71,10 @@ function renderSheetReview(root) {
       <section class="panel sheet-review-section sheet-sprint-promo" aria-labelledby="sheet-sprint-promo-title">
         <div><h2 id="sheet-sprint-promo-title">10-minute exam review</h2>
         <p>Answer six fresh questions, then see what improved and what to revisit.</p></div>
-        <a class="button primary" href="#sheets-sprint">Open 10-minute review →</a>
+        <div class="actions">
+          <a class="button primary" href="#sheets-sprint">Open 10-minute review →</a>
+          <a class="button quiet" href="#sheets-sprint-history">Round history</a>
+        </div>
       </section>
       ${attempts.length ? `<div class="sheet-review-overview">
         <section class="panel" aria-labelledby="sheet-review-skills-title">

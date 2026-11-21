@@ -30,6 +30,13 @@ const sheetSprintBank = [
       trap:sprintChoice('Which denominator matches the requested proportion?', '160 users, because the survey measures people.', '280 bookings, because the question mentions the app.', '96 users, because they use the app.', 'The study estimates a share of users. Use 96 successes out of 160 surveyed people.'),
       formula:sprintChoice('Which expression is the estimated SE for a proportion interval?', '√[(96/160)(1−96/160)/160]', '√[(96/280)(1−96/280)/280]', '√[0.5(1−0.5)/160]', 'A one-proportion confidence interval uses the sample proportion and its complement in the SE.'),
       calculation:sprintNumber('Compute √[0.60×0.40/160]. Enter the standard error as a decimal to 3 places.', Math.sqrt(.24/160), '0.60×0.40/160 = 0.0015. The square root is about 0.039.', 0.0006, '0.039')
+    },
+    {
+      id:'bottle-fill', review:'ci-3419',
+      story:'A bottler samples 64 bottles with a mean volume of 508 mL. The known population SD is 16 mL. The auditor wants a two-sided 95% confidence interval for the mean.',
+      trap:sprintChoice('Which value belongs in the margin of error as the SE?', '16/√64, because the interval estimates a mean.', '16, because it is the reported population SD.', '508, because it is the centre of the interval.', 'The population SD describes individual bottles. Divide it by the square root of the sample size to measure uncertainty in the mean.'),
+      formula:sprintChoice('Which expression gives the interval?', '508 ± 1.960×16/√64', '508 ± 1.960×16/64', '508 ± 1.960×16', 'The known population SD calls for a z interval. Use the SE 16/√64 and the 95% critical value 1.960.'),
+      calculation:sprintNumber('Calculate the lower endpoint 508 − 1.960×16/√64. Enter mL.', 504.08, '16/√64 = 2. Subtract the margin of 3.92 mL from 508 mL.')
     }
   ],
   [
@@ -53,6 +60,13 @@ const sheetSprintBank = [
       trap:sprintChoice('Which value is the hypothesised population mean?', '30 minutes', '27.5 minutes', '5 minutes', 'The claim tests a population mean of 30 against a lower mean. The sample mean is 27.5.'),
       formula:sprintChoice('Which test statistic and direction fit?', 't = (27.5−30)/(5/√16), left-tailed', 't = (30−27.5)/(5/√16), left-tailed', 'z = (27.5−30)/(5/√16), two-sided', 'Use the sample SD and Student’s t. The observed value comes first and “under” sets the left tail.'),
       calculation:sprintNumber('Enter the signed t statistic using (27.5−30)/(5/√16).', -2, 'The gap is −2.5 minutes, and 5/√16 = 1.25. Their ratio is −2.')
+    },
+    {
+      id:'locker-renewal', review:'single-prop-check',
+      story:'Historically, 75% of locker bookings were renewed. Now 60 of 100 bookings renew. The office wants to test whether the renewal rate has fallen.',
+      trap:sprintChoice('Which detail sets the direction of the test?', 'The office asks whether renewal has fallen, so use the left tail.', 'The old rate is above 50%, so use the right tail.', 'The sample size is 100, so always use both tails.', '“Fallen” sets a lower alternative. Test the probability of a result this low or lower under the null.'),
+      formula:sprintChoice('Which test statistic matches the question?', 'z = (0.60−0.75)/√(0.75×0.25/100)', 'z = (0.60−0.75)/√(0.60×0.40/100)', 'z = (0.75−0.60)/√(0.75×0.25/100)', 'Use observed minus null, and build the standard error with the 0.75 null share.'),
+      calculation:sprintNumber('Compute signed z = (0.60−0.75)/√(0.75×0.25/100). Round to 2 decimals.', -0.15/Math.sqrt(0.75*0.25/100), 'The SE is about 0.0433. Divide −0.15 by that SE to get −3.46.', 0.005, '−3.46')
     }
   ],
   [
@@ -76,6 +90,13 @@ const sheetSprintBank = [
       trap:sprintChoice('What still needs to happen before dividing between-group by within-group variation?', 'Divide each sum of squares by its own degrees of freedom.', 'Take the square root of each sum of squares.', 'Divide both sums of squares by 32.', 'The F statistic uses mean squares. Between-group df is 3 and within-group df is 28.'),
       formula:sprintChoice('Which calculation gives the ANOVA F statistic?', '(90/3)/(140/28)', '90/140', '(140/28)/(90/3)', 'Place the between-group mean square in the numerator and the within-group mean square in the denominator.'),
       calculation:sprintNumber('Calculate F = (90/3)/(140/28).', 6, 'MS between is 30 and MS within is 5. Their ratio is 6.')
+    },
+    {
+      id:'seed-trays', review:'valve-anova',
+      story:'A garden compares mean plant height under three fertilisers using 27 pots. Its ANOVA output gives SS between = 56 and SS within = 96.',
+      trap:sprintChoice('Which number determines the between-group degrees of freedom?', 'Three fertiliser groups, giving df = 2.', 'Twenty-seven pots, giving df = 26.', 'Ninety-six units of within-group SS, giving df = 95.', 'The between-group degrees of freedom come from the number of group means, so use 3−1.'),
+      formula:sprintChoice('Which expression gives the F statistic?', '(56/2)/(96/24)', '(56/24)/(96/2)', '56/96', 'Convert each SS to its own mean square, then divide between by within.'),
+      calculation:sprintNumber('Calculate F = (56/2)/(96/24).', 7, 'MS between = 28 and MS within = 4. Divide 28 by 4.')
     }
   ],
   [
@@ -99,6 +120,13 @@ const sheetSprintBank = [
       trap:sprintChoice('Which share should set the expected count?', '25%, the target distribution share.', '31%, the observed 62 out of 200.', '50%, because the manager mentioned one category.', 'Goodness-of-fit compares observations with a stated target. The target share gives an expected count of 50.'),
       formula:sprintChoice('Which expression gives the fruit contribution?', '(62−50)²/50', '(62−50)²/62', '(62−50)/50', 'Square the gap between observed and expected, then divide by the expected count.'),
       calculation:sprintNumber('Calculate (62−50)²/50.', 2.88, '(62−50)² = 144. Dividing by 50 gives 2.88.')
+    },
+    {
+      id:'study-space', review:'political-opinion',
+      story:'A campus survey crosses residence and preferred study space. The commuter row has 60 responses. The library column has 75 responses. A total of 35 commuters chose the library, and the survey includes 150 students.',
+      trap:sprintChoice('Which number is the expected library count for commuters under independence?', '30, because half of all respondents chose the library.', '35, because that many commuters chose the library.', '37.5, because there are two groups of students.', 'The expected commuter count uses the overall library share of 75/150 applied to 60 commuters.'),
+      formula:sprintChoice('Which term is the commuter library cell’s chi-square contribution?', '(35−30)²/30', '(35−30)²/35', '(35−30)/30', 'The contribution is the squared difference between observed and expected divided by expected.'),
+      calculation:sprintNumber('Compute (35−30)²/30. Round to 2 decimals.', 25/30, 'The squared gap is 25. Divide by 30 to get 0.83.', 0.005, '0.83')
     }
   ],
   [
@@ -122,6 +150,13 @@ const sheetSprintBank = [
       trap:sprintChoice('Where is this observation relative to the fitted line?', 'Above the line because the actual wait is longer than predicted.', 'Below the line because the order had only two items.', 'On the line because both times concern the same customer.', 'Compare actual wait with predicted wait for this customer’s predictor values. A larger actual wait lies above the fitted line.'),
       formula:sprintChoice('Which expression gives the signed residual?', '10 − 7', '7 − 10', '(10 − 7)²', 'A signed residual keeps the direction of the difference. Subtract predicted from observed.'),
       calculation:sprintNumber('Calculate the signed residual in minutes as actual minus fitted.', 3, '10−7 = +3 minutes. The customer waited 3 minutes longer than predicted.')
+    },
+    {
+      id:'parcel-fuel', review:'passenger-line',
+      story:'A fitted line predicts van fuel use as ŷ = 12 + 0.4x litres, where x is the number of stops. On a 20-stop route, the van actually used 18 litres.',
+      trap:sprintChoice('Which statement describes the 0.4?', 'It is the increase in fitted litres per extra stop.', 'It is the prediction for a route with zero stops.', 'It is the signed residual for the 20-stop route.', 'The coefficient of x gives the change in predicted fuel for a one-stop increase.'),
+      formula:sprintChoice('Which expression gives the signed residual on the route?', '18 − (12 + 0.4×20)', '(12 + 0.4×20) − 18', '18 − 0.4×20', 'Subtract the full fitted value from the actual use.'),
+      calculation:sprintNumber('Calculate the signed residual 18 − (12 + 0.4×20), in litres.', -2, 'The fitted value is 20 litres. Actual minus fitted is −2 litres.')
     }
   ],
   [
@@ -145,6 +180,86 @@ const sheetSprintBank = [
       trap:sprintChoice('Which information is specific to the question?', 'The experience coefficient and its own standard error.', 'The overall model p-value alone.', 'The number of predictors alone.', 'The coefficient row answers a question about an individual slope. Its t statistic uses its own estimate and SE.'),
       formula:sprintChoice('Which statistic tests this individual coefficient?', 't = (24−0)/8', 't = (24−0)/0.01', 'F = 8/24', 'Compare the estimated slope with zero by dividing by its standard error.'),
       calculation:sprintNumber('Calculate the signed t statistic using (24−0)/8.', 3, 'The slope is three standard errors above zero, so t = +3.')
+    },
+    {
+      id:'delivery-slope', review:'drink-coefficients',
+      story:'A model for delivery times includes distance, traffic, and a weekend indicator. The traffic slope is 4.5 and its standard error is 1.5. The overall model F is 27.',
+      trap:sprintChoice('Which part of the output tests the traffic predictor by itself?', 'The coefficient row for traffic.', 'The overall model F statistic.', 'The intercept row.', 'An individual predictor has its own coefficient and standard error. The overall F statistic covers the slopes jointly.'),
+      formula:sprintChoice('Which expression tests whether the traffic slope is zero?', 't = (4.5−0)/1.5', 't = (4.5−0)/27', 't = 1.5/4.5', 'Divide the estimated slope minus its null value by its own standard error.'),
+      calculation:sprintNumber('Calculate t = (4.5−0)/1.5.', 3, 'The slope is three standard errors above zero, so t = 3.')
     }
   ]
 ];
+
+// Extra versions leave fresh questions for a focused round after any three scenarios from a topic.
+sheetSprintBank[0].push(...[
+  ['towel-sizes', 'A hotel checks towel lengths', 70, 8, 'cm'],
+  ['tea-fill', 'A café checks tea portions', 300, 20, 'mL']
+].map(([id, setting, mean, sd, unit]) => ({
+  id, review:'ci-3419',
+  story:`${setting} using 16 independent observations. The sample mean is ${mean} ${unit}, and the known population SD is ${sd} ${unit}. The goal is a 95% interval for the population mean.`,
+  trap:sprintChoice('Which number belongs at the centre of the interval?', `${mean}, the sample mean.`, `${sd}, the population SD.`, '16, the sample size.', 'The sample mean is the point estimate at the centre. Use SD and sample size to calculate the margin.'),
+  formula:sprintChoice('Which formula gives the two-sided interval?', 'x̄ ± 1.960 × σ/√n', 'x̄ ± 1.960 × σ/n', 'x̄ ± σ/√n', 'With known σ, multiply its standard error by the 95% z critical value of 1.960.'),
+  calculation:sprintNumber(`Find the upper endpoint in ${unit} using ${mean} + 1.960 × ${sd}/√16.`, mean+1.96*sd/4,
+    `The SE is ${sd}/4 = ${sd/4}. Add the margin of ${1.96*sd/4} to ${mean}.`)
+})));
+
+sheetSprintBank[1].push(...[
+  ['bus-departures', 'a shuttle’s departure delay in minutes', 12, 10, 8],
+  ['device-batteries', 'a device’s battery life in hours', 18, 15, 6]
+].map(([id, outcome, benchmark, mean, sd]) => ({
+  id, review:'single-t-check',
+  story:`The question asks whether the mean of ${outcome} is lower than ${benchmark}. In a sample of 16, the mean is ${mean} with sample SD ${sd}.`,
+  trap:sprintChoice('Which alternative answers the question?', `μ < ${benchmark}`, `μ > ${benchmark}`, `μ ≠ ${benchmark}`, 'The requested direction is lower. Write the benchmark into a left-tailed alternative.'),
+  formula:sprintChoice('Which test statistic fits?', 't = (x̄−μ₀)/(s/√n), with df = 15', 't = (μ₀−x̄)/(s/√n), with df = 16', 'z = (x̄−μ₀)/s', 'Use the sample SD to estimate the standard error, and subtract the null mean from the observed mean.'),
+  calculation:sprintNumber(`Compute signed t = (${mean}−${benchmark})/(${sd}/√16).`, (mean-benchmark)/(sd/4),
+    `The signed gap is ${mean-benchmark}. The SE is ${sd/4}. Divide the gap by the SE.`)
+})));
+
+sheetSprintBank[2].push(...[
+  ['delivery-training', 'couriers completing a route', -4, 8],
+  ['word-puzzles', 'students solving a word puzzle', -6, 6]
+].map(([id, participants, change, sd]) => ({
+  id, review:'company-video',
+  story:`Sixteen ${participants} record their completion time before and after coaching. For after minus before, the mean change is ${change} minutes and its sample SD is ${sd} minutes. The question asks whether completion time fell.`,
+  trap:sprintChoice('What sign means improvement under this coding?', 'Negative, because an improved time is shorter.', 'Positive, because an improvement always raises the measurement.', 'Zero, because both measurements come from the same person.', 'A shorter after time makes after minus before negative. Use a left-tailed test for a fall in completion time.'),
+  formula:sprintChoice('Which statistic matches the design?', 'Paired t = d̄/(sᵈ/√16)', 'Independent t based on 32 separate recorded times', 'Paired t = d̄/(sᵈ/√32)', 'Find the standard error from 16 within-person changes.'),
+  calculation:sprintNumber(`Compute signed paired t = ${change}/(${sd}/√16).`, change/(sd/4),
+    `The SE is ${sd}/4 = ${sd/4}. The ratio is ${change/(sd/4)}.`)
+})));
+
+sheetSprintBank[3].push(...[
+  ['music-app', 'students and staff', 'a music app', 21, 14],
+  ['cashless-stalls', 'two market zones', 'cashless payment', 24, 16]
+].map(([id, groups, outcome, first, second]) => ({
+  id, review:'final-2',
+  story:`Two samples from ${groups} report their use of ${outcome}. The first sample has ${first} successes out of 40. The second has ${second} successes out of 60. A headline says the first group uses it more often. The test asks whether the population proportions differ.`,
+  trap:sprintChoice('Which phrase guides the tail choice?', '“The proportions differ,” so use two tails.', '“More often” in the headline, so use the right tail.', 'The first sample has more successes, so use the left tail.', 'The actual test asks about a difference in either direction.'),
+  formula:sprintChoice('How do you pool under the equal-proportion null?', `(${first}+${second})/(40+60)`, `(${first}/40+${second}/60)/2`, `(${first}+${second})/60`, 'Combine success counts and sample sizes before dividing.'),
+  calculation:sprintNumber(`Compute the pooled proportion (${first}+${second})/(40+60). Enter a decimal.`, (first+second)/100,
+    `There are ${first+second} successes in 100 observations, giving a pooled share of ${(first+second)/100}.`, 0.0006)
+})));
+
+sheetSprintBank[4].push(...[
+  ['refill-station', 'water-refill time', 'number of bottles', 3, 2, 4, 10],
+  ['repair-booking', 'repair time', 'number of parts', 6, 3, 5, 25]
+].map(([id, outcome, predictor, intercept, slope, input, actual]) => ({
+  id, review:'whose-residual',
+  story:`A line predicts ${outcome} in minutes as ŷ = ${intercept} + ${slope}x, where x is the ${predictor}. For x = ${input}, the observed time was ${actual} minutes.`,
+  trap:sprintChoice('What does the intercept represent?', 'The fitted time at x = 0.', 'The extra minutes for each increase of one in x.', 'The difference between the observed and fitted time.', 'The intercept is the fitted value when the predictor is zero.'),
+  formula:sprintChoice('How do you find the signed residual?', `${actual}−(${intercept}+${slope}×${input})`, `(${intercept}+${slope}×${input})−${actual}`, `${actual}−${slope}×${input}`, 'Subtract the full fitted value from the observed value.'),
+  calculation:sprintNumber(`Calculate signed residual = ${actual}−(${intercept}+${slope}×${input}).`, actual-(intercept+slope*input),
+    `The fitted time is ${intercept+slope*input} minutes. Observed minus fitted is ${actual-(intercept+slope*input)} minutes.`)
+})));
+
+sheetSprintBank[5].push(...[
+  ['museum-entry', 'museum admissions', 48, 12, 0.24],
+  ['market-stock', 'market stock costs', 160, 20, 0.31]
+].map(([id, outcome, modelMS, errorMS, coefficientP]) => ({
+  id, review:'drink-overall-f',
+  story:`A model for ${outcome} uses three predictors. Its output gives MS Regression = ${modelMS}, MS Residual = ${errorMS}, and a p-value of ${coefficientP} for one coefficient. The question asks about all three slopes jointly.`,
+  trap:sprintChoice('Which result matches the target of the question?', 'The overall model F statistic.', 'The p-value for the one coefficient.', 'The intercept as a fitted value.', 'A joint test asks whether all slopes are zero together. The overall F test addresses that claim.'),
+  formula:sprintChoice('Which quotient gives the overall F statistic?', `${modelMS}/${errorMS}`, `${errorMS}/${modelMS}`, `${modelMS}/${coefficientP}`, 'Divide the regression mean square by the residual mean square.'),
+  calculation:sprintNumber(`Compute overall F = ${modelMS}/${errorMS}.`, modelMS/errorMS,
+    `The two lines are already mean squares. Their ratio is ${modelMS/errorMS}.`)
+})));

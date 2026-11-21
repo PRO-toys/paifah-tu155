@@ -9,19 +9,24 @@ let sheetSprint = loadSheetSprint();
 function loadSheetSprint() {
   try {
     const state = JSON.parse(sessionStorage.getItem(sheetSprintKey));
-    if (state && Number.isSafeInteger(state.round) && state.round > 0
-      && Number.isFinite(state.deadline) && ['active','complete','expired'].includes(state.status)
-      && Array.isArray(state.plan) && state.plan.length === sheetSprintLength && state.plan.every(item =>
-        item && Object.hasOwn(sheetSprintScenarios, item.id) && sheetSkills.some(skill => skill.key === item.skill)
-        && Number.isInteger(item.before?.correct) && Number.isInteger(item.before?.attempted)
-        && item.before.correct >= 0 && item.before.attempted >= item.before.correct)
-      && Array.isArray(state.answers) && state.answers.length <= sheetSprintLength
-      && (state.status !== 'active' || state.answers.length < sheetSprintLength)
-      && state.answers.every(answer => typeof answer === 'string') && typeof state.draft === 'string') return state;
+    if (validSheetSprint(state)) return state;
   } catch {
     // The review can run in memory when session storage is unavailable.
   }
   return null;
+}
+
+function validSheetSprint(state) {
+  return state && Number.isSafeInteger(state.round) && state.round > 0
+    && Number.isFinite(state.deadline) && ['active','complete','expired'].includes(state.status)
+    && Array.isArray(state.plan) && state.plan.length > 0 && state.plan.length <= sheetSprintLength
+    && state.plan.every(item => item && Object.hasOwn(sheetSprintScenarios, item.id) && sheetSkills.some(skill => skill.key === item.skill)
+      && Number.isInteger(item.before?.correct) && Number.isInteger(item.before?.attempted)
+      && item.before.correct >= 0 && item.before.attempted >= item.before.correct)
+    && Array.isArray(state.answers) && state.answers.length <= state.plan.length
+    && (state.status !== 'active' || state.answers.length < state.plan.length)
+    && (state.status !== 'complete' || state.answers.length === state.plan.length)
+    && state.answers.every(answer => typeof answer === 'string') && typeof state.draft === 'string';
 }
 
 function saveSheetSprint() {
@@ -30,20 +35,24 @@ function saveSheetSprint() {
   }
 }
 
+function sheetSprintBaseline(attempts, topic, skillIndex) {
+  const matching = attempts.filter(({question}) => sheetTopicIndex(question) === topic);
+  return {attempted:matching.length, correct:matching.filter(attempt => attempt.scores[skillIndex]).length};
+}
+
 function buildSheetSprint(round, previousIds = []) {
   const {attempts} = getSheetPerformance(sheetWalkthroughs);
   const topicUses = formulaGroups.map(() => 0);
   const skillUses = sheetSkills.map(() => 0);
   const cells = formulaGroups.flatMap((_, topic) => sheetSkills.map((skill, skillIndex) => {
-    const scores = attempts.filter(({question}) => sheetTopicIndex(question) === topic);
     return {topic, skill:skill.key, skillIndex, used:0,
-      attempted:scores.length, correct:scores.filter(attempt => attempt.scores[skillIndex]).length};
+      ...sheetSprintBaseline(attempts, topic, skillIndex)};
   }));
   const skillMisses = sheetSkills.map((_, index) => attempts.filter(attempt => !attempt.scores[index]).length);
   const usedScenarios = new Set();
   const plan = [];
   while (plan.length < sheetSprintLength) {
-    const available = cells.filter(cell => sheetSprintBank[cell.topic].some(scenario => !usedScenarios.has(scenario.id)));
+    const available = cells.filter(cell => topicUses[cell.topic] < 3);
     const weight = cell => (cell.attempted - cell.correct) / (1 + cell.used);
     const fallbackWeight = cell => skillMisses[cell.skillIndex] / (1 + skillUses[cell.skillIndex]);
     available.sort((a, b) =>
@@ -71,10 +80,16 @@ function stopSheetSprintTimer() {
 
 function expireSheetSprint() {
   if (sheetSprint?.status !== 'active' || Date.now() < sheetSprint.deadline) return false;
-  sheetSprint.status = 'expired';
+  finishSheetSprint('expired', sheetSprint.deadline);
+  return true;
+}
+
+function finishSheetSprint(status, finishedAt) {
+  sheetSprint.status = status;
+  sheetSprint.finishedAt = finishedAt;
   sheetSprint.draft = '';
   saveSheetSprint();
-  return true;
+  archiveSheetSprint(sheetSprint);
 }
 
 function sheetSprintScore(item, raw) {
@@ -87,7 +102,10 @@ function renderSheetSprint(root, moveFocus = false) {
   expireSheetSprint();
   if (!sheetSprint) renderSheetSprintIntro(root);
   else if (sheetSprint.status === 'active') renderSheetSprintQuestion(root);
-  else renderSheetSprintResults(root);
+  else {
+    archiveSheetSprint(sheetSprint);
+    renderSheetSprintResults(root, sheetSprint);
+  }
   if (moveFocus) {
     const heading = root.querySelector('h1');
     heading.tabIndex = -1;
@@ -105,22 +123,31 @@ function renderSheetSprintIntro(root) {
       <p>Work through six new questions in ten minutes. You’ll get feedback after you finish or when time runs out.</p>
       <p>${hasMisses ? 'Your practice history determines which topics and skills come first.' :
         'This round starts with a mix of exam topics. As you submit more Sheet practice, future rounds can focus on your mistakes.'}</p>
-      <div class="actions"><button type="button" class="button primary" data-sprint-start>Start 10-minute round</button></div>
+      <div class="actions"><button type="button" class="button primary" data-sprint-start>Start 10-minute round</button>
+        <a class="button quiet" href="#sheets-sprint-history">Round history</a></div>
     </article>`;
   root.querySelector('[data-sprint-start]').addEventListener('click', () => startSheetSprint(root));
 }
 
-function startSheetSprint(root) {
+function startSheetSprint(root, focusRound) {
+  if (sheetSprint?.status === 'active' && !expireSheetSprint()) {
+    location.hash = '#sheets-sprint';
+    return;
+  }
   const round = (sheetSprint?.round ?? 0) + 1;
   const previousIds = sheetSprint?.plan.map(item => item.id);
-  sheetSprint = {round, plan:buildSheetSprint(round, previousIds), deadline:Date.now() + sheetSprintDuration,
-    status:'active', answers:[], draft:''};
+  const plan = focusRound ? buildFocusedSheetSprint(focusRound, previousIds) : buildSheetSprint(round, previousIds);
+  if (!plan.length) return;
+  sheetSprint = {id:newSheetSprintId(), round, plan, deadline:Date.now() + sheetSprintDuration,
+    mode:focusRound ? 'focused' : 'standard', status:'active', answers:[], draft:''};
   saveSheetSprint();
-  renderSheetSprint(root, true);
+  if (location.hash === '#sheets-sprint') renderSheetSprint(root, true);
+  else location.hash = '#sheets-sprint';
 }
 
 function renderSheetSprintQuestion(root) {
   const index = sheetSprint.answers.length;
+  const length = sheetSprint.plan.length;
   const item = sheetSprint.plan[index];
   const scenario = sheetSprintScenarios[item.id];
   const field = scenario[item.skill];
@@ -130,11 +157,11 @@ function renderSheetSprintQuestion(root) {
     <article class="panel sheet-sprint">
       <p class="sheet-sprint-back"><a href="#sheets-review">← All-Sheet Review</a></p>
       <div class="sheet-sprint-head">
-        <div><h1>Question ${index + 1} of ${sheetSprintLength}</h1>
-        <p>${formulaGroups[scenario.topic]} · ${skill.label}</p></div>
+        <div><h1>Question ${index + 1} of ${length}</h1>
+        <p>${sheetSprint.mode === 'focused' ? 'Focused practice · ' : ''}${formulaGroups[scenario.topic]} · ${skill.label}</p></div>
         <div class="sheet-sprint-time"><span>Time left</span><strong role="timer" aria-live="off"></strong></div>
       </div>
-      <progress aria-label="Questions submitted" value="${index}" max="${sheetSprintLength}"></progress>
+      <progress aria-label="Questions submitted" value="${index}" max="${length}"></progress>
       <form class="sheet-sprint-form">
         <p>${escapeSheetText(scenario.story)}</p>
         <fieldset class="sheet-practice-field">
@@ -147,7 +174,7 @@ function renderSheetSprintQuestion(root) {
             <input id="sheet-sprint-answer" type="text" name="answer" inputmode="decimal" autocomplete="off"
               value="${escapeSheetText(sheetSprint.draft)}" required>`}
         </fieldset>
-        <button type="submit" class="button primary">${index === sheetSprintLength - 1 ? 'Finish and see results' : 'Submit and continue'}</button>
+        <button type="submit" class="button primary">${index === length - 1 ? 'Finish and see results' : 'Submit and continue'}</button>
       </form>
     </article>`;
 
@@ -173,8 +200,8 @@ function renderSheetSprintQuestion(root) {
     }
     sheetSprint.answers.push(raw);
     sheetSprint.draft = '';
-    if (sheetSprint.answers.length === sheetSprintLength) sheetSprint.status = 'complete';
-    saveSheetSprint();
+    if (sheetSprint.answers.length === length) finishSheetSprint('complete', Date.now());
+    else saveSheetSprint();
     renderSheetSprint(root, true);
   });
 
@@ -191,13 +218,17 @@ function renderSheetSprintQuestion(root) {
   tick();
 }
 
-function renderSheetSprintResults(root) {
-  const entries = sheetSprint.plan.map((item, index) => {
-    const answer = sheetSprint.answers[index];
+function getSheetSprintEntries(round) {
+  return round.plan.map((item, index) => {
+    const answer = round.answers[index];
     return {...item, number:index + 1, answer, correct:answer !== undefined && sheetSprintScore(item, answer)};
   });
+}
+
+function renderSheetSprintResults(root, round, archived = false) {
+  const entries = getSheetSprintEntries(round);
   const correct = entries.filter(entry => entry.correct).length;
-  const answered = sheetSprint.answers.length;
+  const answered = round.answers.length;
   const comparisons = sheetSkills.map(skill => {
     const skillEntries = entries.filter(entry => entry.skill === skill.key && entry.answer !== undefined);
     const comparable = skillEntries.filter(entry => entry.before.attempted);
@@ -209,10 +240,13 @@ function renderSheetSprintResults(root) {
   const revisit = entries.filter(entry => entry.answer !== undefined && !entry.correct)
     .sort((a, b) => (b.before.attempted - b.before.correct) - (a.before.attempted - a.before.correct));
   const unanswered = entries.filter(entry => entry.answer === undefined);
-  const covered = new Set(entries.filter(entry => entry.answer !== undefined)
-    .map(entry => `${sheetSprintScenarios[entry.id].topic}/${entry.skill}`));
+  const covered = new Set(entries.filter(entry => entry.answer !== undefined).map(sheetSprintCell));
   const earlierMistakes = getSheetReview().ranked.filter(({question, skills}) =>
     skills.some(skill => !covered.has(`${sheetTopicIndex(question)}/${skill.key}`))).slice(0, 2);
+  const history = getSheetSprintHistory();
+  const position = history.findIndex(item => sheetSprintId(item) === sheetSprintId(round));
+  const previous = position < 0 ? undefined : history[position + 1];
+  const focusButton = revisit.length && position === 0 ? sheetSprintFocusButton() : '';
 
   function reviewLink(entry) {
     const scenario = sheetSprintScenarios[entry.id];
@@ -224,10 +258,12 @@ function renderSheetSprintResults(root) {
 
   root.innerHTML = `
     <article class="panel sheet-sprint">
-      <p class="sheet-sprint-back"><a href="#sheets-review">← All-Sheet Review</a></p>
-      <h1>${sheetSprint.status === 'expired' ? 'Time’s up' : 'Round complete'}</h1>
+      <p class="sheet-sprint-back"><a href="#sheets-sprint-history">← Round history</a></p>
+      <h1>${archived ? `Round ${history.length - position} results` : round.status === 'expired' ? 'Time’s up' : 'Round complete'}</h1>
       <p class="sheet-sprint-mark"><strong>${correct} of ${answered} submitted answers correct</strong>
-        ${unanswered.length ? `<span>${unanswered.length} of ${sheetSprintLength} unanswered</span>` : ''}</p>
+        ${unanswered.length ? `<span>${unanswered.length} of ${round.plan.length} unanswered</span>` : ''}</p>
+      ${focusButton ? `<div class="actions">${focusButton}</div>` : ''}
+      ${renderSheetSprintComparison(round, previous)}
       <section class="sheet-sprint-results" aria-labelledby="sprint-progress-title">
         <h2 id="sprint-progress-title">What improved</h2>
         <p>Each comparison uses earlier first attempts on the same topic and skill. The round uses different questions, so treat the change as a practice signal.</p>
@@ -266,8 +302,11 @@ function renderSheetSprintResults(root) {
           </details>`;
         }).join('')}
       </section>
-      <div class="actions"><button type="button" class="button primary" data-sprint-start>Start another round</button>
+      <div class="actions">${archived ? '<a class="button primary" href="#sheets-sprint">Open 10-minute review</a>' :
+        '<button type="button" class="button primary" data-sprint-start>Start another round</button>'}
+        <a class="button quiet" href="#sheets-sprint-history">View round history</a>
         <a class="button quiet" href="#sheets-review">Back to All-Sheet Review</a></div>
     </article>`;
-  root.querySelector('[data-sprint-start]').addEventListener('click', () => startSheetSprint(root));
+  root.querySelector('[data-sprint-start]')?.addEventListener('click', () => startSheetSprint(root));
+  root.querySelector('[data-sprint-focus]')?.addEventListener('click', () => startSheetSprint(root, round));
 }

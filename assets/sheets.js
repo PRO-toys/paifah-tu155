@@ -181,6 +181,11 @@ function renderSheetQuestion(root, question, groupId) {
 
 function renderSheetRoute(hash) {
   const root = get('sheet-body');
+  const sprintRound = /^sheets-sprint-round-([a-z0-9-]+)$/.exec(hash);
+  if (hash === 'sheets-sprint-history' || sprintRound) {
+    renderSheetSprintHistory(root, sprintRound?.[1]);
+    return;
+  }
   if (hash === 'sheets-sprint') {
     renderSheetSprint(root);
     return;
